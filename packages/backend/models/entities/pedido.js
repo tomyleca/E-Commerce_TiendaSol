@@ -2,9 +2,9 @@ import { z } from "zod"
 
 export class Pedido {
 	
-	constructor()
+	constructor(usuario)
 	{
-
+		this.usuario = usuario
 	}
 
 }

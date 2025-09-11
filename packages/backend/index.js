@@ -1,14 +1,18 @@
 import dotenv from "dotenv";
 import express from "express";
-import cors from "cors";
+
 
 import { Server } from "./server.js"
 import routes from "./routes/routes.js"
 
-import { Pedido } from "./models/entities/pedido.js"
-import { PedidoService } from "./services/pedidoService.js"
-import { PedidoController } from "./controllers/pedidoController.js"
-import { PedidoRepository } from "./models/repositories/pedidoRepository.js"
+
+import { PedidosService } from "./services/pedidosService.js"
+import { PedidosController } from "./controllers/pedidosController.js"
+import { PedidosRepository } from "./models/repositories/pedidosRepository.js"
+
+import { UsuariosService } from "./services/usuariosService.js"
+import { UsuariosController } from "./controllers/usuariosController.js"
+import { UsuariosRepository } from "./models/repositories/usuariosRepository.js"
 
 
 
@@ -24,13 +28,19 @@ dotenv.config();
 
 const server = new Server(app, port)
 
-new Pedido();
 
-const pedidoRepository = new PedidoRepository()
-const pedidoService = new PedidoService(pedidoRepository)
-const pedidoController = new PedidoController(pedidoService)
 
-server.setController(PedidoController, pedidoController)
+const pedidosRepository = new PedidosRepository()
+const pedidosService = new PedidosService(pedidosRepository)
+const pedidosController = new PedidosController(pedidosService)
+
+server.setController(PedidosController, pedidosController)
+
+const usuariosRepository = new UsuariosRepository()
+const usuariosService = new UsuariosService(usuariosRepository)
+const usuariosController = new UsuariosController(usuariosService)
+
+server.setController(UsuariosController, usuariosController)
 
 routes.forEach(route => server.addRoute(route))
 server.configureRoutes();

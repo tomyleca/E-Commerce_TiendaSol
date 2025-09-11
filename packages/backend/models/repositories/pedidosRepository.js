@@ -1,4 +1,4 @@
-export class PedidoRepository {
+export class PedidosRepository {
 	    constructor() {
         this.pedidos = [];
         this.nextId = 0;
