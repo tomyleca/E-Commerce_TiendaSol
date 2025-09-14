@@ -9,7 +9,13 @@ export default function pedidoRoutes(getController) {
 
 	router.get(pathPedido, (req,res) => {
 	getController(PedidosController).buscarTodos(req,res)
-})
+	})
+
+	router.post(pathPedido,(req,res)=>{
+	postController(PedidosController).crear(req,res)
+	})
+
+	
 
 	
 

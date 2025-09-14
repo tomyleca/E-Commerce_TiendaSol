@@ -7,6 +7,13 @@ export class PedidosRepository {
 	buscarTodos() {
 		return this.pedidos;
 	}
+	
+	
+	crear(nuevoPedido) {
+        nuevoPedido.id = this.nextId++;
+        this.pedidos.push(nuevoPedido)
+        return nuevoPedido
+    }
 
 
 }
