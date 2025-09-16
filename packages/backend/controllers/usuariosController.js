@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { TipoUsuario } from "../models/entities/tipoUsuario.js"
+import { FormatoZodError } from "../errors/formatoZodError.js"
 
 export class UsuariosController {
 	constructor(usuarioservice) {
@@ -17,10 +18,7 @@ export class UsuariosController {
 			const resultBody = this.usuarioSchema.safeParse(req.body)
 
 			if (!resultBody.success) {
-				return res.status(400).json({
-					error: "Datos faltantes o de formato incorrecto",
-					details: resultBody.error.errors
-				})
+				throw new FormatoZodError()
 			}
 			const usuarioCreado = this.usuarioservice.crear(resultBody.data)
 			
