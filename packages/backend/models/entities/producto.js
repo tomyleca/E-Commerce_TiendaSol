@@ -1,33 +1,47 @@
 import { z } from "zod"
 import { Usuario } from "./usuario.js";
-
+import { Categoria } from "./catagoria.js";
+import { Moneda } from "./moneda.js";
 
 export class Producto {
-	
-	constructor(vendedor,titulo,descripcion,categorias,precio,moneda,stock,fotos,activo)
-	{  
-        this.vendedor=vendedor ;
-        this.titulo=titulo;
-        this.descripcion=descripcion;
-        this.categorias=categorias;
-        this.precio=precio;
-        this.modena=moneda;
-        this.stock=stock;
-        this.fotos=fotos;
-        this.activo;activo;
+
+    constructor(id, vendedor, titulo, descripcion, categorias, precio, moneda, stock, fotos, activo) {
+        z.object({
+            id: z.string(),
+            vendedor: z.instanceof(Usuario),
+            titulo: z.string(),
+            descripcion: z.string(),
+            categorias: z.array(z.instanceof(Categoria)),
+            precio: z.number(),
+            moneda: z.instanceof(Moneda),
+            stock: z.number().int(),
+            fotos: z.array(string()),
+            activo: z.boolean()
+        })
+
+        this.id = id;
+        this.vendedor = vendedor;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.categorias = categorias;
+        this.precio = precio;
+        this.modena = moneda;
+        this.stock = stock;
+        this.fotos = fotos;
+        this.activo = activo;
     }
     //faltan hacer verificaciones que las podemos hacer con middlewares
     //o icnluso con Zod 
 
-    estaDisponible(unaCantidad){
-        return this.stock>unaCantidad;
+    estaDisponible(unaCantidad) {
+        return this.stock > unaCantidad;
     }
 
-    reducirStock(unaCantidad){
-        this.stock-=unaCantidad;
+    reducirStock(unaCantidad) {
+        this.stock -= unaCantidad;
     }
 
-    acumentarStock(unaCantidad){
-        this.stock+=unaCantidad;
+    acumentarStock(unaCantidad) {
+        this.stock += unaCantidad;
     }
 }
