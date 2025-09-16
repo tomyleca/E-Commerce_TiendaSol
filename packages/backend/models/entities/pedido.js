@@ -1,7 +1,7 @@
-import { z } from "zod"
-import { Usuario } from "./usuario";
-import { CambioDeEstadoPedido } from "./cambioEstadoPedido";
-import { EstadoPedido } from "./estadoPedido";
+import { z } from "zod";
+import { Usuario } from "./usuario.js";
+import { CambioDeEstadoPedido } from "./cambioEstadoPedido.js";
+import { EstadoPedido } from "./estadoPedido.js";
 
 export class Pedido {
 	

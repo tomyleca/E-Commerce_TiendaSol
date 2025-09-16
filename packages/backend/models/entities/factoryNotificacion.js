@@ -1,6 +1,6 @@
 import { z } from "zod"
-import { EstadoPedido } from "./estadoPedido";
-import { Pedido } from "./pedido";
+import { EstadoPedido } from "./estadoPedido.js";
+import { Pedido } from "./pedido.js";
 
 export class FactoryNotificacion{
 	

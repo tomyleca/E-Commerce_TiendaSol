@@ -1,4 +1,4 @@
-import {HealthCheckController} from "../controllers/pedidosController.js"
+import {HealthCheckController} from "../controllers/healthCheckController.js"
 import express from "express"
 
 const pathPedido = "/health-check"

@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { Usuario } from "./usuario";
+import { Usuario } from "./usuario.js";
 
 
 export class Producto {
