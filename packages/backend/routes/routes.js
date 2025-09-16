@@ -1,5 +1,5 @@
-import pedidoRoutes from "./pedidoRoutes.js"	
-import usuarioRoutes from "./usuarioRoutes.js"	
+import pedidoRoutes from "./pedidoRoutes.js"
+import usuarioRoutes from "./usuarioRoutes.js"
 
 
 const routes = [
