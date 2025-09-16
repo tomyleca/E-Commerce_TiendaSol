@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export class ItemProducto {
+export class ItemPedido {
 	
 	constructor(producto,cantidad,precioUnitario)
 	{  

@@ -1,6 +1,7 @@
 import {UsuariosController} from "../controllers/usuariosController.js"
 import express from "express"
 import { usuarioErrorHandler } from "../middlewares/usuarioErrorHandler.js"
+import { generalErrorHandler } from "../middlewares/generalErrorHandler.js"
 
 const pathUsuario = "/usuario"
 
@@ -21,6 +22,7 @@ export default function pedidoRoutes(getController) {
 	}})
 
 	router.use(usuarioErrorHandler)
+	router.use(generalErrorHandler)
 
 	return router
 }

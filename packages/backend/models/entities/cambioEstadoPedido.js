@@ -13,7 +13,7 @@ export class CambioDeEstadoPedido {
         motivo: z.string().optional()
         })
 
-        const validacion = schema.parse({fecha,estadoPedido,pedido,usuario,motivo });
+        const validacion = cambioSchema.parse({fecha,estadoPedido,pedido,usuario,motivo });
 
         this.fecha=validacion.fecha;
         this.estado=validacion.estadoPedido;

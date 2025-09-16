@@ -2,16 +2,17 @@ import { z } from "zod"
 import dayjs from "dayjs";
 import { Email } from "./email.js";
 import { TipoUsuario } from "./tipoUsuario.js";
+import {ValorNoCumpleConEnum } from "../../errors/valorNoCumpleConEnum.js";
 
 export class Usuario{
 
 	constructor(nombre, email, telefono, tipo )
 	{
 		if(email instanceof Email === false) //valido que sea de la clase mail
-			throw new Error("Mail inválido")
+			throw new Error("email no es instancia de la clase Email")
 		
-		if(!Object.values(TipoUsuario).includes(tipo)) //valido que sea un enum
-			throw new Error("Tipo usuario inválido")
+		if(!Object.values(TipoUsuario).includes(tipo)) //valido que sea un valor posible del enum
+			throw new ValorNoCumpleConEnum("TipoUsuario",tipo)
 
 		this.nombre = nombre
 		this.email = email

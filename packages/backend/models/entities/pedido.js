@@ -1,27 +1,35 @@
 import { z } from "zod";
+import dayjs from "dayjs";
 import { Usuario } from "./usuario.js";
 import { CambioDeEstadoPedido } from "./cambioEstadoPedido.js";
 import { EstadoPedido } from "./estadoPedido.js";
+import {ValorNoCumpleConEnum} from "../../errors/valorNoCumpleConEnum.js"
+import {Moneda} from "./moneda.js"
 
 export class Pedido {
 	
-	constructor(comprador,items,total,moneda,direccionEntrega,estado,fecha,historial )
+	constructor(comprador,items,total,moneda,direccionEntrega)
 	{
 
 
 		this.comprador = comprador
 		this.itemPedidos=items;
 		this.total= total;
+		if (!Object.values(Moneda).includes(moneda)) {
+     		throw new ValorNoCumpleConEnum("Moneda",moneda);
+    	}
 		this.moneda=moneda;
 		this.direccionEntrega=direccionEntrega;
 		
+		/*
 		if (!Object.values(EstadoPedido).includes(estado)) {
-     	 throw new Error(`Estado inválido: ${estado}`);
+     		throw new ValorNoCumpleConEnum("EstadoPedido",estado);
     	}
-		//Ver si hacerlo de esta manera los errores o hacerlo como en la clase 5 de los sabados
-		this.estado=estado;
-		this.fechaDeCreacion=fecha;
-		this.historialDeEstados=historial;
+			*/ //Pasar a donde vaya
+		
+		this.estado = EstadoPedido.PENDIENTE;
+		this.fechaDeCreacion=dayjs().toDate(); // le pongo la fecha de hoy
+		this.historialDeEstados=[this.estado]; 
 
 	}
 
@@ -31,7 +39,7 @@ export class Pedido {
 
 	calcularTotal(){
 
-		return itemPedidos.reduce((acumulador,item)=> { return acumulador + item.subTotal()},0)
+		return this.itemPedidos.reduce((acumulador,item)=> { return acumulador + item.subTotal()},0)
 	}
 
 	actualizarEstado(nuevoEstado,quien,motivo){

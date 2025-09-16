@@ -9,10 +9,6 @@ export function usuarioErrorHandler(err, req, res, next) {
 		return
 	}
 
-	if (err instanceof FormatoZodError) {
-		res.status(400).json({ error: err.message });
-		return
-	}
+	next(err)
 
-	res.status(500).json({ error: "Error interno del servidor." });
 }

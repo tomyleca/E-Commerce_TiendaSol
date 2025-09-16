@@ -19,8 +19,8 @@ export class UsuariosService {
 			nuevoUsuarioJson.telefono,
 			nuevoUsuarioJson.tipo
 		)
-		this.usuariosRepository.crear(nuevoUsuario)
-		return nuevoUsuario
+		return this.usuariosRepository.crear(nuevoUsuario)
+		
 	}
 
 

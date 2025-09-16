@@ -11,6 +11,7 @@ export class UsuariosRepository {
 	crear(usuario) {
 		usuario.id = this.nextId++;
 		this.usuarios.push(usuario);
+		return usuario;
 	}
 
 

@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { FormatoZodError } from "../errors/formatoZodError.js"
 
 export class PedidosController {
 	constructor(pedidosService) {
@@ -15,31 +16,29 @@ export class PedidosController {
 
 		const BodyPedido=req.body
 		const resultBodyPedido=pedidosSchema.safeParse(BodyPedido)
-		if(resultBodyPedido.error) {
-            res.status(400).json(resultBody.error.issues)
-            return
 
-			//otra vez el manejo de errores.
-        }
+		if (!resultBodyPedido.success) {
+				throw new FormatoZodError()
+		}
+		const pedidoGuardado = this.pedidosService.crear(resultBodyPedido.data)
 
-		const nuevoPedido = new Pedido(
-            pedidoJSON.usuario,
-            pedidoJSON.items,
-            pedidoJSON.total,
-			pedidoJSON.moneda,
-			pedidoJSON.direccion,
-			pedidoJSON.estado,
-			pedidoJSON.fechaCreacion,
-			pedidoJSON.historialEstados,
-
-		);
-		const PedidoGuardado = this.pedidosService.crear(nuevoAlojamiento)
-
-        res.status(201).json(nuevaAlojamiento);
+        res.status(201).json(pedidoGuardado);
 	}
 	
 }
 
+const ItemPedidoSchema = z.object({
+  productoId: z.string().min(1, "El ID del producto es obligatorio"),
+  cantidad: z.number().positive().min(1, "La cantidad debe ser al menos 1"),
+  precioUnitario: z.number().nonnegative()
+});
+
+
 const pedidosSchema = z.object({
-   //A definir 
+   comprador: z.string(),
+   items: z.array(ItemPedidoSchema),
+   total: z.number().nonnegative(),
+   moneda: z.string(),
+   direccionEntrega: z.string(),
+
 })
