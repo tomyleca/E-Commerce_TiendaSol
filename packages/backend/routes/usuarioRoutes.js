@@ -21,6 +21,10 @@ export default function pedidoRoutes(getController) {
 			next(error)
 	}})
 
+	router.get(pathUsuario + ':id/pedidos', (req,res) => {
+	getController(UsuariosController).buscarHistorialDePedidos(req,res)
+	})
+
 	router.use(usuarioErrorHandler)
 	router.use(generalErrorHandler)
 

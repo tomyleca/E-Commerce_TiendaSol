@@ -2,9 +2,10 @@ import { Usuario } from "../models/entities/usuario.js"
 import { Email } from "../models/entities/email.js"
 
 export class UsuariosService {
-	constructor(usuariosRepository) {
+	constructor(usuariosRepository,pedidosService) {
 		this.usuariosRepository = usuariosRepository
-}
+		this.pedidosService = pedidosService
+	}		
 
 	buscarTodos() {
 		return this.usuariosRepository.buscarTodos()
@@ -21,6 +22,10 @@ export class UsuariosService {
 		)
 		return this.usuariosRepository.crear(nuevoUsuario)
 		
+	}
+
+	buscarHistorialDePedidos(idUsuario){
+		return this.pedidosService().buscarPedidosDeUsuario(idUsuario);
 	}
 
 

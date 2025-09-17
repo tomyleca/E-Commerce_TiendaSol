@@ -59,4 +59,8 @@ export class PedidosService {
     return pedido;
 	}
 
+	buscarPedidosDeUsuario(idUsuario){
+		return this.pedidosRepository.buscarPorUsuario(idUsuario)
+	}
+
 }
