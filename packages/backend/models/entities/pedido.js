@@ -60,9 +60,7 @@ export class Pedido {
 		}
 		this.estado = nuevoEstado;
 		this.historialDeEstados.push(nuevoEstado);
-		//FALTA LLEVAR EL MANEJO DE ERRORES
-		//PODRIA AHCERSE DE OTRA MANERA
-		//Se deberia crear aqui la notificaion eos tiene sentido ?
+
 	}
 
 	validarStock() {

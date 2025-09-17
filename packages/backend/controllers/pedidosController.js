@@ -24,6 +24,10 @@ export class PedidosController {
 
         res.status(201).json(pedidoGuardado);
 	}
+	 cancelar(idPedido, motivo, req, res) {
+		pedidosService.cancelar(idPedido, motivo, req.user);
+		res.status(200).json("Pedido cancelado exitosamente");
+	}
 	
 }
 
