@@ -17,5 +17,10 @@ export class PedidosRepository {
         return nuevoPedido
     }
 
+    buscarPorUsuario(idUsuario){
+
+        const pedidosDeUsuario= this.pedidos.filter(pedido => pedido.comprador===idUsuario)
+    }
+
 
 }

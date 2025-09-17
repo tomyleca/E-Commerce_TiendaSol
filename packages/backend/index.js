@@ -37,7 +37,7 @@ const pedidosController = new PedidosController(pedidosService)
 server.setController(PedidosController, pedidosController)
 
 const usuariosRepository = new UsuariosRepository()
-const usuariosService = new UsuariosService(usuariosRepository)
+const usuariosService = new UsuariosService(usuariosRepository,pedidosService)
 const usuariosController = new UsuariosController(usuariosService)
 
 server.setController(UsuariosController, usuariosController)
