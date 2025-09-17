@@ -5,6 +5,7 @@ import express from "express";
 import { Server } from "./server.js"
 import routes from "./routes/routes.js"
 
+import { HealthCheckController } from "./controllers/healthCheckController.js";
 
 import { PedidosService } from "./services/pedidosService.js"
 import { PedidosController } from "./controllers/pedidosController.js"
@@ -32,6 +33,9 @@ const port = process.env.PORT || 3000
 dotenv.config();
 
 const server = new Server(app, port)
+
+const healthCheckController=new HealthCheckController()
+server.setController(HealthCheckController, healthCheckController)
 
 const factoryNotificacion = new FactoryNotificacion()
 
