@@ -38,6 +38,9 @@ dotenv.config();
 
 const server = new Server(app, port)
 
+const healthCheckController = new HealthCheckController()
+server.setController(HealthCheckController, healthCheckController)
+
 const usuariosRepository = new UsuariosRepository()
 const productosRepository = new ProductosRepository()
 const productosService = new ProductosService(productosRepository,usuariosRepository)

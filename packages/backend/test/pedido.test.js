@@ -12,7 +12,7 @@ import { PedidosService } from "../services/pedidosService.js";
 import {PedidosRepository} from "../models/repositories/pedidosRepository.js"
 import { EstadoPedido } from "../models/entities/estadoPedido.js";
 import { FactoryNotificacion } from "../models/entities/factoryNotificacion.js";
-import { IntentoDeCancelarEnviadoError } from "../errors/IntentoDeCancelarEnviadoError.js";
+import { IntentoDeCancelarEnviadoError } from "../errors/intentoDeCancelarEnviadoError.js";
 import {NotificacionesRepository} from "../models/repositories/notificacionesRepository.js"
 import {NotificacionesService} from "../services/notificacionService.js"
 import { UsuariosRepository } from "../models/repositories/usuariosRepository.js";
