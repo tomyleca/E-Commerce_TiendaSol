@@ -19,6 +19,10 @@ import { FactoryNotificacion } from "./models/entities/factoryNotificacion.js";
 import {NotificacionesRepository} from "./models/repositories/notificacionesRepository.js"
 import {NotificacionesService} from "./services/notificacionService.js"
 
+import { ProductosService } from "./services/productosService.js"
+import { ProductosController } from "./controllers/productosController.js"
+import { ProductosRepository } from "./models/repositories/productosRepository.js"
+
 
 
 
@@ -32,6 +36,10 @@ const port = process.env.PORT || 3000
 dotenv.config();
 
 const server = new Server(app, port)
+
+const productosRepository = new ProductosRepository()
+const productosService = new ProductosService(productosRepository)
+const productosController = new ProductosController(productosService)
 
 const factoryNotificacion = new FactoryNotificacion()
 
