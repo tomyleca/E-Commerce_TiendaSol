@@ -20,6 +20,10 @@ import { FactoryNotificacion } from "./models/entities/factoryNotificacion.js";
 import {NotificacionesRepository} from "./models/repositories/notificacionesRepository.js"
 import {NotificacionesService} from "./services/notificacionService.js"
 
+import { ProductosService } from "./services/productosService.js"
+import { ProductosController } from "./controllers/productosController.js"
+import { ProductosRepository } from "./models/repositories/productosRepository.js"
+
 
 
 
@@ -36,6 +40,9 @@ const server = new Server(app, port)
 
 const healthCheckController=new HealthCheckController()
 server.setController(HealthCheckController, healthCheckController)
+const productosRepository = new ProductosRepository()
+const productosService = new ProductosService(productosRepository)
+const productosController = new ProductosController(productosService)
 
 const factoryNotificacion = new FactoryNotificacion()
 
