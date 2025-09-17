@@ -30,19 +30,14 @@ export class ProductosController {
 }
 
 
-const usuarioSchema = z.object({
-  nombre: z.string().min(1),
-  email: z.object({ valor: z.string().min(1) }),
-  telefono: z.string().min(1),
-  tipoUsuario: z.string().min(1)
-});
+
 
 const categoriaSchema = z.object({
   nombre: z.string()
 });
 
 export const productoSchema = z.object({
-  vendedor: usuarioSchema,
+  vendedorId: z.number(),
   titulo: z.string(),
   descripcion: z.string(),
   categorias: z.array(categoriaSchema).optional(),

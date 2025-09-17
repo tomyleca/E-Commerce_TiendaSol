@@ -4,12 +4,16 @@ import { NoHayStock } from "../errors/noHayStock.js"
 import { EstadoPedido } from "../models/entities/estadoPedido.js";
 import { NotFound } from "../errors/notFound.js";
 import {IntentoDeCancelarEnviadoError} from "../errors/intentoDeCancelarEnviadoError.js"
+import { ItemPedido } from "../models/entities/itemPedido.js";
+import { ProductosRepository } from "../models/repositories/productosRepository.js";
 
 export class PedidosService {
-	constructor(pedidosRepository, factoryNotificacion, notificacionesService) {
+	constructor(pedidosRepository, factoryNotificacion, notificacionesService, productosRepository,usuariosRepository) {
 		this.pedidosRepository = pedidosRepository
 		this.factoryNotificacion = factoryNotificacion	
 		this.notificacionesService = notificacionesService
+		this.productosRepository = productosRepository
+		this.usuariosRepository = usuariosRepository
 	}
 
 	buscarTodos() {
@@ -17,10 +21,12 @@ export class PedidosService {
 	}
 
 	crear(nuevoPedidoJson) {
+		const comprador = this.usuariosRepository.buscarPorId(nuevoPedidoJson.compradorId)
+		const items = nuevoPedidoJson.items.map(item => new ItemPedido(this.productosRepository.buscarPorId(item.productoId),item.cantidad,item.precioUnitario))
 
 		const nuevoPedido = new Pedido(
-			nuevoPedidoJson.comprador,
-			nuevoPedidoJson.items,
+			comprador,
+			items,
 			nuevoPedidoJson.direccionEntrega,
 		)
 

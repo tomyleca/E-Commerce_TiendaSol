@@ -1,8 +1,9 @@
 import { Producto } from "../models/entities/producto.js"
 
 export class ProductosService {
-	constructor(productosRepository) {
-		this.productosRepository = productosRepository
+	constructor(productosRepository,usuariosRepository) {
+		this.productosRepository = productosRepository,
+		this.usuariosRepository = usuariosRepository
 	}		
 
 	buscarTodos() {
@@ -10,9 +11,9 @@ export class ProductosService {
 	}
 
 	crear(productoJson) {
-
+		const vendedor = this.usuariosRepository.buscarPorId(productoJson.vendedorId)
 		const nuevoProducto = new Producto(
-			productoJson.vendedor,
+			vendedor,
 			productoJson.titulo,
 			productoJson.descripcion,
 			productoJson.categorias,
@@ -24,7 +25,7 @@ export class ProductosService {
 		)
 
 
-		return this.usuariosRepository.crear(nuevoProducto)
+		return this.productosRepository.crear(nuevoProducto)
 		
 	}
 

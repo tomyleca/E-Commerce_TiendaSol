@@ -14,5 +14,9 @@ export class UsuariosRepository {
 		return usuario;
 	}
 
+	   buscarPorId(id) {
+        return this.usuarios.find(usuario => usuario.id === id);
+    }
+
 
 }

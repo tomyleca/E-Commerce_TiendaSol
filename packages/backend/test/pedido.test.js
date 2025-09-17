@@ -15,6 +15,8 @@ import { FactoryNotificacion } from "../models/entities/factoryNotificacion.js";
 import { IntentoDeCancelarEnviadoError } from "../errors/IntentoDeCancelarEnviadoError.js";
 import {NotificacionesRepository} from "../models/repositories/notificacionesRepository.js"
 import {NotificacionesService} from "../services/notificacionService.js"
+import { UsuariosRepository } from "../models/repositories/usuariosRepository.js";
+import { ProductosRepository } from "../models/repositories/productosRepository.js";
 
 
 
@@ -26,12 +28,18 @@ describe('Validar usuario',() => {
 	let pedidosService
 
 	beforeEach(() => {
+	const usuariosRepository = new UsuariosRepository()
+	const productosRepository = new ProductosRepository()
+
+
 	const email = new Email("mail@gmail.com")
 	const vendedor = new Usuario(
 		"Juan Perez",
 		email,
 		"1112341234",
 		TipoUsuario.VENDEDOR)
+
+		usuariosRepository.crear(vendedor)
 
     producto = new Producto(vendedor,
 		"Producto de Prueba",
@@ -48,13 +56,18 @@ describe('Validar usuario',() => {
 		1000,
 		Moneda.DOLAR_USA,
 		1000)
-	
+		
+		productosRepository.crear(producto)
+		productosRepository.crear(productoEnDolares)
+
 		const emailComprador = new Email("mailComprador@gmail.com")
 		comprador = new Usuario(
 		"John Doe",
 		emailComprador,
 		"1111112222",
 		TipoUsuario.COMPRADOR)	
+
+		usuariosRepository.crear(comprador)
 
 		direccion = new DireccionEntrega("calle falsa",123)
 
@@ -64,7 +77,8 @@ describe('Validar usuario',() => {
 		const factoryNotificacion = new FactoryNotificacion()
 
 		const pedidosRepository = new PedidosRepository()
-		pedidosService = new PedidosService(pedidosRepository, factoryNotificacion,notificacionesService)
+
+		pedidosService = new PedidosService(pedidosRepository, factoryNotificacion,notificacionesService,productosRepository,usuariosRepository)
 	
 
   		});
@@ -84,10 +98,13 @@ describe('Validar usuario',() => {
 
 	test("No me deja hacer un pedido si no hay stock", () => {
 
-	let item = new ItemPedido(producto,1000000)
+	
 	const nuevoPedidoJson = {
-		comprador: comprador,
-		items: [item],
+		compradorId: 0,
+		items: [{
+			productoId : 0,
+			cantidad :1000000000
+		}],
 		direccionEntrega: direccion
 	};
 
@@ -98,10 +115,13 @@ describe('Validar usuario',() => {
 
 	test("No me deja cancelar un pedido enviado", () => {
 
-	let item = new ItemPedido(producto,1)
+	
 	const nuevoPedidoJson = {
-		comprador: comprador,
-		items: [item],
+		compradorId: 0,
+		items: [{
+			productoId : 0,
+			cantidad :1
+		}],
 		direccionEntrega: direccion
 	};
 

@@ -37,9 +37,12 @@ dotenv.config();
 
 const server = new Server(app, port)
 
+const usuariosRepository = new UsuariosRepository()
 const productosRepository = new ProductosRepository()
-const productosService = new ProductosService(productosRepository)
+const productosService = new ProductosService(productosRepository,usuariosRepository)
 const productosController = new ProductosController(productosService)
+
+server.setController(ProductosController, productosController)
 
 const factoryNotificacion = new FactoryNotificacion()
 
@@ -47,12 +50,12 @@ const notificacionesRepository = new NotificacionesRepository()
 const notificacionesService = new NotificacionesService(notificacionesRepository)
 
 const pedidosRepository = new PedidosRepository()
-const pedidosService = new PedidosService(pedidosRepository,factoryNotificacion,notificacionesService)
+const pedidosService = new PedidosService(pedidosRepository,factoryNotificacion,notificacionesService,productosRepository,usuariosRepository)
 const pedidosController = new PedidosController(pedidosService)
 
 server.setController(PedidosController, pedidosController)
 
-const usuariosRepository = new UsuariosRepository()
+
 const usuariosService = new UsuariosService(usuariosRepository,pedidosService)
 const usuariosController = new UsuariosController(usuariosService)
 
