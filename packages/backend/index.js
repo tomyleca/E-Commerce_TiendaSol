@@ -5,6 +5,7 @@ import express from "express";
 import { Server } from "./server.js"
 import routes from "./routes/routes.js"
 
+import { HealthCheckController } from "./controllers/healthCheckController.js";
 
 import { PedidosService } from "./services/pedidosService.js"
 import { PedidosController } from "./controllers/pedidosController.js"
