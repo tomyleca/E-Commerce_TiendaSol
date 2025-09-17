@@ -25,6 +25,7 @@ export class Pedido {
 
 		this.comprador = comprador
 		this.itemPedidos = items;
+		this.vendedor = items[0].producto.vendedor; // Asumiendo que todos los productos son del mismo vendedor
 		this.total = total;
 		if (!Object.values(Moneda).includes(moneda)) {
 			throw new ValorNoCumpleConEnum("Moneda", moneda);

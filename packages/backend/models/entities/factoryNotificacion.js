@@ -1,27 +1,41 @@
-import { z } from "zod"
+import { v4 as uuidv4 } from "uuid";
 import { EstadoPedido } from "./estadoPedido.js";
-import { Pedido } from "./pedido.js";
-import {Notificacion} from "./notificacion.js"
-export class FactoryNotificacion{
-	
-	crearSegunEstadoPedido(estado){
+import { Notificacion } from "./notificacion.js";
 
-        if (!Object.values(EstadoPedido).includes(estado)) {
-     	 throw new Error(`Estado inválido: ${estado}`);
-    	}
-        //Crear errores especificos , por ahora se quedan asi.
-        const estadoString = estado.toString();
-        
-        return estadoString
-    
+export class FactoryNotificacion {
+
+    crearSegunEstadoPedido(pedido) {
+        let usuarioDestino;
+        let mensaje;
+        switch (pedido.estado) {
+            case EstadoPedido.PENDIENTE: // Cuando se realiza un pedido
+                usuarioDestino = pedido.vendedor;
+                mensaje = `Nuevo pedido de ${pedido.comprador.nombre}. Productos: ${pedido.itemPedidos.map(p => p.nombre).join(", ")}. Total: $${pedido.total}. Entrega en: ${pedido.direccionEntrega.toString()}.`;
+                break;
+
+               case EstadoPedido.ENVIADO:
+                usuarioDestino = pedido.comprador;
+                mensaje = `Tu pedido ha sido enviado por ${pedido.vendedor.nombre}. Productos: ${pedido.itemPedidos.map(p => p.nombre).join(", ")}. Total: $${pedido.total}.`;
+                break;
+            case EstadoPedido.CANCELADO:
+                usuarioDestino = pedido.vendedor;
+                mensaje = `El pedido de ${pedido.comprador.nombre} ha sido cancelado. Productos: ${pedido.itemPedidos.map(p => p.nombre).join(", ")}.`;
+                break;
+
+            default:
+                throw new Error(`Estado no manejado para notificación: ${pedido.estado}`);
+        }
+
+        return { usuarioDestino, mensaje };
     }
 
-     crearSegunPedido(pedido) {
- 
+    crearSegunPedido(pedido) {
+        const { usuarioDestino, mensaje } = this.crearSegunEstadoPedido(pedido);
+
         return new Notificacion(
             uuidv4(),
-            pedido.comprador,
-             this.crearSegunEstadoPedido(pedido.estado),                  // <- lo que devuelve crearSegunEstadoPedido
+            usuarioDestino,
+            mensaje,
             new Date().toISOString(),
             false,
             null
