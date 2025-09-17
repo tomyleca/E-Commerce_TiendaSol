@@ -3,10 +3,13 @@ import { FactoryNotificacion } from "../models/entities/factoryNotificacion.js"
 import { NoHayStock } from "../errors/noHayStock.js"
 import { EstadoPedido } from "../models/entities/estadoPedido.js";
 import { NotFound } from "../errors/notFound.js";
+import {IntentoDeCancelarEnviadoError} from "../errors/intentoDeCancelarEnviadoError.js"
 
 export class PedidosService {
-	constructor(pedidosRepository) {
+	constructor(pedidosRepository, factoryNotificacion, notificacionesService) {
 		this.pedidosRepository = pedidosRepository
+		this.factoryNotificacion = factoryNotificacion	
+		this.notificacionesService = notificacionesService
 	}
 
 	buscarTodos() {
@@ -18,8 +21,6 @@ export class PedidosService {
 		const nuevoPedido = new Pedido(
 			nuevoPedidoJson.comprador,
 			nuevoPedidoJson.items,
-			nuevoPedidoJson.total,
-			nuevoPedidoJson.moneda,
 			nuevoPedidoJson.direccionEntrega,
 		)
 
@@ -31,7 +32,7 @@ export class PedidosService {
 
 		/// A DEFINIR SI HACER OTRO SERVICIO PARA LA NOFICAION SEGURAMENTE QUE SI.
 		//  Creo la notificación según el pedido
-		const notificacion = this.factoryNotificacion.crearSegunPedido(
+		const notificacion = this.factoryNotificacion.crearSegunEstadoPedido(
 		nuevoPedido
 		);
 
@@ -48,7 +49,7 @@ export class PedidosService {
     }
 
 		if (pedido.estado === EstadoPedido.ENVIADO) {
-			throw new Error('No se puede cancelar un pedido que ya fue enviado');
+			throw new IntentoDeCancelarEnviadoError();
 		}
 
 		pedido.actualizarEstado(EstadoPedido.CANCELADO);

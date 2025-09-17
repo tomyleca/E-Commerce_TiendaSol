@@ -7,30 +7,23 @@ import { ValorNoCumpleConEnum } from "../../errors/valorNoCumpleConEnum.js"
 import { Moneda } from "./moneda.js"
 import { ItemPedido } from "./itemPedido.js";
 import { DireccionEntrega } from "./direccionEntrega.js";
+import { MonedaInconsistenteItems } from "../../errors/monedaInconsistenteItems.js"
 
 export class Pedido {
 
-	constructor(id, comprador, items, total, moneda, direccionEntrega, estado, fechaCreacion, historialEstados) {
+	constructor(comprador, items, direccionEntrega) {
 		z.object({
-			id: z.string(),
 			comprador: z.instanceof(Usuario),
 			items: z.array(z.instanceof(ItemPedido)),
-			total: z.number(),
-			moneda: z.instanceof(Moneda),
 			direccionEntrega: z.instanceof(DireccionEntrega),
-			estado: z.instanceof(EstadoPedido),
-			fechaCreacion: z.datetime(),
-			historialEstados: z.array(z.instanceof(CambioDeEstadoPedido))
 		})
 
 		this.comprador = comprador
-		this.itemPedidos = items;
+		this.itemsPedido = items;
 		this.vendedor = items[0].producto.vendedor; // Asumiendo que todos los productos son del mismo vendedor
-		this.total = total;
-		if (!Object.values(Moneda).includes(moneda)) {
-			throw new ValorNoCumpleConEnum("Moneda", moneda);
-		}
-		this.moneda = moneda;
+		this.total;
+		
+		this.moneda = items[0].producto.moneda; // Asumiendo que todos los productos son del mismo vendedor
 		this.direccionEntrega = direccionEntrega;
 
 		/*
@@ -43,15 +36,22 @@ export class Pedido {
 		this.fechaDeCreacion = dayjs().toDate(); // le pongo la fecha de hoy
 		this.historialDeEstados = [this.estado];
 
+		//Valido que sean todos de la misma moneda
+		let monedaEsperada = items[0].producto.moneda
+		if(!items.every(item => item.producto.moneda === monedaEsperada ))
+			throw new MonedaInconsistenteItems()
+
+
 	}
 
 	getUsuario() {
 		return this.usuario;
 	}
 
+
 	calcularTotal() {
 
-		return this.itemPedidos.reduce((acumulador, item) => { return acumulador + item.subTotal() }, 0)
+		return this.itemsPedido.reduce((acumulador, item) => { return acumulador + item.subTotal() }, 0)
 	}
 
 	actualizarEstado(nuevoEstado) {
@@ -63,7 +63,7 @@ export class Pedido {
 	}
 
 	validarStock() {
-		return this.itemPedidos.every(item => item.stockEstadisponible())
+		return this.itemsPedido.every(item => item.stockEstaDisponible())
 	}
 
 

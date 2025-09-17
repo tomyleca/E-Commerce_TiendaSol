@@ -5,9 +5,8 @@ import { Moneda } from "./moneda.js";
 
 export class Producto {
 
-    constructor(id, vendedor, titulo, descripcion, categorias, precio, moneda, stock, fotos, activo) {
+    constructor(vendedor, titulo, descripcion, categorias, precio, moneda, stock, fotos, activo) {
         z.object({
-            id: z.string(),
             vendedor: z.instanceof(Usuario),
             titulo: z.string(),
             descripcion: z.string(),
@@ -15,11 +14,11 @@ export class Producto {
             precio: z.number(),
             moneda: z.instanceof(Moneda),
             stock: z.number().int(),
-            fotos: z.array(string()),
+            fotos: z.array(z.string()),
             activo: z.boolean()
         })
 
-        this.id = id;
+        this.id;
         this.vendedor = vendedor;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -44,4 +43,8 @@ export class Producto {
     acumentarStock(unaCantidad) {
         this.stock += unaCantidad;
     }
+
+	getPrecio(){
+		return this.precio;
+	}
 }

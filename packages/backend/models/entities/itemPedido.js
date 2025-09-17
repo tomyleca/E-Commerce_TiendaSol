@@ -11,6 +11,10 @@ export class ItemPedido {
 
         this.producto = producto;
         this.cantidad = cantidad;
+
+		if(precioUnitario === null)
+			this.precioUnitario = producto.getPrecio();
+
         this.precioUnitario = precioUnitario;
     }
     //FALTAN ATRPAR LOS ERRORES O VERIFICAR LOS DATOS EN SI

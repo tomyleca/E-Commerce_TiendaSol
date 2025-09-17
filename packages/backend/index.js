@@ -14,6 +14,11 @@ import { UsuariosService } from "./services/usuariosService.js"
 import { UsuariosController } from "./controllers/usuariosController.js"
 import { UsuariosRepository } from "./models/repositories/usuariosRepository.js"
 
+import { FactoryNotificacion } from "./models/entities/factoryNotificacion.js";
+
+import {NotificacionesRepository} from "./models/repositories/notificacionesRepository.js"
+import {NotificacionesService} from "./services/notificacionesService.js"
+
 
 
 
@@ -28,10 +33,13 @@ dotenv.config();
 
 const server = new Server(app, port)
 
+const factoryNotificacion = new FactoryNotificacion()
 
+const notificacionesRepository = new NotificacionesRepository()
+const notificacionesService = new NotificacionesService(notificacionesRepository)
 
 const pedidosRepository = new PedidosRepository()
-const pedidosService = new PedidosService(pedidosRepository)
+const pedidosService = new PedidosService(pedidosRepository,factoryNotificacion,notificacionesService)
 const pedidosController = new PedidosController(pedidosService)
 
 server.setController(PedidosController, pedidosController)
