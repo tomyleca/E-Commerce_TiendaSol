@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "start:backend": "npm start --workspace=backend",
+    "test:backend": "npm test --workspace=backend",
     "dev:backend": "npm run dev --workspace=backend",
     "start:frontend": "npm start --workspace=frontend",
     "start:dev": "concurrently \"npm run dev:backend\" \"npm run start:frontend\"",
@@ -23,6 +24,7 @@
     "eslint": "^9.31.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.3.0",
+    "jest": "^27.5.1",
     "prettier": "3.6.2"
   },
   "dependencies": {
