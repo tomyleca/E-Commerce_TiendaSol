@@ -12,37 +12,42 @@ export class PedidosController {
 		res.json(pedidos)
 	}
 
-	crear(req,res){
+	crear(req, res) {
 
-		const BodyPedido=req.body
-		const resultBodyPedido=pedidosSchema.safeParse(BodyPedido)
+		const BodyPedido = req.body
+		const resultBodyPedido = pedidosSchema.safeParse(BodyPedido)
 
 		if (!resultBodyPedido.success) {
-				throw new FormatoZodError()
+			throw new FormatoZodError()
 		}
 		const pedidoGuardado = this.pedidosService.crear(resultBodyPedido.data)
 
-        res.status(201).json(pedidoGuardado);
+		res.status(201).json(pedidoGuardado);
 	}
-	 cancelar(idPedido, motivo, req, res) {
-		this.pedidosService.cancelar(idPedido, motivo, req.user);
+
+	cancelar(idPedido, res) {
+		this.pedidosService.cancelar(idPedido);
 		res.status(200).json("Pedido cancelado exitosamente");
 	}
-	
+
+	enviar(idPedido, res) {
+		this.pedidosService.enviar(idPedido);
+		res.status(200).json("Pedido enviado exitosamente");
+	}
 }
 
 const ItemPedidoSchema = z.object({
-  productoId: z.string().min(1, "El ID del producto es obligatorio"),
-  cantidad: z.number().positive().min(1, "La cantidad debe ser al menos 1"),
-  precioUnitario: z.number().nonnegative()
+	productoId: z.string().min(1, "El ID del producto es obligatorio"),
+	cantidad: z.number().positive().min(1, "La cantidad debe ser al menos 1"),
+	precioUnitario: z.number().nonnegative()
 });
 
 
 const pedidosSchema = z.object({
-   comprador: z.string(),
-   items: z.array(ItemPedidoSchema),
-   total: z.number().nonnegative(),
-   moneda: z.string(),
-   direccionEntrega: z.string(),
+	comprador: z.string(),
+	items: z.array(ItemPedidoSchema),
+	total: z.number().nonnegative(),
+	moneda: z.string(),
+	direccionEntrega: z.string(),
 
 })

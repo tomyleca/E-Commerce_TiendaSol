@@ -54,17 +54,15 @@ export class Pedido {
 		return this.itemPedidos.reduce((acumulador, item) => { return acumulador + item.subTotal() }, 0)
 	}
 
-	actualizarEstado(nuevoEstado, quien, motivo) {
+	actualizarEstado(nuevoEstado) {
 		if (this.estado === EstadoPedido.ENTREGADO && nuevoEstado === EstadoPedido.PENDIENTE) {
 			throw new Error("No se puede volver a Pendiente una vez Entregado");
 		}
 		this.estado = nuevoEstado;
 		this.historialDeEstados.push(nuevoEstado);
-
 	}
 
 	validarStock() {
-
 		return this.itemPedidos.every(item => item.stockEstadisponible())
 	}
 

@@ -1,25 +1,24 @@
 export class PedidosRepository {
-	    constructor() {
+    constructor() {
         this.pedidos = [];
         this.nextId = 0;
     }
 
-	buscarTodos() {
-		return this.pedidos;
-	}
-	
-	  buscarPorId(id) {
+    buscarTodos() {
+        return this.pedidos;
+    }
+
+    buscarPorId(id) {
         return this.pedidos.find(pedido => pedido.id === id);
     }
-	crear(nuevoPedido) {
+    crear(nuevoPedido) {
         nuevoPedido.id = this.nextId++;
         this.pedidos.push(nuevoPedido)
         return nuevoPedido
     }
 
-    buscarPorUsuario(idUsuario){
-
-        const pedidosDeUsuario= this.pedidos.filter(pedido => pedido.comprador===idUsuario)
+    buscarPorUsuario(idUsuario) {
+        const pedidosDeUsuario = this.pedidos.filter(pedido => pedido.comprador === idUsuario)
     }
 
 
