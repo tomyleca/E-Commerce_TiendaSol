@@ -2,6 +2,7 @@ import { Pedido } from "../models/entities/pedido.js"
 import {FactoryNotificacion} from "../models/entities/factoryNotificacion.js"
 import { NoHayStock } from "../errors/noHayStock.js"
 import { EstadoPedido } from "../models/entities/estadoPedido.js";
+import { NotFound } from "../errors/notFound.js";
 
 export class PedidosService {
 	constructor(pedidosRepository) {
@@ -31,7 +32,7 @@ export class PedidosService {
 		/// A DEFINIR SI HACER OTRO SERVICIO PARA LA NOFICAION SEGURAMENTE QUE SI.
 		//  Creo la notificación según el pedido
 		const notificacion = this.factoryNotificacion.crearSegunPedido(
-		pedidoGuardado
+		nuevoPedido
 		);
 
 		//  Envío/guardo la notificación con el servicio adecuado
@@ -43,7 +44,7 @@ export class PedidosService {
     const pedido = this.pedidosRepository.buscarPorId(idPedido);
 
     if (!pedido) {
-        throw new Error('Pedido no encontrado');
+        throw new NotFound(Pedido, idPedido);
     }
 
     if (pedido.estado === EstadoPedido.ENVIADO) {
