@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { EstadoPedido } from "./estadoPedido.js";
 import { Pedido } from "./pedido.js";
-
+import {Notificacion} from "./notificacion.js"
 export class FactoryNotificacion{
 	
 	crearSegunEstadoPedido(estado){
@@ -11,11 +11,20 @@ export class FactoryNotificacion{
     	}
         //Crear errores especificos , por ahora se quedan asi.
         const estadoString = estado.toString();
+        
         return estadoString
     
     }
 
-    crearSegunPedido(pedido){
-        //TODO
+     crearSegunPedido(pedido) {
+ 
+        return new Notificacion(
+            uuidv4(),
+            pedido.comprador,
+             this.crearSegunEstadoPedido(pedido.estado),                  // <- lo que devuelve crearSegunEstadoPedido
+            new Date().toISOString(),
+            false,
+            null
+        );
     }
 }

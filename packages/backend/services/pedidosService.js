@@ -26,10 +26,14 @@ export class PedidosService {
 			throw new NoHayStock();
 		} // Aqui se valida si el stock esta disponible.
 
-
-	 	
-		
 		/// A DEFINIR SI HACER OTRO SERVICIO PARA LA NOFICAION SEGURAMENTE QUE SI.
+		//  Creo la notificación según el pedido
+		const notificacion = this.factoryNotificacion.crearSegunPedido(
+		pedidoGuardado
+		);
+
+		//  Envío/guardo la notificación con el servicio adecuado
+		this.notificacionesService.enviar(notificacion);
 
         return this.pedidosRepository.crear(nuevoPedido)
 	}

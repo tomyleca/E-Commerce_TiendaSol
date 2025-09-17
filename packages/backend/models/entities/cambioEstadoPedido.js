@@ -21,7 +21,7 @@ export class CambioDeEstadoPedido {
         this.pedido = validacion.pedido;
         this.usuario = validacion.usuario;
         this.motivo = validacion.motivo;
-        //supongo que hay que ahcer validaciones tanto como para pedido,como para el usuario.
+    
     }
 
 
