@@ -7,8 +7,16 @@ export class UsuariosService {
 		this.pedidosService = pedidosService
 	}		
 
+	setPedidosService(pedidosService) {
+		this.pedidosService = pedidosService
+	}
+
 	buscarTodos() {
 		return this.usuariosRepository.buscarTodos()
+	}
+
+	buscarPorId(id){
+		return this.usuariosRepository.buscarPorId(id)
 	}
 
 	crear(nuevoUsuarioJson) {
@@ -25,7 +33,7 @@ export class UsuariosService {
 	}
 
 	buscarHistorialDePedidos(idUsuario){
-		return this.pedidosService().buscarPedidosDeUsuario(idUsuario);
+		return this.pedidosService.buscarPedidosDeUsuario(idUsuario);
 	}
 
 

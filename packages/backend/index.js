@@ -42,30 +42,33 @@ const healthCheckController = new HealthCheckController()
 server.setController(HealthCheckController, healthCheckController)
 
 const usuariosRepository = new UsuariosRepository()
+const pedidosRepository = new PedidosRepository()
 const productosRepository = new ProductosRepository()
-const productosService = new ProductosService(productosRepository,usuariosRepository)
-const productosController = new ProductosController(productosService)
-
-server.setController(ProductosController, productosController)
 
 const factoryNotificacion = new FactoryNotificacion()
-
 const notificacionesRepository = new NotificacionesRepository()
 const notificacionesService = new NotificacionesService(notificacionesRepository)
 
-const pedidosRepository = new PedidosRepository()
-const pedidosService = new PedidosService(pedidosRepository,factoryNotificacion,notificacionesService,productosRepository,usuariosRepository)
-const pedidosController = new PedidosController(pedidosService)
 
+
+const usuariosService = new UsuariosService(usuariosRepository)
+const productosService = new ProductosService(productosRepository, usuariosService)
+const pedidosService = new PedidosService(pedidosRepository, factoryNotificacion, notificacionesService, productosService, usuariosService)
+
+//Es necesario setearlo despues porque el pedidosService depende del usuarioService y viceversa
+usuariosService.setPedidosService(pedidosService)
+
+const productosController = new ProductosController(productosService)
+server.setController(ProductosController, productosController)
+
+const pedidosController = new PedidosController(pedidosService)
 server.setController(PedidosController, pedidosController)
 
-
-const usuariosService = new UsuariosService(usuariosRepository,pedidosService)
 const usuariosController = new UsuariosController(usuariosService)
-
 server.setController(UsuariosController, usuariosController)
 
 routes.forEach(route => server.addRoute(route))
 server.configureRoutes();
 
 server.launch()
+

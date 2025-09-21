@@ -5,24 +5,30 @@ import { EstadoPedido } from "../models/entities/estadoPedido.js";
 import { NotFound } from "../errors/notFound.js";
 import {IntentoDeCancelarEnviadoError} from "../errors/intentoDeCancelarEnviadoError.js"
 import { ItemPedido } from "../models/entities/itemPedido.js";
-import { ProductosRepository } from "../models/repositories/productosRepository.js";
+
 
 export class PedidosService {
-	constructor(pedidosRepository, factoryNotificacion, notificacionesService, productosRepository,usuariosRepository) {
+	constructor(pedidosRepository, factoryNotificacion, notificacionesService, productosService,usuariosService) {
 		this.pedidosRepository = pedidosRepository
 		this.factoryNotificacion = factoryNotificacion	
 		this.notificacionesService = notificacionesService
-		this.productosRepository = productosRepository
-		this.usuariosRepository = usuariosRepository
+		this.productosService = productosService
+		this.usuariosService = usuariosService
 	}
+
+
 
 	buscarTodos() {
 		return this.pedidosRepository.buscarTodos()
 	}
 
+	buscarPorId(id){
+		return this.pedidosRepository.buscarPorId(id)
+	}
+
 	crear(nuevoPedidoJson) {
-		const comprador = this.usuariosRepository.buscarPorId(nuevoPedidoJson.compradorId)
-		const items = nuevoPedidoJson.items.map(item => new ItemPedido(this.productosRepository.buscarPorId(item.productoId),item.cantidad,item.precioUnitario))
+		const comprador = this.usuariosService.buscarPorId(nuevoPedidoJson.compradorId)
+		const items = nuevoPedidoJson.items.map(item => new ItemPedido(this.productosService.buscarPorId(item.productoId),item.cantidad,item.precioUnitario))
 
 		const nuevoPedido = new Pedido(
 			comprador,
@@ -36,7 +42,7 @@ export class PedidosService {
 			throw new NoHayStock();
 		} // Aqui se valida si el stock esta disponible.
 
-		/// A DEFINIR SI HACER OTRO SERVICIO PARA LA NOFICAION SEGURAMENTE QUE SI.
+
 		//  Creo la notificación según el pedido
 		const notificacion = this.factoryNotificacion.crearSegunEstadoPedido(
 		nuevoPedido

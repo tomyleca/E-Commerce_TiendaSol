@@ -1,17 +1,21 @@
 import { Producto } from "../models/entities/producto.js"
 
 export class ProductosService {
-	constructor(productosRepository,usuariosRepository) {
+	constructor(productosRepository,usuariosService) {
 		this.productosRepository = productosRepository,
-		this.usuariosRepository = usuariosRepository
+		this.usuariosService = usuariosService
 	}		
 
 	buscarTodos() {
 		return this.productosRepository.buscarTodos()
 	}
 
+	buscarPorId(id){
+		return this.productosRepository.buscarPorId(id)
+	}
+
 	crear(productoJson) {
-		const vendedor = this.usuariosRepository.buscarPorId(productoJson.vendedorId)
+		const vendedor = this.usuariosService.buscarPorId(productoJson.vendedorId)
 		const nuevoProducto = new Producto(
 			vendedor,
 			productoJson.titulo,
@@ -29,8 +33,5 @@ export class ProductosService {
 		
 	}
 
-	buscarPorId(id)
-	{
-		return this.productosRepository.buscarPorId(id)
-	}
+
 }
