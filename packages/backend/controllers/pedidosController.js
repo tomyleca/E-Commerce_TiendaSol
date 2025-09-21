@@ -1,9 +1,11 @@
 import { z } from "zod"
+import { FormatoZodError } from "../errors/formatoZodError.js"
 
 export class PedidosController {
 	constructor(pedidosService) {
 		this.pedidosService = pedidosService
 	}
+
 
 	buscarTodos(req, res) {
 		const pedidos = this.pedidosService.buscarTodos()
@@ -11,28 +13,41 @@ export class PedidosController {
 	}
 
 	crear(req, res) {
-		const body = req.body
-		const resultBody = pedidoSchema.safeParse(body)
 
-		if (!resultBody.success) {
-			return res.status(400).json({
-				error: "Datos faltantes o de formato incorrecto",
-				details: resultBody.error.errors
-			})
+		const BodyPedido = req.body
+		const resultBodyPedido = pedidosSchema.safeParse(BodyPedido)
+
+		if (!resultBodyPedido.success) {
+			throw new FormatoZodError()
 		}
-		const pedidoCreado = this.pedidosService.crear(resultBody.data)
+		const pedidoGuardado = this.pedidosService.crear(resultBodyPedido.data)
 
-		res.status(201).json(pedidoCreado)
-
+		res.status(201).json(pedidoGuardado);
 	}
 
-	pedidoSchema = z.object({
-		nombre: z.string().min(1, "El nombre es obligatorio"),
-		email: z.string().min(1, "El email es obligatorio"),
-		telefono: z.string().min(1, "El teléfono es obligatorio"),
-		tipo: z.string().min(1, "El tipo de usuario es obligatorio"),
+	cancelar(idPedido, res) {
+		this.pedidosService.cancelar(idPedido);
+		res.status(200).json("Pedido cancelado exitosamente");
+	}
 
-		id: z.string().min(1)
-	})
-
+	enviar(idPedido, res) {
+		this.pedidosService.enviar(idPedido);
+		res.status(200).json("Pedido enviado exitosamente");
+	}
 }
+
+
+
+const ItemPedidoSchema = z.object({
+  productoId: z.string().or(z.number()),
+  cantidad: z.number().positive(),
+  precioUnitario: z.number().nonnegative().optional()
+});
+
+const pedidosSchema = z.object({
+  compradorId: z.number(),
+  items: z.array(ItemPedidoSchema),
+  total: z.number().nonnegative(),
+  moneda: z.string(),
+  direccionEntrega: z.string()
+});

@@ -2,12 +2,21 @@ import { Usuario } from "../models/entities/usuario.js"
 import { Email } from "../models/entities/email.js"
 
 export class UsuariosService {
-	constructor(usuariosRepository) {
+	constructor(usuariosRepository,pedidosService) {
 		this.usuariosRepository = usuariosRepository
-}
+		this.pedidosService = pedidosService
+	}		
+
+	setPedidosService(pedidosService) {
+		this.pedidosService = pedidosService
+	}
 
 	buscarTodos() {
 		return this.usuariosRepository.buscarTodos()
+	}
+
+	buscarPorId(id){
+		return this.usuariosRepository.buscarPorId(id)
 	}
 
 	crear(nuevoUsuarioJson) {
@@ -19,8 +28,12 @@ export class UsuariosService {
 			nuevoUsuarioJson.telefono,
 			nuevoUsuarioJson.tipo
 		)
-		this.usuariosRepository.crear(nuevoUsuario)
-		return nuevoUsuario
+		return this.usuariosRepository.crear(nuevoUsuario)
+		
+	}
+
+	buscarHistorialDePedidos(idUsuario){
+		return this.pedidosService.buscarPedidosDeUsuario(idUsuario);
 	}
 
 
