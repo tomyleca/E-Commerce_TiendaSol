@@ -39,10 +39,7 @@ export class FactoryNotificacion {
         return new Notificacion(
             uuidv4(),
             usuarioDestino,
-            mensaje,
-            new Date().toISOString(),
-            false,
-            null
+            mensaje
         );
     }
 }

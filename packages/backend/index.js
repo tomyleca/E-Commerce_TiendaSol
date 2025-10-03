@@ -18,7 +18,7 @@ import { UsuariosRepository } from "./models/repositories/usuariosRepository.js"
 import { FactoryNotificacion } from "./models/entities/factoryNotificacion.js";
 
 import {NotificacionesRepository} from "./models/repositories/notificacionesRepository.js"
-import {NotificacionesService} from "./services/notificacionService.js"
+import {NotificacionesService} from "./services/notificacionesService.js"
 
 import { ProductosService } from "./services/productosService.js"
 import { ProductosController } from "./controllers/productosController.js"
@@ -51,7 +51,7 @@ const notificacionesService = new NotificacionesService(notificacionesRepository
 
 
 
-const usuariosService = new UsuariosService(usuariosRepository)
+const usuariosService = new UsuariosService(usuariosRepository, notificacionesService)
 const productosService = new ProductosService(productosRepository, usuariosService)
 const pedidosService = new PedidosService(pedidosRepository, factoryNotificacion, notificacionesService, productosService, usuariosService)
 

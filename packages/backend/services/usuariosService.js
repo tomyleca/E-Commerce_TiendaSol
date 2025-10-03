@@ -2,9 +2,10 @@ import { Usuario } from "../models/entities/usuario.js"
 import { Email } from "../models/entities/email.js"
 
 export class UsuariosService {
-	constructor(usuariosRepository,pedidosService) {
+	constructor(usuariosRepository, notificacionesService) {
 		this.usuariosRepository = usuariosRepository
-		this.pedidosService = pedidosService
+		this.pedidosService = null
+		this.notificacionesService = notificacionesService
 	}		
 
 	setPedidosService(pedidosService) {
@@ -32,10 +33,21 @@ export class UsuariosService {
 		
 	}
 
-	buscarHistorialDePedidos(idUsuario){
-		return this.pedidosService.buscarPedidosDeUsuario(idUsuario);
+	buscarHistorialDePedidos(id){
+		return this.pedidosService.buscarPedidosDeUsuario(id);
 	}
 
+	
+	getNotificaciones(id, leidas) {
+	return this.notificacionesService.getNotificaciones(id, leidas)
+	}
 
+	getNotificacion(idUsuario, idNotificacion) {
+		return this.notificacionesService.getNotificacion(idUsuario, idNotificacion)
+	}
 
+	leerNotificacion(idUsuario, idNotificacion) {
+		return this.notificacionesService.leerNotificacion(idUsuario, idNotificacion)
+
+}
 }

@@ -8,10 +8,44 @@ const pathUsuario = "/usuario"
 export default function pedidoRoutes(getController) {
 	const router = express.Router()
 
-	router.get(pathUsuario, (req, res) => {
-		getController(UsuariosController).buscarTodos(req, res)
+	router.get(pathUsuario, async (req, res, next) => {
+		try {
+			await getController(UsuariosController).buscarTodos(req, res)
+		} catch (error) {
+			next(error)
+		}
 	})
 	
+
+	//Obtener el historial de pedidos de un usuario
+	router.get(pathUsuario + '/:id/pedidos', async (req,res,next) => {
+		try {
+			await getController(UsuariosController).buscarHistorialDePedidos(req,res)
+		} catch (error) {
+			next(error)
+		}
+	})
+
+	//Obtener las notificaciones de un usuario
+	//Query param: ?leidas=true/false
+	router.get(pathUsuario + '/:id/notificaciones', async (req,res,next) => {
+		try {
+			await getController(UsuariosController).getNotificaciones(req,res)
+		} catch (error) {
+			next(error)
+		}
+	})
+
+	//Leer una notificacion
+	router.get(pathUsuario + '/:id/notificaciones/:notificacionId', async (req,res,next) => {
+		try {
+			await getController(UsuariosController).leerNotificacion(req,res)
+		} catch (error) {
+			next(error)
+		}
+	})
+
+	//Crear un usuario
 	router.post(pathUsuario, async (req,res,next) => {
 		try {
 			await getController(UsuariosController).crear(req,res)
@@ -19,10 +53,6 @@ export default function pedidoRoutes(getController) {
 		catch (error) {
 			next(error)
 	}})
-
-	router.get(pathUsuario + ':id/pedidos', (req,res) => {
-	getController(UsuariosController).buscarHistorialDePedidos(req,res)
-	})
 
 	router.use(usuarioErrorHandler)
 	router.use(generalErrorHandler)

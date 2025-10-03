@@ -20,7 +20,7 @@ export class ProductosController {
 		const resultBodyProducto = productoSchema.safeParse(BodyProducto)
 
 		if (!resultBodyProducto.success) {
-			throw new FormatoZodError()
+			throw new FormatoZodError(resultBodyProducto.error)
 		}
 		const productoGuardado = this.productosService.crear(resultBodyProducto.data)
 

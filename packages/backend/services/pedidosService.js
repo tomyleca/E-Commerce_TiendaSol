@@ -44,7 +44,7 @@ export class PedidosService {
 
 
 		//  Creo la notificación según el pedido
-		const notificacion = this.factoryNotificacion.crearSegunEstadoPedido(
+		const notificacion = this.factoryNotificacion.crearSegunPedido(
 		nuevoPedido
 		);
 

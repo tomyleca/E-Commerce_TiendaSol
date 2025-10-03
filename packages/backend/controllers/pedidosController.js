@@ -18,7 +18,7 @@ export class PedidosController {
 		const resultBodyPedido = pedidosSchema.safeParse(BodyPedido)
 
 		if (!resultBodyPedido.success) {
-			throw new FormatoZodError()
+			throw new FormatoZodError(resultBodyPedido.error)
 		}
 		const pedidoGuardado = this.pedidosService.crear(resultBodyPedido.data)
 

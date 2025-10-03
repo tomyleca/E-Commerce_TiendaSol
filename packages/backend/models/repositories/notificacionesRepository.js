@@ -4,8 +4,16 @@ export class NotificacionesRepository {
         this.nextId = 0;
     }
 
-	buscarTodos() {
-		return this.notificaciones;
+
+
+	buscarTodos(idUsuario, leidas) {
+		return this.notificaciones
+		.filter(n => n.usuarioDestino.id === idUsuario && n.leida === leidas)
+	}
+
+	buscar(idUsuario, idNotificacion) {
+		return this.notificaciones
+		.find(n => n.id === idNotificacion && n.usuarioDestino.id === idUsuario)
 	}
 	
 	
