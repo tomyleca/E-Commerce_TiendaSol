@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import { MongoDBClient } from "./config/database.js";
 
 
 import { Server } from "./server.js"
@@ -17,8 +18,8 @@ import { UsuariosRepository } from "./models/repositories/usuariosRepository.js"
 
 import { FactoryNotificacion } from "./models/entities/factoryNotificacion.js";
 
-import {NotificacionesRepository} from "./models/repositories/notificacionesRepository.js"
-import {NotificacionesService} from "./services/notificacionesService.js"
+import { NotificacionesRepository } from "./models/repositories/notificacionesRepository.js"
+import { NotificacionesService } from "./services/notificacionesService.js"
 
 import { ProductosService } from "./services/productosService.js"
 import { ProductosController } from "./controllers/productosController.js"
@@ -72,3 +73,5 @@ server.configureRoutes();
 
 server.launch()
 
+//Conexión a la base de mongo
+MongoDBClient.connect();
