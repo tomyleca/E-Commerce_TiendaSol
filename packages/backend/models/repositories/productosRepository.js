@@ -1,20 +1,24 @@
+import { ProductoModel } from "../../schemas/productoSchema";
+
 export class ProductosRepository {
     constructor() {
-        this.productos = [];
-        this.nextId = 0;
+        this.model= ProductoModel;
     }
 
-    buscarTodos() {
-        return this.productos;
+    async buscarTodos() {
+        return await this.model.find();
     }
 
-    buscarPorId(id) {
-        return this.productos.find(producto => producto.id === id);
+    async buscarPorId(id) {
+        return await this.model.findById(id);
     }
-    crear(nuevoProducto) {
-        nuevoProducto.id = this.nextId++;
-        this.productos.push(nuevoProducto)
-        return nuevoProducto
+    async crear(producto) {
+        const nuevoProducto = new this.model(producto);
+        return await nuevoProducto.save();
+    }
+
+    async eliminar(id){
+        return await this.model.findByIdAndDelete(id);
     }
 
 }

@@ -8,7 +8,7 @@
   "scripts": {
     "start:backend": "npm start --workspace=backend",
     "test:backend": "npm test --workspace=backend",
-	"test-debug:backend": "npm run test-debug --workspace=backend",
+    "test-debug:backend": "npm run test-debug --workspace=backend",
     "dev:backend": "npm run dev --workspace=backend",
     "start:frontend": "npm start --workspace=frontend",
     "start:dev": "concurrently \"npm run dev:backend\" \"npm run start:frontend\"",
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "dayjs": "^1.11.18",
+    "mongoose": "^8.19.0",
     "zod": "^4.1.5"
   }
 }
