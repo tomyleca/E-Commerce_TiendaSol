@@ -147,26 +147,81 @@
         },
         "/usuario/:id/notificaciones": {
             "get": {
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "summary": "Listar Notificaciones",
+                "description": "Lista de notificaciones basado en un ID de usuario",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de notificaciones",
+                        "content": {}
+                    },
+                    "204": {
+                        "description": "No hay notificaciones"
+                    }
+                }
             }
         },
         "/usuario/:id/notificaciones/:notificacionId": {
             "get": {
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "summary": "Buscar Notificación",
+                "description": "Buscar notificación basado en un ID de usuario y el ID de la notificación",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "idNotifación",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notificación creada",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Notificación no existe"
+                    }
+                }
             }
         },
         "/usuario/:id/pedidos": {
             "get": {
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "summary": "Listar pedidos por usuario",
+                "description": "Lista de pedidos basado en un ID de usuario",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de pedidos",
+                        "content": {}
+                    },
+                    "204": {
+                        "description": "No hay pedidos"
+                    }
+                }
             }
         }
     },
