@@ -38,13 +38,11 @@ export class UsuariosService {
 	}
 
 	
-	getNotificaciones(id, leidas) {
-	return this.notificacionesService.getNotificaciones(id, leidas)
+	async getNotificaciones(id, leidas) {
+		return await this.notificacionesService.getNotificaciones(id, leidas)
 	}
 
-	getNotificacion(idUsuario, idNotificacion) {
-		return this.notificacionesService.getNotificacion(idUsuario, idNotificacion)
-	}
+
 
 	leerNotificacion(idUsuario, idNotificacion) {
 		return this.notificacionesService.leerNotificacion(idUsuario, idNotificacion)

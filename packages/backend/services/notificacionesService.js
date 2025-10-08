@@ -12,7 +12,7 @@ export class NotificacionesService {
   }
 
   async getNotificaciones(idUsuario, leidas) {
-  return await this.repo.buscarPorUsuarioYLeida(idUsuario, leidas);
+  return await this.notificacionesRepository.buscarPorUsuarioYLeida(idUsuario, leidas);
   }
 	
 
@@ -25,6 +25,10 @@ export class NotificacionesService {
 }
 
   async leerNotificacion(idUsuario, idNotificacion) {
-	return await this.getNotificacion(idUsuario, idNotificacion).marcarComoLeida();
+	const notificacion = await this.getNotificacion(idUsuario, idNotificacion);
+	notificacion.marcarComoLeida();
+	this.notificacionesRepository.crear(notificacion); //Es crear porque si tiene id la actualiza
+	return notificacion;
+
   }
 }

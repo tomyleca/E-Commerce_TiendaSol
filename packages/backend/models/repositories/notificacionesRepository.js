@@ -8,9 +8,9 @@ export class NotificacionesRepository {
 
 	async buscarPorUsuarioYLeida(idUsuario, leida) {
     // Convertimos idUsuario a ObjectId si viene como string
-    const objectIdUsuario = mongoose.Types.ObjectId(idUsuario);
+    
     const filtros = {
-      usuarioDestino: objectIdUsuario,  
+      usuarioDestino: idUsuario,  
       leida: leida                       
     };
 
@@ -24,10 +24,23 @@ export class NotificacionesRepository {
         });
     }
 	
-	async crear(nuevaNoti) {
-        const nuevoNotificacion = new this.model(nuevaNoti);
-        return await nuevoNotificacion.save();
+	async crear(notificaion) {
+ //Si tiene id es update, si no es create
+        const query = notificaion.id ? { _id: notificaion.id } : { _id: new this.model()._id };
+        
+        //Busca una notificaion con ese _id y la actualiza con los datos de notificaion.
+        //Si no existe, la crea (por upsert: true).
+        return await this.model.findOneAndUpdate(
+            query,
+            notificaion,
+            { 
+                new: true, 
+                runValidators: true,
+                upsert: true
+            }
+        );
+    }
     }
 
 
-}
+
