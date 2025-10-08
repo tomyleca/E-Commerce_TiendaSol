@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals'
 import { Producto } from "../models/entities/producto.js";
 import { Usuario} from "../models/entities/usuario.js";
 import {Email} from "../models/entities/email.js"
@@ -14,7 +15,7 @@ import { EstadoPedido } from "../models/entities/estadoPedido.js";
 import { FactoryNotificacion } from "../models/entities/factoryNotificacion.js";
 import { IntentoDeCancelarEnviadoError } from "../errors/intentoDeCancelarEnviadoError.js";
 import {NotificacionesRepository} from "../models/repositories/notificacionesRepository.js"
-import {NotificacionesService} from "../services/notificacionService.js"
+import {NotificacionesService} from "../services/notificacionesService.js"
 import { UsuariosRepository } from "../models/repositories/usuariosRepository.js";
 import { ProductosRepository } from "../models/repositories/productosRepository.js";
 
@@ -38,6 +39,23 @@ describe('Validar usuario',() => {
 		email,
 		"1112341234",
 		TipoUsuario.VENDEDOR)
+
+		
+		const _usuarios = []
+		usuariosRepository.crear = jest.fn((u) => {
+			u.id = _usuarios.length
+			_usuarios.push(u)
+			return [u]
+		})
+		usuariosRepository.buscarPorId = jest.fn((id) => _usuarios.find(u => u.id === id))
+
+		const _productos = []
+		productosRepository.crear = jest.fn((p) => {
+			p.id = _productos.length
+			_productos.push(p)
+			return [p]
+		})
+		productosRepository.buscarPorId = jest.fn((id) => _productos.find(p => p.id === id))
 
 		usuariosRepository.crear(vendedor)
 
@@ -72,9 +90,21 @@ describe('Validar usuario',() => {
 		direccion = new DireccionEntrega("calle falsa",123)
 
 		const notificacionesRepository = new NotificacionesRepository()
+		const _notificaciones = []
+		notificacionesRepository.crear = jest.fn((n) => {
+			n.id = _notificaciones.length
+			_notificaciones.push(n)
+			return [n]
+		})
 		const notificacionesService = new NotificacionesService(notificacionesRepository)
 		
 		const factoryNotificacion = new FactoryNotificacion()
+		factoryNotificacion.crearSegunPedido = jest.fn((pedido) => ({
+			id: 'notif-1',
+			usuarioDestino: pedido.comprador,
+			leida: false,
+			mensaje: 'mock'
+		}))
 
 		const pedidosRepository = new PedidosRepository()
 
