@@ -8,7 +8,10 @@ export class NotificacionesRepository {
 
 	buscarTodos(idUsuario, leidas) {
 		return this.notificaciones
-		.filter(n => n.usuarioDestino.id === idUsuario && n.leida === leidas)
+		.
+		
+		
+		filter(n => n.usuarioDestino.id === idUsuario && n.leida === leidas)
 	}
 
 	buscar(idUsuario, idNotificacion) {

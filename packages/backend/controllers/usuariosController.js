@@ -7,25 +7,27 @@ export class UsuariosController {
 		this.usuariosService = usuariosService
 	}
 
-	buscarTodos(req, res) {
-		const usuarios = this.usuariosService.buscarTodos()
+	async buscarTodos(req, res) {
+	
+		const usuarios = await this.usuariosService.buscarTodos()
 		res.json(usuarios)
+	
 	}
 
-	crear(req, res) {
+	async crear(req, res) {
 		const body = req.body
 		const resultBody = usuarioSchema.safeParse(body)
 
 			if (!resultBody.success) {
 				throw new FormatoZodError(resultBody.error)
 			}
-			const usuarioCreado = this.usuariosService.crear(resultBody.data)
+			const usuarioCreado = await this.usuariosService.crear(resultBody.data)
 			
 			res.status(201).json(usuarioCreado)
 
 	}
 
-	buscarHistorialDePedidos(req,res){
+	async buscarHistorialDePedidos(req,res){
 		const id=req.params.id
 		
 		const idUsuario= idTransform.safeParse(id)
@@ -33,11 +35,11 @@ export class UsuariosController {
 			throw new FormatoInvalidoDeId(id) 
 		}
 		
-		const historialPedidos = this.usuariosService.buscarHistorialDePedidos(idUsuario.data)
+		const historialPedidos = await this.usuariosService.buscarHistorialDePedidos(idUsuario.data)
 		res.status(200).json(historialPedidos)
 	}
 
-	getNotificaciones(req,res){
+	async getNotificaciones(req,res){
 		const id=req.params.id
 		const idUsuario= idTransform.safeParse(id)
 
@@ -51,12 +53,12 @@ export class UsuariosController {
 			throw new FormatoZodError(queryParams.error)
 		}
 
-		const notificaciones = this.usuariosService.getNotificaciones(idUsuario.data, queryParams.data.leidas)
+		const notificaciones = await this.usuariosService.getNotificaciones(idUsuario.data, queryParams.data.leidas)
 		
 		res.status(200).json(notificaciones)
 	}
 
-	leerNotificacion(req,res){
+	async leerNotificacion(req,res){
 		const id=req.params.id
 		const idUsuario= idTransform.safeParse(id)
 		
@@ -71,7 +73,7 @@ export class UsuariosController {
 			throw new FormatoInvalidoDeId(notificacionId)
 		}
 
-		const notificacion = this.usuariosService.leerNotificacion(idUsuario.data, idNotificacion.data)
+		const notificacion = await this.usuariosService.leerNotificacion(idUsuario.data, idNotificacion.data)
 		res.status(200).json(notificacion)
 	}
 

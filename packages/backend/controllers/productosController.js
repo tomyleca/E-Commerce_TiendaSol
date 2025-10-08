@@ -9,12 +9,12 @@ export class ProductosController {
 	}
 
 
-	buscarTodos(req, res) {
-		const productos = this.productosService.buscarTodos()
+	async buscarTodos(req, res) {
+		const productos = await this.productosService.buscarTodos()
 		res.json(productos)
 	}
 
-	crear(req, res) {
+	async crear(req, res) {
 
 		const BodyProducto = req.body
 		const resultBodyProducto = productoSchema.safeParse(BodyProducto)
@@ -22,7 +22,7 @@ export class ProductosController {
 		if (!resultBodyProducto.success) {
 			throw new FormatoZodError(resultBodyProducto.error)
 		}
-		const productoGuardado = this.productosService.crear(resultBodyProducto.data)
+		const productoGuardado = await this.productosService.crear(resultBodyProducto.data)
 
 		res.status(201).json(productoGuardado);
 	}

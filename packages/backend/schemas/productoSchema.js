@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Producto } from '../models/entities/producto';
+import { Producto } from '../models/entities/producto.js';
 
 const productoSchema = new mongoose.Schema({
         vendedor: {

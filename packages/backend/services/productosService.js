@@ -6,16 +6,16 @@ export class ProductosService {
 		this.usuariosService = usuariosService
 	}		
 
-	buscarTodos() {
-		return this.productosRepository.buscarTodos()
+	async buscarTodos() {
+		return await this.productosRepository.buscarTodos()
 	}
 
-	buscarPorId(id){
-		return this.productosRepository.buscarPorId(id)
+	async buscarPorId(id){
+		return await this.productosRepository.buscarPorId(id)
 	}
 
-	crear(productoJson) {
-		const vendedor = this.usuariosService.buscarPorId(productoJson.vendedorId)
+	async crear(productoJson) {
+		const vendedor = await this.usuariosService.buscarPorId(productoJson.vendedorId)
 		const nuevoProducto = new Producto(
 			vendedor,
 			productoJson.titulo,
@@ -29,7 +29,7 @@ export class ProductosService {
 		)
 
 
-		return this.productosRepository.crear(nuevoProducto)
+		return await this.productosRepository.crear(nuevoProducto)
 		
 	}
 

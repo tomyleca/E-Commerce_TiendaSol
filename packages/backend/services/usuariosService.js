@@ -12,15 +12,15 @@ export class UsuariosService {
 		this.pedidosService = pedidosService
 	}
 
-	buscarTodos() {
-		return this.usuariosRepository.buscarTodos()
+	async buscarTodos() {
+		return await this.usuariosRepository.buscarTodos()
 	}
 
-	buscarPorId(id){
-		return this.usuariosRepository.buscarPorId(id)
+	async buscarPorId(id){
+		return await this.usuariosRepository.buscarPorId(id)
 	}
 
-	crear(nuevoUsuarioJson) {
+	async crear(nuevoUsuarioJson) {
 		const emailUsuario = new Email(nuevoUsuarioJson.email)
 
 		const nuevoUsuario = new Usuario(
@@ -29,7 +29,7 @@ export class UsuariosService {
 			nuevoUsuarioJson.telefono,
 			nuevoUsuarioJson.tipo
 		)
-		return this.usuariosRepository.crear(nuevoUsuario)
+		return await this.usuariosRepository.crear(nuevoUsuario)
 		
 	}
 

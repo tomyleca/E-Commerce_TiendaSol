@@ -1,4 +1,4 @@
-import { ProductoModel } from "../../schemas/productoSchema";
+import { ProductoModel } from "../../schemas/productoSchema.js";
 
 export class ProductosRepository {
     constructor() {

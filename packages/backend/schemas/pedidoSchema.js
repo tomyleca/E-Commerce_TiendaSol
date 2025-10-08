@@ -25,7 +25,7 @@ const pedidoSchema = new mongoose.Schema({
     },
     moneda: {
         type: String,
-        requoered: true
+        required: true
     },
     direccionEntrega: direccionModel,
     estado: estadoModel,

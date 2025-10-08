@@ -1,22 +1,38 @@
+import { UsuarioModel } from "../../schemas/usuarioSchema.js";
+
+
 export class UsuariosRepository {
-	    constructor() {
-        this.usuarios = [];
-        this.nextId = 0;
-    }
-
-	buscarTodos() {
-		return this.usuarios;
-	}
-
-	crear(usuario) {
-		usuario.id = this.nextId++;
-		this.usuarios.push(usuario);
-		return usuario;
-	}
-
-	   buscarPorId(id) {
-        return this.usuarios.find(usuario => usuario.id === id);
+    
+    //Este es el modelo que previamente dijimos que lo usabamos en node
+    constructor() {
+        this.model = UsuarioModel;
     }
 
 
+    async buscarTodos() {
+        return await this.model.find();
+    }
+
+    async crear(usuario) {
+        const nuevoUsuario = new this.model(usuario);
+        return await nuevoUsuario.save();
+    }
+    async update(id, usuarioModificado) {
+        return await this.model.findByIdAndUpdate(id, usuarioModificado, { new: true });
+    }
+
+    async delete(id) {
+        return await this.model.findByIdAndDelete(id);
+    }
+
+    async count(){
+        return this.model.countDocuments();
+    }
+
+
+
+
+    
+
+    
 }
