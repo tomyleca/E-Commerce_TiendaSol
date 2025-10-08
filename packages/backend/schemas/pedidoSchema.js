@@ -1,30 +1,37 @@
 import mongoose from "mongoose";
-import {Pedido} from '../models/entities/pedido';
+import { Pedido } from '../models/entities/pedido';
 import { direccionModel } from "./direccionSchema";
 import { estadoModel } from "./estadoSchema";
 
 const pedidoSchema = new mongoose.Schema({
 
-    comprador :{type : mongoose.Schema.ObjectId,
-                required : true 
+    comprador: {
+        type: mongoose.Schema.ObjectId,
+        required: true
     },
-    itemPedido :[{type: mongoose.Schema.ObjectId, 
-                ref :'ItemPedido',
-                requiered:true }
+    itemPedido: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'ItemPedido',
+        requiered: true
+    }
     ],
-    vendedor:{type: mongoose.Schema.ObjectId, 
-                ref :'Usuario'
+    vendedor: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Usuario'
     },
-    total: { type:Number,
-            requiered: true
+    total: {
+        type: Number,
+        requiered: true
     },
-    moneda: { type:String,
-              requoered:true
+    moneda: {
+        type: String,
+        requoered: true
     },
     direccionEntrega: direccionModel,
     estado: estadoModel,
-    fechaDeCreacion: {type: Date,
-                       required : true 
+    fechaDeCreacion: {
+        type: Date,
+        required: true
     },
     historialDeEstados: [estadoModel]
 

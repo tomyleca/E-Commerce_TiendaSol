@@ -1,0 +1,95 @@
+{
+    "openapi": "3.1.1",
+    "info": {
+        "title": "",
+        "version": "1.0.0",
+        "description": ""
+    },
+    "paths": {
+        "/pedido": {
+            "get": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            },
+            "post": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            }
+        },
+        "/pedido/cancelar": {
+            "post": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            }
+        },
+        "/pedido/enviar": {
+            "post": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            }
+        },
+        "/producto": {
+            "get": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            },
+            "post": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            }
+        },
+        "/usuario": {
+            "get": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            },
+            "post": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            }
+        },
+        "/usuario/:id/notificaciones": {
+            "get": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            }
+        },
+        "/usuario/:id/notificaciones/:notificacionId": {
+            "get": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            }
+        },
+        "/usuario/:id/pedidos": {
+            "get": {
+                "summary": "",
+                "description": "",
+                "parameters": [],
+                "responses": {}
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}
