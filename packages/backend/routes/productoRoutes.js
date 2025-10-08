@@ -2,7 +2,6 @@ import { ProductosController } from "../controllers/productosController.js"
 import express from "express"
 import { generalErrorHandler } from "../middlewares/generalErrorHandler.js"
 
-
 const pathPedido = "/producto"
 
 export default function productoRoutes(getController) {
@@ -25,6 +24,10 @@ export default function productoRoutes(getController) {
 			next(error)
 		}
 	})
+
+	router.get('/vendedores/:id/productos', (req, res) => {
+			getController(ProductosController).buscarProductosDeVendedor(req, res);
+	});
 
 	//router.use(generalErrorHandler)
 	return router

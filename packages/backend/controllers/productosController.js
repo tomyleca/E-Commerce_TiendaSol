@@ -26,6 +26,14 @@ export class ProductosController {
 
 		res.status(201).json(productoGuardado);
 	}
+	
+	async buscarProductosDeVendedor(req,res){
+		const vendedor = req.params.id;
+		const filtros =req.query;
+		
+		await this.productosService.buscarPorVendedor(vendedor,filtros)
+
+	}
 
 }
 

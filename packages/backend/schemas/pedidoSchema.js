@@ -1,8 +1,58 @@
 import mongoose from "mongoose";
 import { Pedido } from '../models/entities/pedido.js';
+<<<<<<< HEAD
 import { estadoSchema } from "./estadoSchema.js";
 import { EstadoPedido } from "../models/entities/estadoPedido.js";
 import { itemSchema } from "./itemSchema.js";
+=======
+
+const direccionSchema= new mongoose.Schema({
+
+    calle:{
+        type: String,
+        required: true
+
+    },
+    altura:{
+        type: String,
+        required: true
+
+    },
+    piso :{
+        type:String,
+        required:true
+    },
+    departamento:{ 
+        type: String,
+        required: true
+    },
+    cosigoPostal:{ 
+        type: String,
+        requiered : true
+    },
+    ciudad: { 
+        type: String,
+        requiered : true
+    },
+    provincia :{ 
+        type: String,
+        requiered : true
+    },
+    pais :{ 
+        type: String,
+        requiered : true
+    },
+    lat:{ 
+        type: String,
+        requiered : true
+    },
+    lon :{ 
+        type: String,
+        requiered : true
+    }
+
+})
+>>>>>>> efc80e7 (routeProductoVendedor)
 
 const pedidoSchema = new mongoose.Schema({
 
@@ -42,6 +92,7 @@ const pedidoSchema = new mongoose.Schema({
   }
 
 })
+
 
 
 pedidoSchema.loadClass(Pedido);

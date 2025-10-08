@@ -42,6 +42,7 @@ export default function pedidoRoutes(getController) {
 		}
 	});
 
+
 	router.use(pedidoErrorHandler)
 	router.use(generalErrorHandler)
 

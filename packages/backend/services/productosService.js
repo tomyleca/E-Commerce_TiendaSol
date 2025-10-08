@@ -32,6 +32,15 @@ export class ProductosService {
 		return await this.productosRepository.crear(nuevoProducto)
 		
 	}
+	async buscarPorVendedor(vendedorId, filtros) {
+	const vendedor =await this.usuariosService.buscarPorId(vendedorId);
+    if (!vendedor) throw new Error("Debe especificar un vendedor");
 
+    // Validación de precios
+    if (filtros.precioMin && isNaN(filtros.precioMin))
+      //throw new Error("deben ser numeros");
+    if (filtros.precioMax && isNaN(filtros.precioMax))
+      throw new Error("deben ser numeros "); // generar un error especifico
 
+	}
 }
