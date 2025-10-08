@@ -15,7 +15,7 @@
                         "content": {}
                     },
                     "204": {
-                        "description": "No hay alojamientos"
+                        "description": "No hay pedidos"
                     }
                 }
             },
@@ -25,7 +25,9 @@
                     "required": true,
                     "content": {
                         "application/json": {
-                            "schema": {}
+                            "schema": {
+                                "$ref": "#/components/schemas/Pedido"
+                            }
                         }
                     }
                 },
@@ -33,56 +35,114 @@
                     "201": {
                         "description": "Pedido creado",
                         "content": {}
-                    },
-                    "400": {
-                        "description": "",
-                        "content": {}
                     }
                 }
             }
         },
         "/pedido/cancelar": {
             "post": {
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "summary": "Cancelar pedido",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "description": "Cancelar pedido mediante ID numérico del pedido",
+                "responses": {
+                    "200": {
+                        "description": "Pedido cancelado"
+                    }
+                }
             }
         },
         "/pedido/enviar": {
             "post": {
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "summary": "Enviar pedido",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "description": "Enviar pedido mediante ID numérico del pedido",
+                "responses": {
+                    "200": {
+                        "description": "Pedido enviado"
+                    }
+                }
             }
         },
         "/producto": {
             "get": {
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "summary": "Listar productos",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos",
+                        "content": {}
+                    },
+                    "204": {
+                        "description": "No hay productos"
+                    }
+                }
             },
             "post": {
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "summary": "Crear un producto",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Producto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado",
+                        "content": {}
+                    }
+                }
             }
         },
         "/usuario": {
             "get": {
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "summary": "Listar usuarios",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuarios",
+                        "content": {}
+                    },
+                    "204": {
+                        "description": "No hay usuarios"
+                    }
+                }
             },
             "post": {
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "summary": "Crear un usuario",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Usuario"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "usuario creado",
+                        "content": {}
+                    }
+                }
             }
         },
         "/usuario/:id/notificaciones": {
