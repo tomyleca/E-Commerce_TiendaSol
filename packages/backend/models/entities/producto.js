@@ -5,7 +5,7 @@ import { Moneda } from "./moneda.js";
 
 export class Producto {
 
-    constructor(vendedor, titulo, descripcion, categorias, precio, moneda, stock, fotos, activo) {
+    constructor(vendedor, titulo, descripcion, categorias, precio, moneda, stock, fotos) {
         z.object({
             vendedor: z.instanceof(Usuario),
             titulo: z.string(),
@@ -15,19 +15,20 @@ export class Producto {
             moneda: z.instanceof(Moneda),
             stock: z.number().int(),
             fotos: z.array(z.string()),
-            activo: z.boolean()
+            
         })
 
         this.id;
         this.vendedor = vendedor;
         this.titulo = titulo;
         this.descripcion = descripcion;
-        this.categorias = categorias;
-        this.precio = precio;
-        this.modena = moneda;
+		if(!categorias)
+        	this.categorias = [];
+            this.precio = precio;
+            this.moneda = moneda;
         this.stock = stock;
         this.fotos = fotos;
-        this.activo = activo;
+        this.activo = true;
     }
     //faltan hacer verificaciones que las podemos hacer con middlewares
     //o icnluso con Zod 

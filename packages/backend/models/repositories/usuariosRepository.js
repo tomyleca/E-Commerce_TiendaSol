@@ -13,6 +13,10 @@ export class UsuariosRepository {
         return await this.model.find();
     }
 
+	async buscarPorId(id) {
+		return await this.model.findById(id);
+	}
+
     async crear(usuario) {
         const nuevoUsuario = new this.model(usuario);
         return await nuevoUsuario.save();

@@ -37,7 +37,7 @@ const categoriaSchema = z.object({
 });
 
 export const productoSchema = z.object({
-  vendedorId: z.number(),
+  vendedorId: z.string(),
   titulo: z.string(),
   descripcion: z.string(),
   categorias: z.array(categoriaSchema).optional(),
