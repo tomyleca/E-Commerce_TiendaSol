@@ -39,13 +39,13 @@ export class PedidosController {
 
 
 const ItemPedidoSchema = z.object({
-  productoId: z.string().or(z.number()),
+  productoId: z.string(),
   cantidad: z.number().positive(),
   precioUnitario: z.number().nonnegative().optional()
 });
 
 const pedidosSchema = z.object({
-  compradorId: z.number(),
+  compradorId: z.string(),
   items: z.array(ItemPedidoSchema),
   total: z.number().nonnegative(),
   moneda: z.string(),

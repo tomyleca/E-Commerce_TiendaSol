@@ -30,8 +30,7 @@ export class Producto {
         this.fotos = fotos;
         this.activo = true;
     }
-    //faltan hacer verificaciones que las podemos hacer con middlewares
-    //o icnluso con Zod 
+
 
     estaDisponible(unaCantidad) {
         return this.stock > unaCantidad;

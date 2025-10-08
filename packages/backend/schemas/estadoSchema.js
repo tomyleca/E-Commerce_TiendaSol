@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
-import { EstadoPedido } from "../models/entities/estadoPedido";
+import { EstadoPedido } from "../models/entities/estadoPedido.js";
 
-const estadoSchema= new mongoose.Schema({
-
-    estado:{
-        type:String,
-        required: true
-
-    }
-
-})
-
-estadoSchema.loadClass(EstadoPedido);
-export const estadoModel = mongoose.model('EstadoPedido', estadoSchema);
+// EstadoPedido es un enum (objeto plano), no una clase. No usar loadClass.
+// Exportamos un sub-esquema reutilizable solo si hace falta un objeto anidado,
+// pero típicamente se modela como un string con enum directamente en el schema padre.
+export const estadoSchema = new mongoose.Schema(
+    {
+        estado: {
+            type: String,
+            enum: Object.values(EstadoPedido),
+            required: true,
+        },
+    },
+    { _id: false }
+);

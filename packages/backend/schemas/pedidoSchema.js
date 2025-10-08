@@ -1,42 +1,48 @@
 import mongoose from "mongoose";
-import { Pedido } from '../models/entities/pedido';
-import { direccionModel } from "./direccionSchema";
-import { estadoModel } from "./estadoSchema";
+import { Pedido } from '../models/entities/pedido.js';
+import { estadoSchema } from "./estadoSchema.js";
+import { EstadoPedido } from "../models/entities/estadoPedido.js";
+import { itemSchema } from "./itemSchema.js";
 
 const pedidoSchema = new mongoose.Schema({
 
     comprador: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Usuario',
         required: true
     },
-    itemPedido: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'ItemPedido',
-        requiered: true
-    }
-    ],
-    vendedor: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Usuario'
+    itemsPedido: {
+        type: [itemSchema],
+        required: true
     },
     total: {
         type: Number,
-        requiered: true
+        required: false
     },
     moneda: {
         type: String,
         required: true
     },
-    direccionEntrega: direccionModel,
-    estado: estadoModel,
-    fechaDeCreacion: {
-        type: Date,
+    direccionEntrega: {
+        type: String,
         required: true
     },
-    historialDeEstados: [estadoModel]
+    estado: {
+        type: String,
+        enum: Object.values(EstadoPedido),
+        required: true
+    },
+    fechaDeCreacion: {
+        type: Date,
+        required: false
+    },
+      historialDeEstados: {
+    type: [{ type: String, enum: Object.values(EstadoPedido) }],
+    default: [EstadoPedido.PENDIENTE]
+  }
 
 })
 
 
 pedidoSchema.loadClass(Pedido);
-export const pedidoModel = mongoose.model('Pedido', pedidoSchema);
+export const PedidoModel = mongoose.model('Pedido', pedidoSchema);

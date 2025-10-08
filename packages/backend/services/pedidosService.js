@@ -26,9 +26,12 @@ export class PedidosService {
 		return this.pedidosRepository.buscarPorId(id)
 	}
 
-	crear(nuevoPedidoJson) {
-		const comprador = this.usuariosService.buscarPorId(nuevoPedidoJson.compradorId)
-		const items = nuevoPedidoJson.items.map(item => new ItemPedido(this.productosService.buscarPorId(item.productoId),item.cantidad,item.precioUnitario))
+	async crear(nuevoPedidoJson) {
+		
+		
+		const comprador = await this.usuariosService.buscarPorId(nuevoPedidoJson.compradorId);
+		const items = await Promise.all(nuevoPedidoJson.items.map(async item => new ItemPedido(await this.productosService.buscarPorId(item.productoId),item.cantidad,item.precioUnitario)));
+		
 
 		const nuevoPedido = new Pedido(
 			comprador,
@@ -40,18 +43,18 @@ export class PedidosService {
 
 		if (!nuevoPedido.validarStock()) {
 			throw new NoHayStock();
-		} // Aqui se valida si el stock esta disponible.
+		} //Aca se valida si el stock esta disponible.
 
 
-		//  Creo la notificación según el pedido
-		const notificacion = this.factoryNotificacion.crearSegunPedido(
+		//Creo la notificación según el pedido
+		const notificacion = await this.factoryNotificacion.crearSegunPedido(
 		nuevoPedido
 		);
 
-		//  Envío/guardo la notificación con el servicio adecuado
+		
 		this.notificacionesService.enviar(notificacion);
 
-		return this.pedidosRepository.crear(nuevoPedido)
+		return await this.pedidosRepository.crear(nuevoPedido)
 	}
 	cancelar(idPedido) {
 		const pedido = this.pedidosRepository.buscarPorId(idPedido);

@@ -1,4 +1,4 @@
-import { Categoria } from "../models/entities/catagoria.js"
+import { Categoria } from "../models/entities/categoria.js"
 
 export class CategoriaService {
 	constructor(categoriasRepository){

@@ -1,4 +1,4 @@
-import { Categoria } from "../models/entities/catagoria.js";
+import { Categoria } from "../models/entities/categoria.js";
 import mongoose from "mongoose";
 
 const categoriaSchema = new mongoose.Schema({

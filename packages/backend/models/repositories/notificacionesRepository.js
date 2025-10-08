@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {NotificacionModel} from '../../schemas/notificacionSchema'
+import {NotificacionModel} from '../../schemas/notificacionSchema.js'
 export class NotificacionesRepository {
 	    constructor() {
         this.model = NotificacionModel;

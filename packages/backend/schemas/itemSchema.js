@@ -1,28 +1,25 @@
 import mongoose from "mongoose";
-import { ItemPedido } from "../models/entities/itemPedido";
 
-const itemSchema= new mongoose.Schema({
-
-    producto:{
-        type: mongoose.Schema.ObjectId,
-        required: true
-
+// Subdocumento embebido para ItemPedido en Pedido
+// NOTA: aquí no cargamos la clase de dominio ItemPedido porque en DB guardamos solo la forma persistible
+// (refs y valores primitivos). La validación de dominio con zod vive en la entidad.
+const itemSchema = new mongoose.Schema(
+    {
+        producto: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Producto',
+            required: true,
+        },
+        cantidad: {
+            type: Number,
+            required: true,
+        },
+        precioUnitario: {
+            type: Number,
+            required: true,
+        },
     },
-    nombreProducto: {
-        type: String,
-        required:true,
-    },
-    precioProducto: {
-        type:Number,
-        required:true
-    },
-    cantidad:{ 
-        type: Number,
-        required: true
-    },
+    { _id: false }
+)
 
-
-})
-
-itemSchema.loadClass(ItemPedido);
-export const ItemModel = mongoose.model('ItemPedido',itemSchema)
+export { itemSchema }

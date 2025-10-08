@@ -1,25 +1,28 @@
+import { PedidoModel } from "../../schemas/pedidoSchema.js";
+
 export class PedidosRepository {
     constructor() {
-        this.pedidos = [];
-        this.nextId = 0;
+        this.model= PedidoModel;
     }
 
-    buscarTodos() {
-        return this.pedidos;
+    async buscarTodos() {
+        return await this.model.find();
     }
 
-    buscarPorId(id) {
-        return this.pedidos.find(pedido => pedido.id === id);
+    async buscarPorId(id) {
+        return await this.model.findById(id);
     }
-    crear(nuevoPedido) {
-        nuevoPedido.id = this.nextId++;
-        this.pedidos.push(nuevoPedido)
-        return nuevoPedido
+    async crear(pedido) {
+        const nuevoPedido = new this.model(pedido);
+        return await nuevoPedido.save();
     }
 
-    buscarPorUsuario(idUsuario) {
-        const pedidosDeUsuario = this.pedidos.filter(pedido => pedido.comprador === idUsuario)
+
+    async buscarPorUsuario(idUsuario) {
+        return await this.model.find({ comprador: idUsuario });
     }
+		
+    
 
 
 }

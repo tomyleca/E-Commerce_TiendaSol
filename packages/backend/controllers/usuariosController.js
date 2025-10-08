@@ -93,17 +93,11 @@ const usuarioSchema = z.object({
 
 
 //Ojo que por esto hay que llamarlo con .data despues
-const idTransform = z.string().transform(((val, ctx)  => {
-    const num = Number(val);
-    if (isNaN(num)) {
-        ctx.addIssue({
-            code: "INVALID_ID",
-            message: "id must be a number"
-        });
-        return z.NEVER;
-    }
-    return num;
-}))
+const idTransform = z.string().refine((val) => {
+  return isNaN(Number(val)); // true si NO es un número
+}, {
+  message: "id must NOT be a number",
+});
 
 //PARA VALIDAD QUE SEA UN BOOLEAN Y QUE SE COMPORTE COMO TAL
 const queryNotificacionSchema = z.object({

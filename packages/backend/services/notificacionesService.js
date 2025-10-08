@@ -12,7 +12,7 @@ export class NotificacionesService {
   }
 
   async getNotificaciones(idUsuario, leidas) {
-  return await this.repo.buscarPorUsuarioYLeida(idUsuario, leida);
+  return await this.repo.buscarPorUsuarioYLeida(idUsuario, leidas);
   }
 	
 

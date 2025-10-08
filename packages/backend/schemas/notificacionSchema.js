@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {Notificacion} from '../models/entities/notificacion'
+import {Notificacion} from '../models/entities/notificacion.js'
 
 const notificacionSchema = new mongoose.Schema({
 
@@ -12,12 +12,15 @@ const notificacionSchema = new mongoose.Schema({
     },
     fechaAlta: { type:Date,
                  required:true,
+                 default: Date.now
     },
     leida:{ type:Boolean,
-            required: true
+            required: true,
+            default: false
     },
     fechaLeida:{ type:Date,
-                required:true
+                required:false,
+                default: null
     }
     
 })
