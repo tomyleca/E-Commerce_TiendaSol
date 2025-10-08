@@ -25,6 +25,10 @@ import { ProductosService } from "./services/productosService.js"
 import { ProductosController } from "./controllers/productosController.js"
 import { ProductosRepository } from "./models/repositories/productosRepository.js"
 
+import { CategoriaController } from "./controllers/categoriasController.js";
+import { CategoriaService } from "./services/categoriasService.js";
+import { CategoriasRepository } from "./models/repositories/categoriasRepository.js";
+
 
 
 
@@ -45,11 +49,12 @@ server.setController(HealthCheckController, healthCheckController)
 const usuariosRepository = new UsuariosRepository()
 const pedidosRepository = new PedidosRepository()
 const productosRepository = new ProductosRepository()
+const categoriasRepository= new CategoriasRepository()
 
 const factoryNotificacion = new FactoryNotificacion()
 const notificacionesRepository = new NotificacionesRepository()
 const notificacionesService = new NotificacionesService(notificacionesRepository)
-
+const categoriaService = new CategoriaService(categoriasRepository)
 
 
 const usuariosService = new UsuariosService(usuariosRepository, notificacionesService)
@@ -67,6 +72,10 @@ server.setController(PedidosController, pedidosController)
 
 const usuariosController = new UsuariosController(usuariosService)
 server.setController(UsuariosController, usuariosController)
+
+const categoriaController = new CategoriaController(categoriaService)
+server.setController(CategoriaController,categoriaController)
+
 
 routes.forEach(route => server.addRoute(route))
 server.configureRoutes();

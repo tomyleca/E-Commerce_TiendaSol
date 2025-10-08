@@ -4,6 +4,7 @@ import {Notificacion} from '../models/entities/notificacion'
 const notificacionSchema = new mongoose.Schema({
 
     usuarioDestino:{ type:mongoose.Schema.Types.ObjectId,
+                    ref:'Usuario',
                      required:true
     },
     mensaje: { type:String,

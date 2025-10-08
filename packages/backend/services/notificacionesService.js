@@ -8,24 +8,23 @@ export class NotificacionesService {
 
 
   async enviar(notificacion) {  //Por ahora enviar la noti es solo guardarla en un repositorio
-    return this.notificacionesRepository.crear(notificacion);
+    return await this.notificacionesRepository.crear(notificacion);
   }
 
-  getNotificaciones(idUsuario, leidas) {
-	return this.notificacionesRepository.buscarTodos(idUsuario, leidas);
+  async getNotificaciones(idUsuario, leidas) {
+  return await this.repo.buscarPorUsuarioYLeida(idUsuario, leida);
   }
+	
 
-  getNotificacion(idUsuario,idNotificacion){
-    const notificacion = this.notificacionesRepository.buscar(idUsuario,idNotificacion)
+  async getNotificacion(idUsuario,idNotificacion){
+    const notificacion = await this.notificacionesRepository.buscar(idUsuario,idNotificacion)
 	if(notificacion == null)
 		throw new NotFound(Notificacion.name, idNotificacion)
 
 	return notificacion
 }
 
-  leerNotificacion(idUsuario, idNotificacion) {
-	return this
-	.getNotificacion(idUsuario, idNotificacion)
-	.marcarComoLeida();
+  async leerNotificacion(idUsuario, idNotificacion) {
+	return await this.getNotificacion(idUsuario, idNotificacion).marcarComoLeida();
   }
 }

@@ -7,12 +7,12 @@ export class PedidosController {
 	}
 
 
-	buscarTodos(req, res) {
-		const pedidos = this.pedidosService.buscarTodos()
+	async buscarTodos(req, res) {
+		const pedidos = await this.pedidosService.buscarTodos()
 		res.json(pedidos)
 	}
 
-	crear(req, res) {
+	async crear(req, res) {
 
 		const BodyPedido = req.body
 		const resultBodyPedido = pedidosSchema.safeParse(BodyPedido)
@@ -20,18 +20,18 @@ export class PedidosController {
 		if (!resultBodyPedido.success) {
 			throw new FormatoZodError(resultBodyPedido.error)
 		}
-		const pedidoGuardado = this.pedidosService.crear(resultBodyPedido.data)
+		const pedidoGuardado = await this.pedidosService.crear(resultBodyPedido.data)
 
 		res.status(201).json(pedidoGuardado);
 	}
 
-	cancelar(idPedido, res) {
-		this.pedidosService.cancelar(idPedido);
+	async cancelar(idPedido, res) {
+		await this.pedidosService.cancelar(idPedido);
 		res.status(200).json("Pedido cancelado exitosamente");
 	}
 
-	enviar(idPedido, res) {
-		this.pedidosService.enviar(idPedido);
+	async enviar(idPedido, res) {
+		await this.pedidosService.enviar(idPedido);
 		res.status(200).json("Pedido enviado exitosamente");
 	}
 }

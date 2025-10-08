@@ -1,29 +1,32 @@
+import mongoose from 'mongoose';
+import {NotificacionModel} from '../../schemas/notificacionSchema'
 export class NotificacionesRepository {
 	    constructor() {
-        this.notificaciones = [];
-        this.nextId = 0;
+        this.model = NotificacionModel;
     }
 
 
+	async buscarPorUsuarioYLeida(idUsuario, leida) {
+    // Convertimos idUsuario a ObjectId si viene como string
+    const objectIdUsuario = mongoose.Types.ObjectId(idUsuario);
+    const filtros = {
+      usuarioDestino: objectIdUsuario,  
+      leida: leida                       
+    };
 
-	buscarTodos(idUsuario, leidas) {
-		return this.notificaciones
-		.
-		
-		
-		filter(n => n.usuarioDestino.id === idUsuario && n.leida === leidas)
+    return await this.model.find(filtros); 
 	}
 
-	buscar(idUsuario, idNotificacion) {
-		return this.notificaciones
-		.find(n => n.id === idNotificacion && n.usuarioDestino.id === idUsuario)
-	}
+	async buscar(idUsuario, idNotificacion) {
+	return await this.model.findOne({
+            _id: idNotificacion,
+            usuarioDestino: idUsuario
+        });
+    }
 	
-	
-	crear(nuevaNoti) {
-        nuevaNoti.id = this.nextId++;
-        this.notificaciones.push(nuevaNoti)
-        return nuevaNoti
+	async crear(nuevaNoti) {
+        const nuevoNotificacion = new this.model(nuevaNoti);
+        return await nuevoNotificacion.save();
     }
 
 
