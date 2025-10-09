@@ -17,6 +17,21 @@ export class ProductosRepository {
         return await nuevoProducto.save();
     }
 
+	async actualizar(producto) {
+			let productoActualizado = await this.model
+			.findByIdAndUpdate(producto.id, producto, { new: true });
+			// el new true hace que devuelva el objeto actualizado
+			
+			
+			//si no lo encuentra, lo crea
+			if (!productoActualizado) {
+				productoActualizado = await this.crear(producto);
+			}
+
+			return productoActualizado;
+
+		}
+
     async eliminar(id){
         return await this.model.findByIdAndDelete(id);
     }

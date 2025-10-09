@@ -40,7 +40,24 @@ export class NotificacionesRepository {
             }
         );
     }
+
+	async actualizar(notifiacion) {
+			let notifiacionActualizada = await this.model
+			.findByIdAndUpdate(notifiacion.id, notifiacion, { new: true });
+			// el new true hace que devuelva el objeto actualizado
+			
+			
+			//si no la encuentra, la crea
+			if (!notifiacionActualizada) {
+				notifiacionActualizada = await this.crear(notifiacion);
+			}
+	
+			return notifiacionActualizada;
+	
+		}
     }
+
+
 
 
 

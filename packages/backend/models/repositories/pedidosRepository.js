@@ -21,6 +21,21 @@ export class PedidosRepository {
         return pedidoMongo.save();
     }
 
+	async actualizar(pedido) {
+			let pedidoActualizado = await this.model
+			.findByIdAndUpdate(pedido.id, pedido, { new: true });
+			// el new true hace que devuelva el objeto actualizado
+			
+			
+			//si no lo encuentra, lo crea
+			if (!pedidoActualizado) {
+				pedidoActualizado = await this.crear(pedido);
+			}
+	
+			return pedidoActualizado;
+	
+		}
+
     async actualizarEstado(id, nuevoEstado) {
         if (!mongoose.Types.ObjectId.isValid(id)) return null;
         return PedidoModel.findByIdAndUpdate(

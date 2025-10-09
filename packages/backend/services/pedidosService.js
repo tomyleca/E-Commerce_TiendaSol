@@ -56,8 +56,11 @@ export class PedidosService {
 
 		return await this.pedidosRepository.crear(nuevoPedido)
 	}
+
+	
 	cancelar(idPedido) {
 		const pedido = this.pedidosRepository.buscarPorId(idPedido);
+
 
     if (!pedido) {
         throw new NotFound(Pedido, idPedido);
@@ -72,6 +75,8 @@ export class PedidosService {
 		// Crear la notificación usando el pedido actualizado
 		const notificacion = this.factoryNotificacion.crearSegunPedido(pedido);
 		this.notificacionesService.enviar(notificacion);
+
+		this.pedidosRepository.actualizarEstado(pedido,EstadoPedido.CANCELADO);
 
 		return pedido;
 	}

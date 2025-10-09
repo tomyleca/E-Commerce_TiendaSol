@@ -27,7 +27,7 @@ export class NotificacionesService {
   async leerNotificacion(idUsuario, idNotificacion) {
 	const notificacion = await this.getNotificacion(idUsuario, idNotificacion);
 	notificacion.marcarComoLeida();
-	this.notificacionesRepository.crear(notificacion); //Es crear porque si tiene id la actualiza
+	this.notificacionesRepository.actualizar(notificacion); //Es crear porque si tiene id la actualiza
 	return notificacion;
 
   }
