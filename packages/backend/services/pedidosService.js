@@ -5,7 +5,6 @@ import { EstadoPedido } from "../models/entities/estadoPedido.js";
 import { NotFound } from "../errors/notFound.js";
 import {IntentoDeCancelarEnviadoError} from "../errors/intentoDeCancelarEnviadoError.js"
 import { ItemPedido } from "../models/entities/itemPedido.js";
-import mongoose from "mongoose";
 
 
 export class PedidosService {
@@ -64,65 +63,37 @@ export class PedidosService {
         throw new NotFound(Pedido, idPedido);
     }
 
-    async buscarPorId(id) {
-        const pedido = await this.pedidosRepository.buscarPorId(id);
-        if (!pedido) throw new Error('Pedido no encontrado');
-        return pedido;
-    }
+		if (pedido.estado === EstadoPedido.ENVIADO) {
+			throw new IntentoDeCancelarEnviadoError();
+		}
 
-    async crear(nuevoPedidoJson) {
-        const comprador = await this.usuariosService.buscarPorId(nuevoPedidoJson.compradorId);
-        const items = await Promise.all(
-            nuevoPedidoJson.items.map(async item => {
-                const producto = await this.productosService.buscarPorId(item.productoId);
-                return new ItemPedido(producto, item.cantidad, item.precioUnitario);
-            })
-        );
+		pedido.actualizarEstado(EstadoPedido.CANCELADO);
 
-        const nuevoPedido = new Pedido(
-            comprador,
-            items,
-            nuevoPedidoJson.direccionEntrega,
-        );
+		// Crear la notificación usando el pedido actualizado
+		const notificacion = this.factoryNotificacion.crearSegunPedido(pedido);
+		this.notificacionesService.enviar(notificacion);
 
-        if (!nuevoPedido.validarStock()) {
-            throw new NoHayStock();
-        }
+		return pedido;
+	}
 
-        const notificacion = this.factoryNotificacion.crearSegunPedido(nuevoPedido);
-        this.notificacionesService.enviar(notificacion);
+	buscarPedidosDeUsuario(idUsuario) {
+		return this.pedidosRepository.buscarPorUsuario(idUsuario)
+	}
 
-        return this.pedidosRepository.crear(nuevoPedido);
-    }
+	// Marcado de un pedido como enviado por parte del vendedor
+	enviar(idPedido, usuario) {
+		const pedido = this.pedidosRepository.buscarPorId(idPedido);
 
-    async cancelar(idPedido) {
-        const pedido = await this.pedidosRepository.buscarPorId(idPedido);
-        if (!pedido) throw new NotFound(Pedido, idPedido);
+		if (!pedido) {
+			throw new Error('Pedido no encontrado');
+		}
 
-        if (pedido.estado === EstadoPedido.ENVIADO) {
-            throw new IntentoDeCancelarEnviadoError();
-        }
+		pedido.actualizarEstado(EstadoPedido.ENVIADO);
 
-        const actualizado = await this.pedidosRepository.actualizarEstado(idPedido, EstadoPedido.CANCELADO);
-        const notificacion = this.factoryNotificacion.crearSegunPedido(actualizado);
-        this.notificacionesService.enviar(notificacion);
+		// Crear la notificación usando el pedido actualizado
+		const notificacion = this.factoryNotificacion.crearSegunPedido(pedido);
+		this.notificacionesService.enviar(notificacion);
 
-        return actualizado;
-    }
-
-    async buscarPedidosDeUsuario(idUsuario) {
-        return this.pedidosRepository.buscarPorUsuario(idUsuario);
-    }
-
-    async enviar(idPedido) {
-        const pedido = await this.pedidosRepository.buscarPorId(idPedido);
-        if (!pedido) throw new Error('Pedido no encontrado');
-
-        const actualizado = await this.pedidosRepository.actualizarEstado(idPedido, EstadoPedido.ENVIADO);
-        const notificacion = this.factoryNotificacion.crearSegunPedido(actualizado);
-        this.notificacionesService.enviar(notificacion);
-
-        return actualizado;
-    }
-
+		return pedido;
+	}
 }

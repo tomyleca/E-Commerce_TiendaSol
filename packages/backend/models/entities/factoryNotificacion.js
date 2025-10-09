@@ -37,7 +37,6 @@ export class FactoryNotificacion {
         const { usuarioDestino, mensaje } = this.crearSegunEstadoPedido(pedido);
 
         return new Notificacion(
-            uuidv4(),
             usuarioDestino,
             mensaje
         );

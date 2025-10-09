@@ -1,10 +1,7 @@
 import mongoose from "mongoose";
 import { Pedido } from '../models/entities/pedido.js';
-<<<<<<< HEAD
-import { estadoSchema } from "./estadoSchema.js";
-import { EstadoPedido } from "../models/entities/estadoPedido.js";
 import { itemSchema } from "./itemSchema.js";
-=======
+import { EstadoPedido } from "../models/entities/estadoPedido.js";
 
 const direccionSchema= new mongoose.Schema({
 
@@ -52,7 +49,6 @@ const direccionSchema= new mongoose.Schema({
     }
 
 })
->>>>>>> efc80e7 (routeProductoVendedor)
 
 const pedidoSchema = new mongoose.Schema({
 
@@ -75,7 +71,7 @@ const pedidoSchema = new mongoose.Schema({
     },
     direccionEntrega: {
         type: String,
-        required: true
+        required: false
     },
     estado: {
         type: String,

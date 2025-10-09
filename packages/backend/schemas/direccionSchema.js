@@ -1,9 +1,5 @@
 import mongoose from "mongoose"
-<<<<<<< HEAD
 import { DireccionEntrega } from "../models/entities/direccionEntrega.js"
-=======
-import {DireccionEntrega } from "../models/entities/direccionEntrega.js"
->>>>>>> efc80e7 (routeProductoVendedor)
 
 const direccionSchema = new mongoose.Schema(
   {

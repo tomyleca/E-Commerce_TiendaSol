@@ -5,9 +5,8 @@ import dayjs from "dayjs";
 
 export class Notificacion {
 
-    constructor(id, usuarioDestino, mensaje) {
+    constructor(usuarioDestino, mensaje) {
         z.object({
-            id: z.string(),
             usuarioDestino: z.instanceof(Usuario),
             mensaje: z.string(),
 			leida : z.boolean(),
@@ -16,7 +15,7 @@ export class Notificacion {
             
         })
 
-        this.id = id;
+        
         this.usuarioDestino = usuarioDestino;
         this.mensaje = mensaje;
         this.fechaAlta = dayjs().toDate();

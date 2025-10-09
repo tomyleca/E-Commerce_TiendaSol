@@ -24,15 +24,15 @@ export class NotificacionesRepository {
         });
     }
 	
-	async crear(notificaion) {
- //Si tiene id es update, si no es create
-        const query = notificaion.id ? { _id: notificaion.id } : { _id: new this.model()._id };
+	async crear(notificacion) {
+ 		//Si tiene id es update, si no es create
+        const query = notificacion.id ? { _id: notificacion.id } : { _id: new this.model()._id };
         
-        //Busca una notificaion con ese _id y la actualiza con los datos de notificaion.
+        //Busca una notificacion con ese _id y la actualiza con los datos de notificacion.
         //Si no existe, la crea (por upsert: true).
         return await this.model.findOneAndUpdate(
             query,
-            notificaion,
+            notificacion,
             { 
                 new: true, 
                 runValidators: true,

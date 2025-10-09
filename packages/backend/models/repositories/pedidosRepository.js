@@ -8,22 +8,22 @@ export class PedidosRepository {
 
 
     async buscarTodos() {
-        return pedidoModel.find().populate('itemPedido vendedor direccionEntrega estado historialDeEstados');
+        return PedidoModel.find().populate('itemPedido vendedor direccionEntrega estado historialDeEstados');
     }
 
     async buscarPorId(id) {
         if (!mongoose.Types.ObjectId.isValid(id)) return null;
-        return pedidoModel.findById(id).populate('itemPedido vendedor direccionEntrega estado historialDeEstados');
+        return PedidoModel.findById(id).populate('itemPedido vendedor direccionEntrega estado historialDeEstados');
     }
 
     async crear(nuevoPedido) {
-        const pedidoMongo = new pedidoModel(nuevoPedido);
+        const pedidoMongo = new PedidoModel(nuevoPedido);
         return pedidoMongo.save();
     }
 
     async actualizarEstado(id, nuevoEstado) {
         if (!mongoose.Types.ObjectId.isValid(id)) return null;
-        return pedidoModel.findByIdAndUpdate(
+        return PedidoModel.findByIdAndUpdate(
             id,
             { estado: nuevoEstado, $push: { historialDeEstados: nuevoEstado } },
             { new: true }
@@ -32,7 +32,7 @@ export class PedidosRepository {
 
     async buscarPorUsuario(idUsuario) {
         if (!mongoose.Types.ObjectId.isValid(idUsuario)) return [];
-        return pedidoModel.find({ comprador: idUsuario }).populate('itemPedido vendedor direccionEntrega estado historialDeEstados');
+        return PedidoModel.find({ comprador: idUsuario }).populate('itemPedido vendedor direccionEntrega estado historialDeEstados');
     }
 
 
