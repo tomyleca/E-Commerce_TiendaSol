@@ -39,6 +39,10 @@ const productoSchema = new mongoose.Schema({
         activo: {
                 type: Boolean,
                 required: true
+        },
+        ventas:{ 
+                type: Number,
+                default: 0
         }
 
 

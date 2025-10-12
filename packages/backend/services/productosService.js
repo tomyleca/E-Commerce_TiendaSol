@@ -6,8 +6,39 @@ export class ProductosService {
 		this.usuariosService = usuariosService
 	}		
 
-	async buscarTodos() {
-		return await this.productosRepository.buscarTodos()
+	async buscarTodosPaginado(pagina,cantidadPorPagina,filtros) {
+
+		const comienzo=(pagina-1)*cantidadPorPagina;
+		const final= comienzo + cantidadPorPagina;
+
+		//Definición de Filtros 
+
+		let query = {};
+        if(filtros.nombre) query.nombre= filtros.nombre;
+        if(filtros.descripcion) query.descripcion=filtros.descripcion;
+        if(filtros.categoria) query.categoria;
+
+		//Definición de Ordenamiento
+		const ordenamiento={}
+		if(filtros.sort){
+			ordenamiento ={
+									precio_asc : {precio:'asc'},
+									precio_desc:{precio:'desc'},
+									masVendido:{ventas:'desc'}
+									};
+		}
+		const productos = await this.productosRepository.buscarTodos(filtros, ordenamiento);
+		const total = this.productosRepository.count();
+        const totalPaginas = Math.ceil(total / cantidadPorPagina)
+        
+        return {
+            page:pagina,
+            perPage: cantidadPorPagina,
+            total: total, 
+            totalPaginas: totalPaginas,
+            data: productos
+        }
+		
 	}
 
 	async buscarPorId(id){
@@ -41,6 +72,11 @@ export class ProductosService {
       //throw new Error("deben ser numeros");
     if (filtros.precioMax && isNaN(filtros.precioMax))
       throw new Error("deben ser numeros "); // generar un error especifico
+
+	}
+
+	async agregarVentasDeProducto(idProducto, cantidad) {
+		const producto = await this.productosRepository.agregarVentas(idProducto,cantidad);
 
 	}
 }

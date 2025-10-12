@@ -10,7 +10,13 @@ export class ProductosController {
 
 
 	async buscarTodos(req, res) {
-		const productos = await this.productosService.buscarTodos()
+		const {pagina =1, limite= 5 }= req.query;
+		const filtros = req.query;
+		const productos = await this.productosService.buscarTodosPaginado(pagina,limite,filtros);
+		if(!productos) {
+			//Podria cambiar el error
+			return res.status(204).send()
+		}
 		res.json(productos)
 	}
 

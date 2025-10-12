@@ -31,7 +31,7 @@ export class PedidosService {
 		
 		const comprador = await this.usuariosService.buscarPorId(nuevoPedidoJson.compradorId);
 		const items = await Promise.all(nuevoPedidoJson.items.map(async item => new ItemPedido(await this.productosService.buscarPorId(item.productoId),item.cantidad,item.precioUnitario)));
-		
+		await this.agregarVentasDePedido(items);
 
 		const nuevoPedido = new Pedido(
 			comprador,
@@ -101,4 +101,11 @@ export class PedidosService {
 
 		return pedido;
 	}
+
+	async agregarVentasDePedido(items) {
+    await Promise.all(
+        items.map(item => this.productosService.agregarVentasDeProducto(item.producto.id, item.cantidad))
+    );
+}
+
 }

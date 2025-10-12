@@ -5,8 +5,9 @@ export class ProductosRepository {
         this.model= ProductoModel;
     }
 
-    async buscarTodos() {
-        return await this.model.find();
+    async buscarTodos(filtros,ordenamiento) {
+        
+        return await this.model.find(filtros).sort(ordenamiento)
     }
 
     async buscarPorId(id) {
@@ -34,6 +35,20 @@ export class ProductosRepository {
 
     async eliminar(id){
         return await this.model.findByIdAndDelete(id);
+    }
+
+    async agregarVentas(idProducto, cantidad) {
+        const productoActualizado = await this.model.UpdateOne(
+            { _id: idProducto },
+            { $inc: { ventas: cantidad }}
+        );
+        //Aquí no verificamos si no existe el id del producto, porque ya se validó antes de llamar a este método.
+        return await productoActualizado .save();
+        
+    }
+
+    async count(){
+        return this.model.countDocuments();
     }
 
 }
