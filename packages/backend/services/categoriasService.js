@@ -15,5 +15,9 @@ export class CategoriaService {
         return await this.categoriasRepository.findAll();
     }
 
+    async buscarPorId(idCategoria){
+        return await this.categoriasRepository.findById(idCategoria);
+    }
+
 
 }

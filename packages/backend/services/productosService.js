@@ -1,36 +1,27 @@
 import { Producto } from "../models/entities/producto.js"
+import { Categoria } from "../models/entities/categoria.js";
 
 export class ProductosService {
-	constructor(productosRepository,usuariosService) {
+	constructor(productosRepository,usuariosService,categoriasService) {
 		this.productosRepository = productosRepository,
-		this.usuariosService = usuariosService
+		this.usuariosService = usuariosService,
+		this.categoriasService=categoriasService
 	}		
 
-	async buscarTodosPaginado(pagina,cantidadPorPagina,filtros) {
+	async buscarTodosPaginado(pagina,cantidadPorPagina,querys) {
 
 		const comienzo=(pagina-1)*cantidadPorPagina;
 		const final= comienzo + cantidadPorPagina;
 
-		//Definición de Filtros 
+		const filtros=this.generarQueryFiltros(querys);
+		const ordenamiento=this.generarQueryOrdenamiento(querys)
 
-		let query = {};
-        if(filtros.nombre) query.nombre= filtros.nombre;
-        if(filtros.descripcion) query.descripcion=filtros.descripcion;
-        if(filtros.categoria) query.categoria;
-
-		//Definición de Ordenamiento
-		const ordenamiento={}
-		if(filtros.sort){
-			ordenamiento ={
-									precio_asc : {precio:'asc'},
-									precio_desc:{precio:'desc'},
-									masVendido:{ventas:'desc'}
-									};
-		}
 		const productos = await this.productosRepository.buscarTodos(filtros, ordenamiento);
 		const total = this.productosRepository.count();
-        const totalPaginas = Math.ceil(total / cantidadPorPagina)
-        
+		let totalPaginas=1;
+		if(!total==0){
+        	totalPaginas = Math.ceil(total / cantidadPorPagina);
+		}
         return {
             page:pagina,
             perPage: cantidadPorPagina,
@@ -41,17 +32,52 @@ export class ProductosService {
 		
 	}
 
+	generarQueryFiltros (filtros){
+		//Definición de Filtros 
+		let query = {};
+        if(filtros.nombre) query.titulo= filtros.nombre;
+        if(filtros.descripcion) query.descripcion=filtros.descripcion;
+		if (filtros.categoria){
+			query.categorias =filtros.categoria;
+		}
+		// Filtros de rango de precio
+		if (filtros.precioMin || filtros.precioMax) {
+		query.precio = {};
+		if (filtros.precioMin) query.precio.$gte = filtros.precioMin;
+		if (filtros.precioMax) query.precio.$lte = filtros.precioMax;
+		}
+
+		return query;
+	}
+
+	generarQueryOrdenamiento(ordenamientos){
+		//Ordenamiento
+		let ordenamiento={}
+		if(ordenamientos.sort){
+			ordenamiento ={
+							precio_asc : {precio:'asc'},
+							precio_desc:{precio:'desc'},
+							masVendido:{ventas:'desc'}
+									};
+		}
+		return ordenamiento
+	}
+
 	async buscarPorId(id){
 		return await this.productosRepository.buscarPorId(id)
 	}
 
 	async crear(productoJson) {
-		const vendedor = await this.usuariosService.buscarPorId(productoJson.vendedorId)
+		const vendedor = await this.usuariosService.buscarPorId(productoJson.vendedor);
+		const categorias = await Promise.all(productoJson.categorias.map(async (categoriaId) => 
+			{ const categoria= await this.categoriasService.buscarPorId(categoriaId);
+			  return categoria._id; }));
+
 		const nuevoProducto = new Producto(
 			vendedor,
 			productoJson.titulo,
 			productoJson.descripcion,
-			productoJson.categorias,
+			categorias,
 			productoJson.precio,
 			productoJson.moneda,
 			productoJson.stock,
@@ -63,20 +89,15 @@ export class ProductosService {
 		return await this.productosRepository.crear(nuevoProducto)
 		
 	}
-	async buscarPorVendedor(vendedorId, filtros) {
-	const vendedor =await this.usuariosService.buscarPorId(vendedorId);
-    if (!vendedor) throw new Error("Debe especificar un vendedor");
-
-    // Validación de precios
-    if (filtros.precioMin && isNaN(filtros.precioMin))
-      //throw new Error("deben ser numeros");
-    if (filtros.precioMax && isNaN(filtros.precioMax))
-      throw new Error("deben ser numeros "); // generar un error especifico
+	async buscarPorVendedor(pagina,limite,vendedorId, filtros) {
+	
+	filtros.vendedor =vendedorId;
+	const productos = await this.buscarTodosPaginado(pagina,limite,vendedorIdfiltros);
 
 	}
 
 	async agregarVentasDeProducto(idProducto, cantidad) {
-		const producto = await this.productosRepository.agregarVentas(idProducto,cantidad);
+		await this.productosRepository.agregarVentas(idProducto,cantidad);
 
 	}
 }

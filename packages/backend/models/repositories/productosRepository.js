@@ -13,6 +13,10 @@ export class ProductosRepository {
     async buscarPorId(id) {
         return await this.model.findById(id);
     }
+
+    async buscarPorVendedor(idVendedor){
+        return this.model.find({vendedor:idVendedor})
+    }
     async crear(producto) {
         const nuevoProducto = new this.model(producto);
         return await nuevoProducto.save();
@@ -43,7 +47,7 @@ export class ProductosRepository {
             { $inc: { ventas: cantidad }}
         );
         //Aquí no verificamos si no existe el id del producto, porque ya se validó antes de llamar a este método.
-        return await productoActualizado .save();
+        await productoActualizado .save();
         
     }
 
