@@ -22,7 +22,7 @@ export class Producto {
         this.vendedor = vendedor;
         this.titulo = titulo;
         this.descripcion = descripcion;
-		if(!categorias)
+		if(categorias)
         	this.categorias = [];
             this.precio = precio;
             this.moneda = moneda;

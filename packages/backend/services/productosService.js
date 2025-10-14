@@ -11,14 +11,14 @@ export class ProductosService {
 	async buscarTodosPaginado(pagina,cantidadPorPagina,querys) {
 
 		const comienzo=(pagina-1)*cantidadPorPagina;
-		const final= comienzo + cantidadPorPagina;
+		const limite=cantidadPorPagina;
 
 		const filtros=this.generarQueryFiltros(querys);
 		const ordenamiento=this.generarQueryOrdenamiento(querys)
 
-		const productos = await this.productosRepository.buscarTodos(filtros, ordenamiento);
-		const total = this.productosRepository.count();
-		let totalPaginas=1;
+		const productos = await this.productosRepository.buscarTodos(filtros, ordenamiento,comienzo,limite);
+		const total = await this.productosRepository.count();
+		let totalPaginas=0;
 		if(!total==0){
         	totalPaginas = Math.ceil(total / cantidadPorPagina);
 		}
@@ -53,14 +53,23 @@ export class ProductosService {
 	generarQueryOrdenamiento(ordenamientos){
 		//Ordenamiento
 		let ordenamiento={}
-		if(ordenamientos.sort){
-			ordenamiento ={
-							precio_asc : {precio:'asc'},
-							precio_desc:{precio:'desc'},
-							masVendido:{ventas:'desc'}
-									};
+		if (ordenamientos?.sort) {
+		switch (ordenamientos.sort) {
+			case "precio_asc":
+				ordenamiento = { precio: 1 };
+				break;
+			case "precio_desc":
+				ordenamiento = { precio: -1 };
+				break;
+			case "masVendido":
+				ordenamiento = { ventas: -1 };
+				break;
+			default:
+				ordenamiento = {};
+				break;
 		}
-		return ordenamiento
+		}
+		return ordenamiento;
 	}
 
 	async buscarPorId(id){
@@ -69,9 +78,12 @@ export class ProductosService {
 
 	async crear(productoJson) {
 		const vendedor = await this.usuariosService.buscarPorId(productoJson.vendedor);
-		const categorias = await Promise.all(productoJson.categorias.map(async (categoriaId) => 
-			{ const categoria= await this.categoriasService.buscarPorId(categoriaId);
-			  return categoria._id; }));
+		const categorias = await Promise.all(
+  		productoJson.categorias.map(async (categoriaId) => {
+    	const categoria = await this.categoriasService.buscarPorId(categoriaId);
+    	return categoria;
+  		})
+		);
 
 		const nuevoProducto = new Producto(
 			vendedor,

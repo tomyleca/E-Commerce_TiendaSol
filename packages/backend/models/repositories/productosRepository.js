@@ -5,9 +5,9 @@ export class ProductosRepository {
         this.model= ProductoModel;
     }
 
-    async buscarTodos(filtros,ordenamiento) {
+    async buscarTodos(filtros,ordenamiento,comienzo,limite) {
         
-        return await this.model.find(filtros).sort(ordenamiento)
+        return await this.model.find(filtros).sort(ordenamiento).skip(comienzo).limit(limite);
     }
 
     async buscarPorId(id) {
@@ -52,7 +52,7 @@ export class ProductosRepository {
     }
 
     async count(){
-        return this.model.countDocuments();
+        return await this.model.countDocuments();
     }
 
 }
