@@ -8,13 +8,14 @@ export default function productoRoutes(getController) {
 	const router = express.Router()
 
 	//Get Productos
-	router.get(pathPedido, (req, res,next) => {
+	router.get(pathPedido, (req, res, next) => {
 		try {
 			getController(ProductosController).buscarTodos(req, res)
 		} catch (error) {
 			next(error)
 		}
-		})
+	})
+
 	//Crear pedido
 	router.post(pathPedido, async (req, res, next) => {
 		try {
@@ -26,7 +27,7 @@ export default function productoRoutes(getController) {
 	})
 
 	router.get('/vendedores/:id/productos', (req, res) => {
-			getController(ProductosController).buscarProductosDeVendedor(req, res);
+		getController(ProductosController).buscarProductosDeVendedor(req, res);
 	});
 
 	//router.use(generalErrorHandler)

@@ -12,6 +12,7 @@ export default function pedidoRoutes(getController) {
 	router.get(pathPedido, (req, res) => {
 		getController(PedidosController).buscarTodos(req, res)
 	})
+
 	//Crear pedido
 	router.post(pathPedido, async (req, res, next) => {
 		try {
@@ -42,10 +43,8 @@ export default function pedidoRoutes(getController) {
 		}
 	});
 
-
 	router.use(pedidoErrorHandler)
 	router.use(generalErrorHandler)
-
 
 	return router
 }
