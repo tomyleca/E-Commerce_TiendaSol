@@ -21,10 +21,20 @@ export function generalErrorHandler(err, req, res, next) {
 		return
 	}
 
+	// CastError -> tratar como NotFound
+    if (err?.name === 'CastError' && err?.kind === 'ObjectId') {
+       
+        const entidad = 'Recurso';
+        const nf = new NotFound(entidad, err?.value);
+        return res.status(404).json({ error: nf.message });
+    }
+
 	if (err instanceof NotFound){
 		res.status(404).json({error: err.message});
 		return
 	}
+
+
 
 
 	

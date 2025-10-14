@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { FormatoZodError } from "../errors/formatoZodError.js"
 import { FormatoInvalidoDeId } from "../errors/formatoInvalidoDeId.js"
+import { chequearID } from "./utilsControllers.js"
 
 export class UsuariosController {
 	constructor(usuariosService) {
@@ -21,7 +22,8 @@ export class UsuariosController {
 			if (!resultBody.success) {
 				throw new FormatoZodError(resultBody.error)
 			}
-			const usuarioCreado = await this.usuariosService.crear(resultBody.data)
+			const usuarioCreado = await this.usuariosService
+				.crear(resultBody.data)
 			
 			res.status(201).json(usuarioCreado)
 
@@ -30,22 +32,24 @@ export class UsuariosController {
 	async buscarHistorialDePedidos(req,res){
 		const id=req.params.id
 		
-		const idUsuario= idTransform.safeParse(id)
-		if(idUsuario.error) {
-			throw new FormatoInvalidoDeId(id) 
+		const idUsuario= chequearID(id)
+		if(!idUsuario) {
+			throw new FormatoInvalidoDeId(id)
 		}
 		
-		const historialPedidos = await this.usuariosService.buscarHistorialDePedidos(idUsuario.data)
+		const historialPedidos = await this.usuariosService
+			.buscarHistorialDePedidos(idUsuario)
+
 		res.status(200).json(historialPedidos)
 	}
 
 	async getNotificaciones(req,res){
 		const id=req.params.id
-		const idUsuario= idTransform.safeParse(id)
-
-		if(idUsuario.error) {
-			throw new FormatoInvalidoDeId(id) 
+		const idUsuario= chequearID(id)
+		if(!idUsuario) {
+			throw new FormatoInvalidoDeId(id)
 		}
+		
 
 		const queryParams = queryNotificacionSchema.safeParse(req.query)
 
@@ -53,27 +57,26 @@ export class UsuariosController {
 			throw new FormatoZodError(queryParams.error)
 		}
 
-		const notificaciones = await this.usuariosService.getNotificaciones(idUsuario.data, queryParams.data.leidas)
+		const notificaciones = await this.usuariosService.getNotificaciones(idUsuario, queryParams.data.leidas)
 		
 		res.status(200).json(notificaciones)
 	}
 
 	async leerNotificacion(req,res){
 		const id=req.params.id
-		const idUsuario= idTransform.safeParse(id)
+		const idUsuario= chequearID(id)
+		if(!idUsuario) {
+			throw new FormatoInvalidoDeId(id)
+		}
 		
-		if(idUsuario.error) {
-			throw new FormatoInvalidoDeId(id) 
+
+		let idNotificacion=req.params.notificacionId
+		idNotificacion= chequearID(idNotificacion)
+		if(!idNotificacion) {
+			throw new FormatoInvalidoDeId(idNotificacion)
 		}
-
-		const notificacionId=req.params.notificacionId
-		const idNotificacion= idTransform.safeParse(notificacionId)
-
-		if(idNotificacion.error) {
-			throw new FormatoInvalidoDeId(notificacionId)
-		}
-
-		const notificacion = await this.usuariosService.leerNotificacion(idUsuario.data, idNotificacion.data)
+		
+		const notificacion = await this.usuariosService.leerNotificacion(idUsuario, idNotificacion)
 		res.status(200).json(notificacion)
 	}
 
@@ -92,12 +95,7 @@ const usuarioSchema = z.object({
 	
 
 
-//Ojo que por esto hay que llamarlo con .data despues
-const idTransform = z.string().refine((val) => {
-  return isNaN(Number(val)); // true si NO es un número
-}, {
-  message: "id must NOT be a number",
-});
+
 
 //PARA VALIDAD QUE SEA UN BOOLEAN Y QUE SE COMPORTE COMO TAL
 const queryNotificacionSchema = z.object({
