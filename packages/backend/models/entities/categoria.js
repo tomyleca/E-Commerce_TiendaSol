@@ -4,7 +4,7 @@ export class Categoria {
         z.object({
             nombre: z.string()
         })
-
+		this.id = null;
         this.nombre = nombre;
     }
 }

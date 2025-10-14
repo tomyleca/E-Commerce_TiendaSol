@@ -10,7 +10,11 @@ export class ProductosController {
 
 
 	async buscarTodos(req, res) {
-		const {pagina =1, limite= 5 }= req.query;
+		const parsedQuerys = pagQuerySchema.safeParse(req.query);
+        if (!parsedQuerys.success) {
+            throw new FormatoZodError(parsedQuerys.error);
+        }
+		const { pagina, limite } = parsedQuerys.data;
 		const querys = req.query;
 		const productos = await this.productosService.buscarTodosPaginado(pagina,limite,querys);
 		if(productos.data.length === 0) {
@@ -51,13 +55,18 @@ export class ProductosController {
 
 
 export const productoSchema = z.object({
-  vendedor: z.string(),
+  vendedorId: z.string(),
   titulo: z.string(),
   descripcion: z.string(),
-  categorias: z.array(z.string()),
+  categoriasId: z.array(z.string()),
   precio: z.number(),
   moneda: z.string(),
   stock: z.number().int(),
   fotos: z.array(z.string()).optional(),
   activo: z.boolean().optional()
+});
+
+const pagQuerySchema = z.object({
+  pagina: z.coerce.number().int().min(1).default(1),
+  limite: z.coerce.number().int().min(1).max(100).default(5),
 });

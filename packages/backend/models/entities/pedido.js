@@ -17,7 +17,7 @@ export class Pedido {
 			items: z.array(z.instanceof(ItemPedido)),
 			direccionEntrega: z.instanceof(DireccionEntrega),
 		})
-
+		this.id =null;
 		this.comprador = comprador
 		this.itemsPedido = items;
 		this.vendedor = items[0].producto.vendedor; // Asumiendo que todos los productos son del mismo vendedor

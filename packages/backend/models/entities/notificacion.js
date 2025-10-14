@@ -15,7 +15,7 @@ export class Notificacion {
             
         })
 
-        
+        this.id = null;
         this.usuarioDestino = usuarioDestino;
         this.mensaje = mensaje;
         this.fechaAlta = dayjs().toDate();

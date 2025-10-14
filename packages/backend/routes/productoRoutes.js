@@ -25,10 +25,14 @@ export default function productoRoutes(getController) {
 		}
 	})
 
-	router.get('/vendedores/:id/productos', (req, res) => {
-			getController(ProductosController).buscarProductosDeVendedor(req, res);
+	router.get('/vendedores/:id/productos', async (req, res, next) => {
+		try {
+			await getController(ProductosController).buscarProductosDeVendedor(req, res);
+		} catch (error) {
+			next(error);
+		}
 	});
 
-	//router.use(generalErrorHandler)
+	router.use(generalErrorHandler)
 	return router
 }

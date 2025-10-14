@@ -38,4 +38,6 @@ export class CategoriasRepository {
     async count() {
         return this.model.countDocuments();
     }
+
+	 
 }

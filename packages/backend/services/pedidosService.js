@@ -7,6 +7,7 @@ import {IntentoDeCancelarEnviadoError} from "../errors/intentoDeCancelarEnviadoE
 import { ItemPedido } from "../models/entities/itemPedido.js";
 
 
+
 export class PedidosService {
 	constructor(pedidosRepository, factoryNotificacion, notificacionesService, productosService,usuariosService) {
 		this.pedidosRepository = pedidosRepository
@@ -33,6 +34,10 @@ export class PedidosService {
 		if(!comprador) {
 			throw new NotFound("Usuario", nuevoPedidoJson.compradorId)
 		}
+
+		if (nuevoPedidoJson.items.length === 0) {
+            throw new Error("El pedido debe tener items");
+        }
 		const items = await Promise
 			.all(nuevoPedidoJson.items
 			.map(async item => {
@@ -43,7 +48,9 @@ export class PedidosService {
 				}
 				return new ItemPedido(itemPedido, item.cantidad, item.precioUnitario);
 			}));
-		await this.agregarVentasDePedido(items);
+
+		
+		//await this.agregarVentasDePedido(items);
 
 		const nuevoPedido = new Pedido(
 			comprador,

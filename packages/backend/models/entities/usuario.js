@@ -21,7 +21,7 @@ export class Usuario {
 		if (!Object.values(TipoUsuario).includes(tipo)) //valido que sea un valor posible del enum
 			throw new ValorNoCumpleConEnum("TipoUsuario", tipo)
 
-		
+		this.id = null;
 		this.nombre = nombre
 		this.email = email
 		this.telefono = telefono

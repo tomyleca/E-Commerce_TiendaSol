@@ -9,8 +9,13 @@ export default function pedidoRoutes(getController) {
 	const router = express.Router()
 
 	//Get pedidos
-	router.get(pathPedido, (req, res) => {
-		getController(PedidosController).buscarTodos(req, res)
+	router.get(pathPedido, async (req, res,next) => {
+		try {
+			await getController(PedidosController).buscarTodos(req, res)
+			}
+		catch (error) {
+			next(error)
+		}
 	})
 	//Crear pedido
 	router.post(pathPedido, async (req, res, next) => {

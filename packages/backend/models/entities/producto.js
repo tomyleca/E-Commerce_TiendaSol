@@ -18,7 +18,7 @@ export class Producto {
             
         })
 
-        this.id;
+        this.id = null;
         this.vendedor = vendedor;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -29,6 +29,7 @@ export class Producto {
         this.stock = stock;
         this.fotos = fotos;
         this.activo = true;
+		this.categorias = categorias;
     }
 
 

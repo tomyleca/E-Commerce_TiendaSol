@@ -5,14 +5,21 @@ export class ProductosRepository {
         this.model= ProductoModel;
     }
 
-    async buscarTodos(filtros,ordenamiento) {
+    async buscarTodos(filtros,ordenamiento,pagina,limite) {
         
-        return await this.model.find(filtros).sort(ordenamiento).populate('vendedor');
+        return await this.model.find(filtros)
+		.sort(ordenamiento)
+		.skip(pagina)
+		.limit(limite)
+		.populate('vendedor')
+		.populate('categorias');
     }
 
 	
     async buscarPorId(id) {
-    	return await this.model.findById(id).populate('vendedor');
+    	return await this.model.findById(id)
+		.populate('vendedor')
+		.populate('categorias');
     }
 
     async buscarPorVendedor(idVendedor){

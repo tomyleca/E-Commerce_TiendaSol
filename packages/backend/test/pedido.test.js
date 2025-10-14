@@ -108,6 +108,19 @@ describe('Validar usuario',() => {
 
 		const pedidosRepository = new PedidosRepository()
 
+		// Mock en memoria para evitar persistencia real con Mongoose
+		const _pedidos = []
+		pedidosRepository.crear = jest.fn((pedidoNuevo) => {
+			pedidoNuevo.id = _pedidos.length
+			_pedidos.push(pedidoNuevo)
+			return pedidoNuevo
+		})
+		pedidosRepository.buscarPorId = jest.fn((id) => _pedidos.find(p => p.id === id))
+		pedidosRepository.actualizarEstado = jest.fn((pedido, estado) => {
+			pedido.actualizarEstado(estado)
+			return pedido
+		})
+		pedidosRepository.buscarPorUsuario = jest.fn((idUsuario) => _pedidos.filter(p => p.comprador.id === idUsuario))
 		pedidosService = new PedidosService(pedidosRepository, factoryNotificacion,notificacionesService,productosRepository,usuariosRepository)
 	
 
@@ -126,7 +139,7 @@ describe('Validar usuario',() => {
 
 
 
-	test("No me deja hacer un pedido si no hay stock", () => {
+	test("No me deja hacer un pedido si no hay stock", async () => {
 
 	
 	const nuevoPedidoJson = {
@@ -138,12 +151,11 @@ describe('Validar usuario',() => {
 		direccionEntrega: direccion
 	};
 
-
-	expect(() => pedidosService.crear(nuevoPedidoJson)).toThrow(NoHayStock);
+	await expect(pedidosService.crear(nuevoPedidoJson)).rejects.toThrow(NoHayStock);
 	
 	})
 
-	test("No me deja cancelar un pedido enviado", () => {
+test("No me deja cancelar un pedido enviado", async () => {
 
 	
 	const nuevoPedidoJson = {
@@ -155,7 +167,7 @@ describe('Validar usuario',() => {
 		direccionEntrega: direccion
 	};
 
-	let pedido = pedidosService.crear(nuevoPedidoJson)
+	const pedido = await pedidosService.crear(nuevoPedidoJson)
 
 	pedido.actualizarEstado(EstadoPedido.ENVIADO)
 

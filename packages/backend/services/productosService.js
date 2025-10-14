@@ -1,5 +1,7 @@
 import { Producto } from "../models/entities/producto.js"
 import { Categoria } from "../models/entities/categoria.js";
+import { NotFound } from "../errors/notFound.js";
+import mongoose from 'mongoose';
 
 export class ProductosService {
 	constructor(productosRepository,usuariosService,categoriasService) {
@@ -11,13 +13,17 @@ export class ProductosService {
 	async buscarTodosPaginado(pagina,cantidadPorPagina,querys) {
 
 		const comienzo=(pagina-1)*cantidadPorPagina;
-		const final= comienzo + cantidadPorPagina;
+		
 
-		const filtros=this.generarQueryFiltros(querys);
-		const ordenamiento=this.generarQueryOrdenamiento(querys)
+		const filtros=await this.generarQueryFiltros(querys);
+		if(filtros instanceof Error) {
+			return filtros;
+		}	
 
-		const productos = await this.productosRepository.buscarTodos(filtros, ordenamiento);
-		const total = this.productosRepository.count();
+		const ordenamiento=await this.generarQueryOrdenamiento(querys)
+
+		const productos = await this.productosRepository.buscarTodos(filtros, ordenamiento,comienzo,cantidadPorPagina);
+		const total = await this.productosRepository.count(filtros);
 		let totalPaginas=1;
 		if(!total==0){
         	totalPaginas = Math.ceil(total / cantidadPorPagina);
@@ -25,21 +31,38 @@ export class ProductosService {
         return {
             page:pagina,
             perPage: cantidadPorPagina,
-            total: total, 
+            totalElementos: total, 
             totalPaginas: totalPaginas,
             data: productos
         }
 		
 	}
 
-	generarQueryFiltros (filtros){
+	async generarQueryFiltros (filtros){
 		//Definición de Filtros 
 		let query = {};
         if(filtros.nombre) query.titulo= filtros.nombre;
         if(filtros.descripcion) query.descripcion=filtros.descripcion;
-		if (filtros.categoria){
-			query.categorias =filtros.categoria;
+		
+		// Acepta 'categoria' o 'categorias' y normaliza a array de ObjectId válidos
+		const catParam = filtros.categorias ?? filtros.categoria;
+		if (catParam) {
+			const categorias = Array.isArray(catParam)
+				? catParam
+				: String(catParam).split(',').map(s => s.trim()).filter(Boolean);
+			for (const id of categorias) {
+				if (!mongoose.Types.ObjectId.isValid(id)) {
+					throw new NotFound("Categoria", id);
+				}
+			}
+			query.categorias = { $in: categorias };
 		}
+
+		if (!mongoose.Types.ObjectId.isValid(filtros.vendedor) && filtros.vendedor) {
+                throw new NotFound("Usuario", filtros.vendedor);
+            }
+		 if(filtros.vendedor) query.vendedor =filtros.vendedor;
+
 		// Filtros de rango de precio
 		if (filtros.precioMin || filtros.precioMax) {
 		query.precio = {};
@@ -50,7 +73,7 @@ export class ProductosService {
 		return query;
 	}
 
-	generarQueryOrdenamiento(ordenamientos){
+	async generarQueryOrdenamiento(ordenamientos){
 		//Ordenamiento
 		let ordenamiento={}
 		if(ordenamientos.sort){
@@ -68,10 +91,22 @@ export class ProductosService {
 	}
 
 	async crear(productoJson) {
-		const vendedor = await this.usuariosService.buscarPorId(productoJson.vendedor);
-		const categorias = await Promise.all(productoJson.categorias.map(async (categoriaId) => 
-			{ const categoria= await this.categoriasService.buscarPorId(categoriaId);
-			  return categoria._id; }));
+		const vendedor = await this.usuariosService.buscarPorId(productoJson.vendedorId);
+		if(!vendedor) {
+			throw new NotFound("Usuario", productoJson.vendedorId);
+		}
+		let categorias;
+		if(productoJson.categoriasId) {
+			categorias = await Promise.all(productoJson.categoriasId.map(async (categoriaId) => {
+				const categoria = await this.categoriasService.buscarPorId(categoriaId);
+				if (!categoria) {
+					throw new NotFound("Categoria", categoriaId);
+			  }
+			return categoria;
+		}));
+		} else {
+			categorias = [];
+		}
 
 		const nuevoProducto = new Producto(
 			vendedor,
@@ -91,9 +126,9 @@ export class ProductosService {
 	}
 	async buscarPorVendedor(pagina,limite,vendedorId, filtros) {
 	
-	filtros.vendedor =vendedorId;
-	const productos = await this.buscarTodosPaginado(pagina,limite,vendedorIdfiltros);
-
+	filtros.vendedor = vendedorId;
+	const productos = await this.buscarTodosPaginado(pagina,limite,filtros);
+	return productos;
 	}
 
 	async agregarVentasDeProducto(idProducto, cantidad) {
