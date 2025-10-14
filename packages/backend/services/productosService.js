@@ -74,16 +74,17 @@ export class ProductosService {
 	}
 
 	async generarQueryOrdenamiento(ordenamientos){
-		//Ordenamiento
-		let ordenamiento={}
-		if(ordenamientos.sort){
-			ordenamiento ={
-							precio_asc : {precio:'asc'},
-							precio_desc:{precio:'desc'},
-							masVendido:{ventas:'desc'}
-									};
+		//1=asc y -1=desc
+		switch (ordenamientos?.sort) {
+			case 'precio_asc':
+				return { precio: 1 };
+			case 'precio_desc':
+				return { precio: -1 };
+			case 'masVendido':
+				return { ventas: -1 };
+			default:
+				return {}; // sin orden explícito
 		}
-		return ordenamiento
 	}
 
 	async buscarPorId(id){
@@ -132,7 +133,12 @@ export class ProductosService {
 	}
 
 	async agregarVentasDeProducto(idProducto, cantidad) {
-		await this.productosRepository.agregarVentas(idProducto,cantidad);
+		const producto = await this.buscarPorId(idProducto);
+		if (!producto) {
+			throw new NotFound("Producto", idProducto);
+		}
+		producto.ventas = (producto.ventas || 0) + cantidad;
+		await this.productosRepository.actualizar(producto);
 
 	}
 }

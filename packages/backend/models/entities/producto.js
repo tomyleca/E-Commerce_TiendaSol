@@ -30,6 +30,7 @@ export class Producto {
         this.fotos = fotos;
         this.activo = true;
 		this.categorias = categorias;
+		this.ventas = 0;
     }
 
 

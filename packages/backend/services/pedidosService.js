@@ -35,7 +35,7 @@ export class PedidosService {
 			throw new NotFound("Usuario", nuevoPedidoJson.compradorId)
 		}
 
-		if (nuevoPedidoJson.items.length === 0) {
+		if (nuevoPedidoJson.items.length === 0 || !nuevoPedidoJson.items) {
             throw new Error("El pedido debe tener items");
         }
 		const items = await Promise
@@ -49,9 +49,6 @@ export class PedidosService {
 				return new ItemPedido(itemPedido, item.cantidad, item.precioUnitario);
 			}));
 
-		
-		//await this.agregarVentasDePedido(items);
-
 		const nuevoPedido = new Pedido(
 			comprador,
 			items,
@@ -63,6 +60,9 @@ export class PedidosService {
 		if (!nuevoPedido.validarStock()) {
 			throw new NoHayStock();
 		} //Aca se valida si el stock esta disponible.
+
+		// Registrar ventas solo si el stock es suficiente
+		await this.agregarVentasDePedido(items);
 
 
 		//Creo la notificación según el pedido
@@ -85,7 +85,7 @@ export class PedidosService {
         throw new NotFound(Pedido, idPedido);
     }
 
-		if (pedido.estado === EstadoPedido.ENVIADO) {
+	if (pedido.estado === EstadoPedido.ENVIADO) {
 			throw new IntentoDeCancelarEnviadoError();
 		}
 
@@ -122,9 +122,13 @@ export class PedidosService {
 	}
 
 	async agregarVentasDePedido(items) {
-    await Promise.all(
-        items.map(item => this.productosService.agregarVentasDeProducto(item.producto.id, item.cantidad))
-    );
-}
+		if (items.length === 0 || !items) {
+			throw new Error("El pedido debe tener items");
+		}
+	
+		await Promise.all(
+			items.map(item => this.productosService.agregarVentasDeProducto(item.producto.id, item.cantidad))
+		);
+	}
 
 }

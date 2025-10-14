@@ -1,5 +1,5 @@
 // Aumenta el timeout global de Jest para operaciones de setup lentas (descarga de Mongo binario). Sino no corre el test
-import { expect, jest } from '@jest/globals';
+import { expect, jest, test } from '@jest/globals';
 jest.setTimeout(30000);
 
 import mongoose from 'mongoose';
@@ -129,13 +129,51 @@ test('filtros de productos por categoria', async () => {
 
   const resultado = await productosService.buscarTodosPaginado(pagina, limite, { categoria: categoria1Id });
 
-  // Debe traer productos filtrados por la categoría indicada
+  
   expect(Array.isArray(resultado.data)).toBe(true);
   expect(resultado.data.length).toBeGreaterThanOrEqual(2);
   for (const prod of resultado.data) {
     const cats = (prod.categorias || []).map(c => c.id || c._id?.toString() || c);
     expect(cats).toContain(categoria1Id);
   }
+});
+
+test('filtros de productos por vendedor', async () => {
+  const pagina = 1;
+  const limite = 5;
+  const resultado = await productosService.buscarTodosPaginado(pagina, limite, { vendedor: vendedor1Id });
+
+  expect(Array.isArray(resultado.data)).toBe(true);
+  expect(resultado.data.length).toBeGreaterThan(0);
+  for (const prod of resultado.data) {
+    expect(prod.vendedor.id).toBe(vendedor1Id);
+  }
+});
+
+test('ordenar productos por precio ascendente', async () => {
+  const pagina = 1;
+  const limite = 5;
+  const resultado = await productosService.buscarTodosPaginado(pagina, limite, { sort: 'precio_asc' });
+
+  expect(Array.isArray(resultado.data)).toBe(true);
+  expect(resultado.data.length).toBeGreaterThan(0);
+  for (let i = 0; i < resultado.data.length - 1; i++) {
+    expect(resultado.data[i + 1].precio).toBeGreaterThanOrEqual(resultado.data[i].precio);
+  }
+});
+
+test('ordenar productos por ventas descendente', async () => {
+  // Primero, simular algunas ventas para los productos
+  const productos = await productosService.buscarTodosPaginado(1, 2, {});
+  await productosService.agregarVentasDeProducto(productos.data[0].id, 10); // 10 ventas
+  await productosService.agregarVentasDeProducto(productos.data[1].id, 50); // 50 ventas
+
+  const pagina = 1;
+  const limite = 5;
+  const resultado = await productosService.buscarTodosPaginado(pagina, limite, { sort: 'masVendido' });
+  expect(Array.isArray(resultado.data)).toBe(true);
+  expect(resultado.data[0].id).toBe(productos.data[1].id);
+  expect(resultado.data[1].id).toBe(productos.data[0].id);
 });
 
 afterAll(async () => {

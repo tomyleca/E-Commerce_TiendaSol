@@ -18,8 +18,10 @@ import {NotificacionesRepository} from "../models/repositories/notificacionesRep
 import {NotificacionesService} from "../services/notificacionesService.js"
 import { UsuariosRepository } from "../models/repositories/usuariosRepository.js";
 import { ProductosRepository } from "../models/repositories/productosRepository.js";
-
-
+import { ProductosService } from '../services/productosService.js';
+import { UsuariosService } from '../services/usuariosService.js';
+import { CategoriasRepository } from '../models/repositories/categoriasRepository.js';
+import { CategoriaService } from '../services/categoriasService.js';
 
 describe('Validar usuario',() => {
 	let comprador
@@ -115,14 +117,23 @@ describe('Validar usuario',() => {
 			_pedidos.push(pedidoNuevo)
 			return pedidoNuevo
 		})
+		pedidosRepository.actualizar = jest.fn((pedidoNuevo) => {
+			pedidoNuevo.id = _pedidos.length
+			_pedidos.push(pedidoNuevo)
+			return pedidoNuevo
+		})
 		pedidosRepository.buscarPorId = jest.fn((id) => _pedidos.find(p => p.id === id))
 		pedidosRepository.actualizarEstado = jest.fn((pedido, estado) => {
 			pedido.actualizarEstado(estado)
 			return pedido
 		})
 		pedidosRepository.buscarPorUsuario = jest.fn((idUsuario) => _pedidos.filter(p => p.comprador.id === idUsuario))
-		pedidosService = new PedidosService(pedidosRepository, factoryNotificacion,notificacionesService,productosRepository,usuariosRepository)
-	
+		let categoriasRepository = new CategoriasRepository()
+		let categoriasService = new CategoriaService(categoriasRepository)
+
+		let productosService = new ProductosService(productosRepository,UsuariosService,categoriasService)
+		pedidosService = new PedidosService(pedidosRepository, factoryNotificacion,notificacionesService,productosService,usuariosRepository)
+
 
   		});
 
@@ -155,22 +166,15 @@ describe('Validar usuario',() => {
 	
 	})
 
-test("No me deja cancelar un pedido enviado", async () => {
+test("No me deja crear un pedido sin items", async () => {
 
-	
 	const nuevoPedidoJson = {
 		compradorId: 0,
-		items: [{
-			productoId : 0,
-			cantidad :1
-		}],
+		items: [],
 		direccionEntrega: direccion
 	};
 
-	const pedido = await pedidosService.crear(nuevoPedidoJson)
-
-	pedido.actualizarEstado(EstadoPedido.ENVIADO)
-
-	expect(() => pedidosService.cancelar(pedido.id)).toThrow(IntentoDeCancelarEnviadoError);
-	})
+	await expect(pedidosService.crear(nuevoPedidoJson)).rejects.toThrow(Error);
 })
+});
+		

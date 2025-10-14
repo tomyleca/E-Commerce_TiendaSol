@@ -14,7 +14,7 @@ export class Pedido {
 	constructor(comprador, items, direccionEntrega) {
 		z.object({
 			comprador: z.instanceof(Usuario),
-			items: z.array(z.instanceof(ItemPedido)),
+			items: z.array(z.instanceof(ItemPedido)).min(1),
 			direccionEntrega: z.instanceof(DireccionEntrega),
 		})
 		this.id =null;
