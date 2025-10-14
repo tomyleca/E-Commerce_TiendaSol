@@ -58,7 +58,7 @@ const categoriaService = new CategoriaService(categoriasRepository)
 
 
 const usuariosService = new UsuariosService(usuariosRepository, notificacionesService)
-const productosService = new ProductosService(productosRepository, usuariosService)
+const productosService = new ProductosService(productosRepository, usuariosService,categoriaService)
 const pedidosService = new PedidosService(pedidosRepository, factoryNotificacion, notificacionesService, productosService, usuariosService)
 
 //Es necesario setearlo despues porque el pedidosService depende del usuarioService y viceversa

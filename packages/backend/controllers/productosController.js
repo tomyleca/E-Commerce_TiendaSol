@@ -10,7 +10,14 @@ export class ProductosController {
 
 
 	async buscarTodos(req, res) {
-		const productos = await this.productosService.buscarTodos()
+		const {pagina =1, limite= 5 }= req.query;
+		const querys = req.query;
+		const productos = await this.productosService.buscarTodosPaginado(pagina,limite,querys);
+		if(productos.data.length === 0) {
+			//Podria cambiar el error
+			return res.status(200).json({ data: [], message: "No se encontraron productos" });
+
+		}
 		res.json(productos)
 	}
 
@@ -28,11 +35,12 @@ export class ProductosController {
 	}
 	
 	async buscarProductosDeVendedor(req,res){
-		const vendedor = req.params.id;
-		const filtros =req.query;
+		const idVendedor = req.params.id;
+		const {pagina =1, limite= 5 }= req.query;
+		const querys = req.query;
 		
-		await this.productosService.buscarPorVendedor(vendedor,filtros)
-
+		const productosDeVendedor=await this.productosService.buscarPorVendedor(pagina,limite,idVendedor,querys);
+		res.json(productosDeVendedor);
 	}
 
 }
@@ -40,15 +48,13 @@ export class ProductosController {
 
 
 
-const categoriaSchema = z.object({
-  nombre: z.string()
-});
+
 
 export const productoSchema = z.object({
-  vendedorId: z.string(),
+  vendedor: z.string(),
   titulo: z.string(),
   descripcion: z.string(),
-  categorias: z.array(categoriaSchema).optional(),
+  categorias: z.array(z.string()),
   precio: z.number(),
   moneda: z.string(),
   stock: z.number().int(),

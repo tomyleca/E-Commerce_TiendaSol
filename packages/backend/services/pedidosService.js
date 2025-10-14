@@ -43,6 +43,7 @@ export class PedidosService {
 				}
 				return new ItemPedido(itemPedido, item.cantidad, item.precioUnitario);
 			}));
+		await this.agregarVentasDePedido(items);
 
 		const nuevoPedido = new Pedido(
 			comprador,
@@ -112,4 +113,11 @@ export class PedidosService {
 
 		return pedido;
 	}
+
+	async agregarVentasDePedido(items) {
+    await Promise.all(
+        items.map(item => this.productosService.agregarVentasDeProducto(item.producto.id, item.cantidad))
+    );
+}
+
 }
