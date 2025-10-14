@@ -17,6 +17,7 @@ export default function pedidoRoutes(getController) {
 			next(error)
 		}
 	})
+
 	//Crear pedido
 	router.post(pathPedido, async (req, res, next) => {
 		try {
@@ -46,10 +47,8 @@ export default function pedidoRoutes(getController) {
 		}
 	});
 
-
 	router.use(pedidoErrorHandler)
 	router.use(generalErrorHandler)
-
 
 	return router
 }

@@ -2,15 +2,15 @@ import { z } from "zod"
 import { FormatoZodError } from "../errors/formatoZodError.js"
 
 export class CategoriaController {
-	constructor(service) {
+    constructor(service) {
 
         this.service = service
     }
 
-	async obtenerCategorias(req, res) {
-    
-	    const categorias = await this.service.buscarTodos()
-		res.json(categorias)
+    async obtenerCategorias(req, res) {
+
+        const categorias = await this.service.buscarTodos()
+        res.json(categorias)
     }
     
     async crear(req,res){

@@ -15,12 +15,11 @@ export default function pedidoRoutes(getController) {
 			next(error)
 		}
 	})
-	
 
 	//Obtener el historial de pedidos de un usuario
-	router.get(pathUsuario + '/:id/pedidos', async (req,res,next) => {
+	router.get(pathUsuario + '/:id/pedidos', async (req, res, next) => {
 		try {
-			await getController(UsuariosController).buscarHistorialDePedidos(req,res)
+			await getController(UsuariosController).buscarHistorialDePedidos(req, res)
 		} catch (error) {
 			next(error)
 		}
@@ -28,31 +27,32 @@ export default function pedidoRoutes(getController) {
 
 	//Obtener las notificaciones de un usuario
 	//Query param: ?leidas=true/false
-	router.get(pathUsuario + '/:id/notificaciones', async (req,res,next) => {
+	router.get(pathUsuario + '/:id/notificaciones', async (req, res, next) => {
 		try {
-			await getController(UsuariosController).getNotificaciones(req,res)
+			await getController(UsuariosController).getNotificaciones(req, res)
 		} catch (error) {
 			next(error)
 		}
 	})
 
 	//Leer una notificacion
-	router.get(pathUsuario + '/:id/notificaciones/:notificacionId', async (req,res,next) => {
+	router.get(pathUsuario + '/:id/notificaciones/:notificacionId', async (req, res, next) => {
 		try {
-			await getController(UsuariosController).leerNotificacion(req,res)
+			await getController(UsuariosController).leerNotificacion(req, res)
 		} catch (error) {
 			next(error)
 		}
 	})
 
 	//Crear un usuario
-	router.post(pathUsuario, async (req,res,next) => {
+	router.post(pathUsuario, async (req, res, next) => {
 		try {
-			await getController(UsuariosController).crear(req,res)
-		} 
+			await getController(UsuariosController).crear(req, res)
+		}
 		catch (error) {
 			next(error)
-	}})
+		}
+	})
 
 	router.use(usuarioErrorHandler)
 	router.use(generalErrorHandler)
