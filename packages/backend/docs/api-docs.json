@@ -29,7 +29,13 @@
                 "summary": "Crear un pedido",
                 "requestBody": {
                     "required": true,
-                    "content": {}
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PedidoInput"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "201": {
@@ -113,7 +119,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Producto"
+                                "$ref": "#/components/schemas/ProductoInput"
                             }
                         }
                     }
@@ -121,7 +127,13 @@
                 "responses": {
                     "201": {
                         "description": "Producto creado",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Pedido"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -152,7 +164,13 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {}
+                        "application/json": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsuarioInput"
+                                }
+                            }
+                        }
                     }
                 },
                 "responses": {
@@ -299,7 +317,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Categoria"
+                                "$ref": "#/components/schemas/CategoriaInput"
                             }
                         }
                     }
@@ -307,7 +325,13 @@
                 "responses": {
                     "201": {
                         "description": "Categoría almacenada",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Categoria"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -602,12 +626,16 @@
                     }
                 }
             },
+            "PedidoInput": {},
+            "ProductoInput": {},
+            "UsuarioInput": {},
+            "CategoriaInput": {},
             "Clase incorrecta": {
                 "type": "object",
                 "properties": {
                     "message": {
                         "type": "string",
-                        "example": ""
+                        "example": "El valor no pertenece a la clase esperada: "
                     }
                 }
             },
@@ -625,7 +653,7 @@
                 "properties": {
                     "message": {
                         "type": "string",
-                        "example": ""
+                        "example": "La siguiente id no cumple con el formato correcto: "
                     }
                 }
             },
@@ -643,7 +671,7 @@
                 "properties": {
                     "message": {
                         "type": "string",
-                        "example": ""
+                        "example": ": No se puede cancelar un producto ya enviado"
                     }
                 }
             },
@@ -652,7 +680,7 @@
                 "properties": {
                     "message": {
                         "type": "string",
-                        "example": ""
+                        "message": "Todos los itemes de un pedido deben tener asociada la misma moneda"
                     }
                 }
             },
@@ -661,7 +689,7 @@
                 "properties": {
                     "message": {
                         "type": "string",
-                        "example": ""
+                        "message": "No hay stock suficiente para realizar el pedido"
                     }
                 }
             },
