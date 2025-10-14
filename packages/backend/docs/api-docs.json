@@ -51,16 +51,16 @@
                 }
             }
         },
-        "/pedido/cancelar": {
+        "/pedido/{id}/cancelar": {
             "post": {
                 "summary": "Cancelar pedido",
                 "parameters": [
                     {
-                        "in": "query",
+                        "in": "path",
                         "name": "id",
-                        "schema": {
-                            "type": "integer"
-                        }
+                        "required": true,
+                        "schema": { "type": "string" },
+                        "description": "ID del pedido"
                     }
                 ],
                 "description": "Cancelar pedido mediante ID numérico del pedido",
@@ -71,16 +71,16 @@
                 }
             }
         },
-        "/pedido/enviar": {
+        "/pedido/{id}/enviar": {
             "post": {
                 "summary": "Enviar pedido",
                 "parameters": [
                     {
-                        "in": "query",
+                        "in": "path",
                         "name": "id",
-                        "schema": {
-                            "type": "integer"
-                        }
+                        "required": true,
+                        "schema": { "type": "string" },
+                        "description": "ID del pedido"
                     }
                 ],
                 "description": "Enviar pedido mediante ID numérico del pedido",
@@ -94,15 +94,25 @@
         "/producto": {
             "get": {
                 "summary": "Listar productos",
+                "parameters": [
+                    { "in": "query", "name": "pagina", "schema": { "type": "integer", "minimum": 1 }, "description": "Página (default 1)" },
+                    { "in": "query", "name": "limite", "schema": { "type": "integer", "minimum": 1, "maximum": 100 }, "description": "Límite por página (default 5)" },
+                    { "in": "query", "name": "nombre", "schema": { "type": "string" }, "description": "Filtrar por título exacto" },
+                    { "in": "query", "name": "descripcion", "schema": { "type": "string" }, "description": "Filtrar por descripción" },
+                    { "in": "query", "name": "categoria", "schema": { "type": "string" }, "description": "ID de una categoría" },
+                    { "in": "query", "name": "categorias", "schema": { "type": "string" }, "description": "IDs de categorías separadas por coma" },
+                    { "in": "query", "name": "vendedor", "schema": { "type": "string" }, "description": "ID de vendedor" },
+                    { "in": "query", "name": "precioMin", "schema": { "type": "number" }, "description": "Precio mínimo" },
+                    { "in": "query", "name": "precioMax", "schema": { "type": "number" }, "description": "Precio máximo" },
+                    { "in": "query", "name": "sort", "schema": { "type": "string", "enum": ["precio_asc", "precio_desc", "masVendido"] }, "description": "Ordenamiento" }
+                ],
                 "responses": {
                     "200": {
                         "description": "Lista de productos",
                         "content": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "#/components/schemas/Productos"
-                                    }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Productos"
                                 }
                             }
                         }
@@ -130,7 +140,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Pedido"
+                                    "$ref": "#/components/schemas/Producto"
                                 }
                             }
                         }
@@ -145,11 +155,9 @@
                     "200": {
                         "description": "Lista de usuarios",
                         "content": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "#/components/schemas/Usuarios"
-                                    }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuarios"
                                 }
                             }
                         }
@@ -165,10 +173,8 @@
                     "required": true,
                     "content": {
                         "application/json": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UsuarioInput"
-                                }
+                            "schema": {
+                                "$ref": "#/components/schemas/UsuarioInput"
                             }
                         }
                     }
@@ -187,28 +193,21 @@
                 }
             }
         },
-        "/usuario/:id/notificaciones": {
+        "/usuario/{id}/notificaciones": {
             "get": {
                 "summary": "Listar Notificaciones",
                 "description": "Lista de notificaciones basado en un ID de usuario",
                 "parameters": [
-                    {
-                        "in": "query",
-                        "name": "id",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
+                    { "in": "path", "name": "id", "required": true, "schema": { "type": "string" }, "description": "ID de usuario" },
+                    { "in": "query", "name": "leidas", "schema": { "type": "string", "enum": ["true", "false"] }, "description": "Filtrar por estado de lectura (string 'true' | 'false')", "example": "true" }
                 ],
                 "responses": {
                     "200": {
                         "description": "Lista de notificaciones",
                         "content": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "#/components/schemas/Notificaciones"
-                                    }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Notificaciones"
                                 }
                             }
                         }
@@ -219,25 +218,13 @@
                 }
             }
         },
-        "/usuario/:id/notificaciones/:notificacionId": {
+        "/usuario/{id}/notificaciones/{notificacionId}": {
             "get": {
                 "summary": "Buscar Notificación",
                 "description": "Buscar notificación basado en un ID de usuario y el ID de la notificación",
                 "parameters": [
-                    {
-                        "in": "query",
-                        "name": "id",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "in": "query",
-                        "name": "idNotifación",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
+                    { "in": "path", "name": "id", "required": true, "schema": { "type": "string" }, "description": "ID de usuario" },
+                    { "in": "path", "name": "notificacionId", "required": true, "schema": { "type": "string" }, "description": "ID de la notificación" }
                 ],
                 "responses": {
                     "200": {
@@ -250,28 +237,20 @@
                 }
             }
         },
-        "/usuario/:id/pedidos": {
+        "/usuario/{id}/pedidos": {
             "get": {
                 "summary": "Listar pedidos por usuario",
                 "description": "Lista de pedidos basado en un ID de usuario",
                 "parameters": [
-                    {
-                        "in": "query",
-                        "name": "id",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
+                    { "in": "path", "name": "id", "required": true, "schema": { "type": "string" }, "description": "ID de usuario" }
                 ],
                 "responses": {
                     "200": {
                         "description": "Lista de pedidos",
                         "content": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "#/components/schemas/Pedidos"
-                                    }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Pedidos"
                                 }
                             }
                         }
@@ -529,6 +508,7 @@
                         "type": "boolean"
                     }
                 }
+		
             },
             "Cambio": {
                 "type": "object",
@@ -626,10 +606,90 @@
                     }
                 }
             },
-            "PedidoInput": {},
-            "ProductoInput": {},
-            "UsuarioInput": {},
-            "CategoriaInput": {},
+            "PedidoInput": {
+                "type": "object",
+                "properties": {
+                    "compradorId": { "type": "string" },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "productoId": { "type": "string" },
+                                "cantidad": { "type": "integer", "minimum": 1 },
+                                "precioUnitario": { "type": "number", "minimum": 0 }
+                            },
+                            "required": ["productoId", "cantidad"]
+                        }
+                    },
+                    "total": { "type": "number", "minimum": 0 },
+                    "moneda": { "type": "string" },
+                    "direccionEntrega": { "type": "string" }
+                },
+                "required": ["compradorId", "items", "moneda", "direccionEntrega"],
+				"example":
+				{
+					"compradorId": "68edac466a578ef94507d5d8",
+					"items": [
+						{
+							"productoId" : "68edaec5950e86a7f55ac643",
+							"cantidad": 1,
+							"precioUnitario" : 100
+						}
+					],
+					"total": 600.99,
+					"moneda": "PESO_ARG",
+					"direccionEntrega":  "direccion"
+					}
+            },
+            "ProductoInput": {
+                "type": "object",
+                "properties": {
+                    "vendedorId": { "type": "string" },
+                    "titulo": { "type": "string" },
+                    "descripcion": { "type": "string" },
+                    "categoriasId": { "type": "array", "items": { "type": "string" } },
+                    "precio": { "type": "number" },
+                    "moneda": { "type": "string" },
+                    "stock": { "type": "integer" },
+                    "fotos": { "type": "array", "items": { "type": "string" } },
+                    "activo": { "type": "boolean" }
+                },
+                "required": ["vendedorId", "titulo", "descripcion", "precio", "moneda", "stock"],
+				"example": 
+					{
+					"vendedorId" : "68e7bb52efb2787d96793cb0",
+					"titulo": "Producto de prueba",
+					"categoriasId": ["68edae1ba65e6921547cbe29"],
+					"descripcion": "Este es un producto de prueba",
+					"precio": 1100,
+					"moneda": "PESO_ARG",
+					"stock": 1000
+		}
+            },
+            "UsuarioInput": {
+                "type": "object",
+                "properties": {
+                    "nombre": { "type": "string" },
+                    "email": { "type": "string" },
+                    "telefono": { "type": "number" },
+                    "tipo": { "type": "string" }
+                },
+                "required": ["nombre", "email", "telefono", "tipo"],
+				"example": {
+				"nombre": "Usuario",
+				"email": "mail@gmail.com",
+				"telefono": 112243453,
+				"tipo": "VENDEDOR"
+			}
+            },
+            "CategoriaInput": {
+                "type": "object",
+                "properties": {
+                    "nombre": { "type": "string", "minLength": 2, "maxLength": 100 }
+                },
+                "required": ["nombre"]
+            },
             "Clase incorrecta": {
                 "type": "object",
                 "properties": {
