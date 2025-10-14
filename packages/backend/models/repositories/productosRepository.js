@@ -6,11 +6,12 @@ export class ProductosRepository {
     }
 
     async buscarTodos() {
-        return await this.model.find();
+        return await this.model.find().populate('vendedor');
     }
 
+	
     async buscarPorId(id) {
-        return await this.model.findById(id);
+    	return await this.model.findById(id).populate('vendedor');
     }
     async crear(producto) {
         const nuevoProducto = new this.model(producto);

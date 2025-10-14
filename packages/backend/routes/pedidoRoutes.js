@@ -24,20 +24,19 @@ export default function pedidoRoutes(getController) {
 	})
 
 	// Cancelar un pedido
-	router.post(`${pathPedido}/cancelar`, async (req, res, next) => {
+	router.post(pathPedido + "id/cancelar", async (req, res, next) => {
 		try {
-			const { idPedido } = req.body; // asumimos que viene el id
-			await getController(PedidosController).cancelar(idPedido, res);
+			await getController(PedidosController).cancelar(req, res);
 		} catch (error) {
 			next(error);
 		}
 	});
 
 	// Enviar un pedido
-	router.post(`${pathPedido}/enviar`, async (req, res, next) => {
+	router.post(pathPedido + "id/enviar", async (req, res, next) => {
 		try {
-			const { idPedido } = req.body;
-			await getController(PedidosController).enviar(idPedido, res);
+			
+			await getController(PedidosController).enviar(req, res);
 		} catch (error) {
 			next(error);
 		}

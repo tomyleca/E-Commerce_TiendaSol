@@ -30,8 +30,19 @@ export class PedidosService {
 		
 		
 		const comprador = await this.usuariosService.buscarPorId(nuevoPedidoJson.compradorId);
-		const items = await Promise.all(nuevoPedidoJson.items.map(async item => new ItemPedido(await this.productosService.buscarPorId(item.productoId),item.cantidad,item.precioUnitario)));
-		
+		if(!comprador) {
+			throw new NotFound("Usuario", nuevoPedidoJson.compradorId)
+		}
+		const items = await Promise
+			.all(nuevoPedidoJson.items
+			.map(async item => {
+				const itemPedido = await this.productosService.buscarPorId(item.productoId);
+				
+				if (!itemPedido) {
+					throw new NotFound("Producto", item.productoId)
+				}
+				return new ItemPedido(itemPedido, item.cantidad, item.precioUnitario);
+			}));
 
 		const nuevoPedido = new Pedido(
 			comprador,
