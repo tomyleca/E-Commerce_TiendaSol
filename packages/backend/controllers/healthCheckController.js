@@ -1,9 +1,9 @@
-import { z } from "zod"
+import { z } from "zod";
 
 export class HealthCheckController {
-	constructor() { }
+  constructor() {}
 
-	obtenerEstado(req, res) {
-		res.status(200).json({ estado: "ok" });
-	}
+  obtenerEstado(req, res) {
+    res.status(200).json({ estado: "ok" });
+  }
 }

@@ -1,23 +1,20 @@
-import { Categoria } from "../models/entities/categoria.js"
+import { Categoria } from "../models/entities/categoria.js";
 
 export class CategoriaService {
-	constructor(categoriasRepository){
-        this.categoriasRepository=categoriasRepository
-    }
-	
-    async crearCategoria(categoria){
+  constructor(categoriasRepository) {
+    this.categoriasRepository = categoriasRepository;
+  }
 
-        const catego= new Categoria(categoria.nombre);
-        return await this.categoriasRepository.create(catego)
-    }
-    
-    async buscarTodos(){
-        return await this.categoriasRepository.findAll();
-    }
+  async crearCategoria(categoria) {
+    const catego = new Categoria(categoria.nombre);
+    return await this.categoriasRepository.create(catego);
+  }
 
-    async buscarPorId(idCategoria){
-        return await this.categoriasRepository.findById(idCategoria);
-    }
+  async buscarTodos() {
+    return await this.categoriasRepository.findAll();
+  }
 
-
+  async buscarPorId(idCategoria) {
+    return await this.categoriasRepository.findById(idCategoria);
+  }
 }

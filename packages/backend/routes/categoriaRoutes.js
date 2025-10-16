@@ -1,18 +1,18 @@
 import { CategoriaController } from "../controllers/categoriasController.js";
-import express from "express"
+import express from "express";
 
-const path = "/categorias"
+const path = "/categorias";
 
 export default function categoriaRoutes(getController) {
-    const router = express.Router()
+  const router = express.Router();
 
-    router.get(path, (req, res) => {
-        getController(CategoriaController).obtenerCategorias(req, res)
-    })
+  router.get(path, (req, res) => {
+    getController(CategoriaController).obtenerCategorias(req, res);
+  });
 
-    router.post(path, (req, res) => {
-        getController(CategoriaController).crear(req, res)
-    })
+  router.post(path, (req, res) => {
+    getController(CategoriaController).crear(req, res);
+  });
 
-    return router
+  return router;
 }

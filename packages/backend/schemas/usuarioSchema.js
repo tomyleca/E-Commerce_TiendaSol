@@ -12,7 +12,7 @@ const emailSchema = new mongoose.Schema(
       lowercase: true,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const usuarioSchema = new mongoose.Schema(
@@ -23,7 +23,7 @@ const usuarioSchema = new mongoose.Schema(
     tipo: { type: String, required: true },
     fechaDeAlta: { type: Date, required: true, default: Date.now },
   },
-  { collection: "usuarios" }
+  { collection: "usuarios" },
 );
 
 usuarioSchema.loadClass(Usuario);

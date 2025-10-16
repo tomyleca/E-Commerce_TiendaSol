@@ -6,29 +6,33 @@ export class NotificacionesService {
     this.notificacionesRepository = notificacionesRepository;
   }
 
-
-  async enviar(notificacion) {  //Por ahora enviar la noti es solo guardarla en un repositorio
+  async enviar(notificacion) {
+    //Por ahora enviar la noti es solo guardarla en un repositorio
     return await this.notificacionesRepository.crear(notificacion);
   }
 
   async getNotificaciones(idUsuario, leidas) {
-  return await this.notificacionesRepository.buscarPorUsuarioYLeida(idUsuario, leidas);
+    return await this.notificacionesRepository.buscarPorUsuarioYLeida(
+      idUsuario,
+      leidas,
+    );
   }
-	
 
-  async getNotificacion(idUsuario,idNotificacion){
-    const notificacion = await this.notificacionesRepository.buscar(idUsuario,idNotificacion)
-	if(notificacion == null)
-		throw new NotFound(Notificacion.name, idNotificacion)
+  async getNotificacion(idUsuario, idNotificacion) {
+    const notificacion = await this.notificacionesRepository.buscar(
+      idUsuario,
+      idNotificacion,
+    );
+    if (notificacion == null)
+      throw new NotFound(Notificacion.name, idNotificacion);
 
-	return notificacion
-}
+    return notificacion;
+  }
 
   async leerNotificacion(idUsuario, idNotificacion) {
-	const notificacion = await this.getNotificacion(idUsuario, idNotificacion);
-	notificacion.marcarComoLeida();
-	this.notificacionesRepository.actualizar(notificacion); //Es crear porque si tiene id la actualiza
-	return notificacion;
-
+    const notificacion = await this.getNotificacion(idUsuario, idNotificacion);
+    notificacion.marcarComoLeida();
+    this.notificacionesRepository.actualizar(notificacion); //Es crear porque si tiene id la actualiza
+    return notificacion;
   }
 }

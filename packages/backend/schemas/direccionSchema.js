@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import { DireccionEntrega } from "../models/entities/direccionEntrega.js"
+import mongoose from "mongoose";
+import { DireccionEntrega } from "../models/entities/direccionEntrega.js";
 
 const direccionSchema = new mongoose.Schema(
   {
@@ -14,9 +14,12 @@ const direccionSchema = new mongoose.Schema(
     lat: { type: String, required: true },
     lon: { type: String, required: true },
   },
-  { _id: false }
-)
+  { _id: false },
+);
 
-direccionSchema.loadClass(DireccionEntrega)
-export { direccionSchema }
-export const direccionModel = mongoose.model('DireccionEntrega', direccionSchema)
+direccionSchema.loadClass(DireccionEntrega);
+export { direccionSchema };
+export const direccionModel = mongoose.model(
+  "DireccionEntrega",
+  direccionSchema,
+);

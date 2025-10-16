@@ -1,20 +1,20 @@
 // Aumenta el timeout global de Jest para operaciones de setup lentas (descarga de Mongo binario). Sino no corre el test
-import { expect, jest, test } from '@jest/globals';
+import { expect, jest, test } from "@jest/globals";
 jest.setTimeout(30000);
 
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import { Usuario } from "../models/entities/usuario.js";
 import { Email } from "../models/entities/email.js";
 import { TipoUsuario } from "../models/entities/tipoUsuario.js";
 import { Moneda } from "../models/entities/moneda.js";
-import { ProductosService } from '../services/productosService.js';
-import { UsuariosService } from '../services/usuariosService.js';
-import { Categoria } from '../models/entities/categoria.js';
-import { CategoriaService } from '../services/categoriasService.js';
+import { ProductosService } from "../services/productosService.js";
+import { UsuariosService } from "../services/usuariosService.js";
+import { Categoria } from "../models/entities/categoria.js";
+import { CategoriaService } from "../services/categoriasService.js";
 import { UsuariosRepository } from "../models/repositories/usuariosRepository.js";
 import { ProductosRepository } from "../models/repositories/productosRepository.js";
-import { CategoriasRepository } from '../models/repositories/categoriasRepository.js';
+import { CategoriasRepository } from "../models/repositories/categoriasRepository.js";
 
 let mongod;
 
@@ -24,7 +24,11 @@ const categoriasRepository = new CategoriasRepository();
 
 const usuariosService = new UsuariosService(usuariosRepository);
 const categoriasService = new CategoriaService(categoriasRepository);
-const productosService = new ProductosService(productosRepository, usuariosService, categoriasService);
+const productosService = new ProductosService(
+  productosRepository,
+  usuariosService,
+  categoriasService,
+);
 
 let vendedor1Id, vendedor2Id;
 let categoria1Id, categoria2Id;
@@ -38,8 +42,18 @@ beforeEach(async () => {
   await mongoose.connection.db.dropDatabase();
 
   // Crear usuarios
-  const vendedor1 = new Usuario("Juan Perez", new Email("mail@gmail.com"), "1112341234", TipoUsuario.VENDEDOR);
-  const vendedor2 = new Usuario("Pedro Lopez", new Email("pedro@gmail.com"), "3332341234", TipoUsuario.VENDEDOR);
+  const vendedor1 = new Usuario(
+    "Juan Perez",
+    new Email("mail@gmail.com"),
+    "1112341234",
+    TipoUsuario.VENDEDOR,
+  );
+  const vendedor2 = new Usuario(
+    "Pedro Lopez",
+    new Email("pedro@gmail.com"),
+    "3332341234",
+    TipoUsuario.VENDEDOR,
+  );
 
   const v1Guardado = await usuariosRepository.crear(vendedor1);
   const v2Guardado = await usuariosRepository.crear(vendedor2);
@@ -47,7 +61,7 @@ beforeEach(async () => {
   vendedor1Id = v1Guardado.id || v1Guardado._id?.toString();
   vendedor2Id = v2Guardado.id || v2Guardado._id?.toString();
 
-  // Crear categorías 
+  // Crear categorías
   const cat1 = new Categoria("Electrónica");
   const cat2 = new Categoria("Artículos para el hogar y decoración");
 
@@ -66,7 +80,7 @@ beforeEach(async () => {
     precio: 1000000,
     moneda: Moneda.PESO_ARG,
     stock: 100,
-    fotos: []
+    fotos: [],
   });
 
   await productosService.crear({
@@ -77,7 +91,7 @@ beforeEach(async () => {
     precio: 5000,
     moneda: Moneda.PESO_ARG,
     stock: 200,
-    fotos: []
+    fotos: [],
   });
 
   await productosService.crear({
@@ -88,7 +102,7 @@ beforeEach(async () => {
     precio: 8000,
     moneda: Moneda.PESO_ARG,
     stock: 150,
-    fotos: []
+    fotos: [],
   });
 
   await productosService.crear({
@@ -99,49 +113,60 @@ beforeEach(async () => {
     precio: 10000000000000,
     moneda: Moneda.DOLAR_USA,
     stock: 1000,
-    fotos: []
+    fotos: [],
   });
 });
 
-test('paginacion de productos', async () => {
+test("paginacion de productos", async () => {
   const pagina = 1;
   const limite = 2;
-  const resultado = await productosService.buscarTodosPaginado(pagina, limite, {});
+  const resultado = await productosService.buscarTodosPaginado(
+    pagina,
+    limite,
+    {},
+  );
 
   expect(resultado.data.length).toBe(2);
   // Asegura que ordenamiento por defecto (si existe) no afecta estas aserciones; ajusta si ordenas distinto
-  expect(typeof resultado.data[0].precio).toBe('number');
-  expect(typeof resultado.data[1].precio).toBe('number');
+  expect(typeof resultado.data[0].precio).toBe("number");
+  expect(typeof resultado.data[1].precio).toBe("number");
 });
 
-test('filtros de productos por nombre', async () => {
+test("filtros de productos por nombre", async () => {
   const pagina = 1;
   const limite = 5;
-  const resultado = await productosService.buscarTodosPaginado(pagina, limite, { nombre: "Tablet ABC" });
+  const resultado = await productosService.buscarTodosPaginado(pagina, limite, {
+    nombre: "Tablet ABC",
+  });
 
   expect(resultado.data.length).toBe(1);
   expect(resultado.data[0].titulo).toBe("Tablet ABC");
 });
 
-test('filtros de productos por categoria', async () => {
+test("filtros de productos por categoria", async () => {
   const pagina = 1;
   const limite = 5;
 
-  const resultado = await productosService.buscarTodosPaginado(pagina, limite, { categoria: categoria1Id });
+  const resultado = await productosService.buscarTodosPaginado(pagina, limite, {
+    categoria: categoria1Id,
+  });
 
-  
   expect(Array.isArray(resultado.data)).toBe(true);
   expect(resultado.data.length).toBeGreaterThanOrEqual(2);
   for (const prod of resultado.data) {
-    const cats = (prod.categorias || []).map(c => c.id || c._id?.toString() || c);
+    const cats = (prod.categorias || []).map(
+      (c) => c.id || c._id?.toString() || c,
+    );
     expect(cats).toContain(categoria1Id);
   }
 });
 
-test('filtros de productos por vendedor', async () => {
+test("filtros de productos por vendedor", async () => {
   const pagina = 1;
   const limite = 5;
-  const resultado = await productosService.buscarTodosPaginado(pagina, limite, { vendedor: vendedor1Id });
+  const resultado = await productosService.buscarTodosPaginado(pagina, limite, {
+    vendedor: vendedor1Id,
+  });
 
   expect(Array.isArray(resultado.data)).toBe(true);
   expect(resultado.data.length).toBeGreaterThan(0);
@@ -150,19 +175,23 @@ test('filtros de productos por vendedor', async () => {
   }
 });
 
-test('ordenar productos por precio ascendente', async () => {
+test("ordenar productos por precio ascendente", async () => {
   const pagina = 1;
   const limite = 5;
-  const resultado = await productosService.buscarTodosPaginado(pagina, limite, { sort: 'precio_asc' });
+  const resultado = await productosService.buscarTodosPaginado(pagina, limite, {
+    sort: "precio_asc",
+  });
 
   expect(Array.isArray(resultado.data)).toBe(true);
   expect(resultado.data.length).toBeGreaterThan(0);
   for (let i = 0; i < resultado.data.length - 1; i++) {
-    expect(resultado.data[i + 1].precio).toBeGreaterThanOrEqual(resultado.data[i].precio);
+    expect(resultado.data[i + 1].precio).toBeGreaterThanOrEqual(
+      resultado.data[i].precio,
+    );
   }
 });
 
-test('ordenar productos por ventas descendente', async () => {
+test("ordenar productos por ventas descendente", async () => {
   // Primero, simular algunas ventas para los productos
   const productos = await productosService.buscarTodosPaginado(1, 2, {});
   await productosService.agregarVentasDeProducto(productos.data[0].id, 10); // 10 ventas
@@ -170,7 +199,9 @@ test('ordenar productos por ventas descendente', async () => {
 
   const pagina = 1;
   const limite = 5;
-  const resultado = await productosService.buscarTodosPaginado(pagina, limite, { sort: 'masVendido' });
+  const resultado = await productosService.buscarTodosPaginado(pagina, limite, {
+    sort: "masVendido",
+  });
   expect(Array.isArray(resultado.data)).toBe(true);
   expect(resultado.data[0].id).toBe(productos.data[1].id);
   expect(resultado.data[1].id).toBe(productos.data[0].id);

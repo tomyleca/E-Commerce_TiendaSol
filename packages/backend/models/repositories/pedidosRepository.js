@@ -1,65 +1,69 @@
 import mongoose from "mongoose";
-import {PedidoModel} from '../../schemas/pedidoSchema.js'
+import { PedidoModel } from "../../schemas/pedidoSchema.js";
 
 export class PedidosRepository {
-    constructor() {
-        this.model = PedidoModel
+  constructor() {
+    this.model = PedidoModel;
+  }
+
+  async buscarTodos() {
+    return PedidoModel.find().populate(
+      "itemPedido vendedor direccionEntrega estado historialDeEstados",
+    );
+  }
+
+  async buscarPorId(id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) return null;
+    return PedidoModel.findById(id).populate(
+      "itemPedido vendedor direccionEntrega estado historialDeEstados",
+    );
+  }
+
+  async crear(nuevoPedido) {
+    const pedidoMongo = new PedidoModel(nuevoPedido);
+    return pedidoMongo.save();
+  }
+
+  async actualizar(pedido) {
+    let pedidoActualizado = await this.model.findByIdAndUpdate(
+      pedido.id,
+      pedido,
+      { new: true },
+    );
+    // el new true hace que devuelva el objeto actualizado
+
+    //si no lo encuentra, lo crea
+    if (!pedidoActualizado) {
+      pedidoActualizado = await this.crear(pedido);
     }
 
+    return pedidoActualizado;
+  }
 
-    async buscarTodos() {
-        return PedidoModel.find().populate('itemPedido vendedor direccionEntrega estado historialDeEstados');
-    }
+  async actualizarEstado(id, nuevoEstado) {
+    if (!mongoose.Types.ObjectId.isValid(id)) return null;
+    return PedidoModel.findByIdAndUpdate(
+      id,
+      { estado: nuevoEstado, $push: { historialDeEstados: nuevoEstado } },
+      { new: true },
+    );
+  }
 
-    async buscarPorId(id) {
-        if (!mongoose.Types.ObjectId.isValid(id)) return null;
-        return PedidoModel.findById(id).populate('itemPedido vendedor direccionEntrega estado historialDeEstados');
-    }
+  async buscarPorUsuario(idUsuario) {
+    if (!mongoose.Types.ObjectId.isValid(idUsuario)) return [];
+    return PedidoModel.find({ comprador: idUsuario }).populate(
+      "itemPedido vendedor direccionEntrega estado historialDeEstados",
+    );
+  }
 
-    async crear(nuevoPedido) {
-        const pedidoMongo = new PedidoModel(nuevoPedido);
-        return pedidoMongo.save();
-    }
-
-	async actualizar(pedido) {
-			let pedidoActualizado = await this.model
-			.findByIdAndUpdate(pedido.id, pedido, { new: true });
-			// el new true hace que devuelva el objeto actualizado
-			
-			
-			//si no lo encuentra, lo crea
-			if (!pedidoActualizado) {
-				pedidoActualizado = await this.crear(pedido);
-			}
-	
-			return pedidoActualizado;
-	
-		}
-
-    async actualizarEstado(id, nuevoEstado) {
-        if (!mongoose.Types.ObjectId.isValid(id)) return null;
-        return PedidoModel.findByIdAndUpdate(
-            id,
-            { estado: nuevoEstado, $push: { historialDeEstados: nuevoEstado } },
-            { new: true }
-        );
-    }
-
-    async buscarPorUsuario(idUsuario) {
-        if (!mongoose.Types.ObjectId.isValid(idUsuario)) return [];
-        return PedidoModel.find({ comprador: idUsuario }).populate('itemPedido vendedor direccionEntrega estado historialDeEstados');
-    }
-
-
-    async buscarPorFiltros(vendedorId, filtros = {}) {
+  async buscarPorFiltros(vendedorId, filtros = {}) {
     const query = { vendedor: vendedorId }; // siempre filtramos por vendedor
-
 
     if (filtros.nombre) {
       query.nombre = filtros.nombre;
     }
     if (filtros.descripcion) {
-      query.descripcion =filtros.descripcion;
+      query.descripcion = filtros.descripcion;
     }
 
     if (filtros.categoria) {
@@ -74,14 +78,9 @@ export class PedidosRepository {
     }
 
     // Ejecutamos la consulta
-    return await this.model.find(query).populate('vendedor');
-    }
-
-
-
+    return await this.model.find(query).populate("vendedor");
+  }
 }
-
-
 
 /*
 
@@ -105,4 +104,3 @@ export class PedidosRepository {
     
 
 */
-
