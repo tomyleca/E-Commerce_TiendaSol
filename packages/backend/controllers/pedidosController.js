@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { FormatoZodError } from "../errors/formatoZodError.js";
 import { FormatoInvalidoDeId } from "../errors/formatoInvalidoDeId.js";
 import { chequearID } from "./utilsControllers.js";
 
@@ -15,14 +14,8 @@ export class PedidosController {
 
   async crear(req, res) {
     const BodyPedido = req.body;
-    const resultBodyPedido = pedidosSchema.safeParse(BodyPedido);
-
-    if (!resultBodyPedido.success) {
-      throw new FormatoZodError(resultBodyPedido.error);
-    }
-    const pedidoGuardado = await this.pedidosService.crear(
-      resultBodyPedido.data,
-    );
+      const data = pedidosSchema.parse(BodyPedido);
+      const pedidoGuardado = await this.pedidosService.crear(data);
 
     res.status(201).json(pedidoGuardado);
   }

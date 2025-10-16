@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { FormatoZodError } from "../errors/formatoZodError.js";
 import { FormatoInvalidoDeId } from "../errors/formatoInvalidoDeId.js";
 import { chequearID } from "./utilsControllers.js";
 
@@ -14,14 +13,10 @@ export class UsuariosController {
   }
 
   async crear(req, res) {
-    const body = req.body;
-    const resultBody = usuarioSchema.safeParse(body);
-
-    if (!resultBody.success) {
-      throw new FormatoZodError(resultBody.error);
-    }
-    const usuarioCreado = await this.usuariosService.crear(resultBody.data);
-
+    const body = req.body
+    const data = usuarioSchema.parse(body)
+      const usuarioCreado = await this.usuariosService
+        .crear(data)
     res.status(201).json(usuarioCreado);
   }
 
@@ -46,15 +41,10 @@ export class UsuariosController {
       throw new FormatoInvalidoDeId(id);
     }
 
-    const queryParams = queryNotificacionSchema.safeParse(req.query);
-
-    if (!queryParams.success) {
-      throw new FormatoZodError(queryParams.error);
-    }
-
+    const queryParams = queryNotificacionSchema.parse(req.query);
     const notificaciones = await this.usuariosService.getNotificaciones(
       idUsuario,
-      queryParams.data.leidas,
+      queryParams.leidas,
     );
 
     res.status(200).json(notificaciones);

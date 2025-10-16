@@ -1,14 +1,17 @@
-import { ClaseIncorrectaError } from "../errors/claseIncorrectaError.js";
-import { FormatoZodError } from "../errors/formatoZodError.js";
+import { ZodError } from "zod";
 import { ValorNoCumpleConEnum } from "../errors/valorNoCumpleConEnum.js";
 import { FormatoInvalidoDeId } from "../errors/formatoInvalidoDeId.js";
 import { NotFound } from "../errors/notFound.js";
 
 export function generalErrorHandler(err, req, res, next) {
-  if (err instanceof FormatoZodError) {
-    res.status(400).json({ error: err.message });
-    return;
-  }
+	
+	
+	if (err instanceof ZodError) {
+    	return res.status(400).json({
+     	 	error: 'VALIDATION_ERROR',
+      		issues: err.issues,
+    		});
+ 	 }
 
   if (err instanceof ValorNoCumpleConEnum) {
     res.status(400).json({ error: err.message });

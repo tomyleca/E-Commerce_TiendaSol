@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { Moneda } from "../models/entities/moneda.js";
-import { FormatoZodError } from "../errors/formatoZodError.js";
+
+
 
 export class ProductosController {
   constructor(productosService) {
@@ -8,11 +8,7 @@ export class ProductosController {
   }
 
   async buscarTodos(req, res) {
-    const parsedQuerys = pagQuerySchema.safeParse(req.query);
-    if (!parsedQuerys.success) {
-      throw new FormatoZodError(parsedQuerys.error);
-    }
-    const { pagina, limite } = parsedQuerys.data;
+    const { pagina, limite } = pagQuerySchema.parse(req.query);
     const querys = req.query;
     const productos = await this.productosService.buscarTodosPaginado(
       pagina,
@@ -29,17 +25,12 @@ export class ProductosController {
   }
 
   async crear(req, res) {
-    const BodyProducto = req.body;
-    const resultBodyProducto = productoSchema.safeParse(BodyProducto);
+    
+    const resultBodyProducto =  productoSchema.parse(req.body);
 
-    if (!resultBodyProducto.success) {
-      throw new FormatoZodError(resultBodyProducto.error);
-    }
-    const productoGuardado = await this.productosService.crear(
-      resultBodyProducto.data,
-    );
-
-    res.status(201).json(productoGuardado);
+    const productoGuardado = await this.productosService
+	.crear(resultBodyProducto);
+	res.status(201).json(productoGuardado);
   }
 
   async buscarProductosDeVendedor(req, res) {
