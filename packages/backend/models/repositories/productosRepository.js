@@ -59,7 +59,8 @@ export class ProductosRepository {
     await productoActualizado.save();
   }
 
-  async count() {
-    return this.model.countDocuments();
-  }
+    async count(){
+        return this.model.countDocuments();
+    }
+
 }
