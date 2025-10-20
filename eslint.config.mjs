@@ -6,7 +6,12 @@ export default defineConfig([
   {
     files: ["packages/backend/**/*.{js,mjs,cjs,jsx}"],
     plugins: { js },
-    extends: ["js/recommended"],
+      extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime" // desactiva react/react-in-jsx-scope
+  ],
+  settings: { react: { version: "detect" } },
     languageOptions: { globals: globals.node },
     rules: {
       "no-unused-vars": [
@@ -20,7 +25,7 @@ export default defineConfig([
     },
   },
   {
-    files: ["packages/frontend/src/**/*.{js,jsx,mjs,cjs}"],
+    files: ["packages/cliente/src/**/*.{js,jsx,mjs,cjs}"],
     ...pluginReact.configs.flat.recommended,
     settings: { react: { version: "detect" } },
   },

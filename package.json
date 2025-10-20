@@ -10,8 +10,8 @@
     "test:backend": "npm test --workspace=backend",
     "test-debug:backend": "npm run test-debug --workspace=backend",
     "dev:backend": "npm run dev --workspace=backend",
-    "start:frontend": "npm start --workspace=frontend",
-    "start:dev": "concurrently \"npm run dev:backend\" \"npm run start:frontend\"",
+    "start:cliente": "npm start --workspace=cliente",
+    "start:dev": "concurrently \"npm run dev:backend\" \"npm run start:cliente\"",
     "lint": "eslint .",
     "format": "prettier . --write"
   },
