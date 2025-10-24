@@ -75,8 +75,8 @@ export class PedidosService {
     return await this.pedidosRepository.crear(nuevoPedido);
   }
 
-  cancelar(idPedido) {
-    const pedido = this.pedidosRepository.buscarPorId(idPedido);
+ async cancelar(idPedido) {
+    const pedido = await this.pedidosRepository.buscarPorId(idPedido);
 
     if (!pedido) {
       throw new NotFound(Pedido, idPedido);
@@ -102,8 +102,8 @@ export class PedidosService {
   }
 
   // Marcado de un pedido como enviado por parte del vendedor
-  enviar(idPedido, usuario) {
-    const pedido = this.pedidosRepository.buscarPorId(idPedido);
+  async enviar(idPedido) {
+    const pedido = await this.pedidosRepository.buscarPorId(idPedido);
 
     if (!pedido) {
       throw new Error("Pedido no encontrado");

@@ -52,6 +52,11 @@ const pedidoSchema = new mongoose.Schema({
     ref: "Usuario",
     required: true,
   },
+    vendedor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Usuario",
+    required: true,
+  },
   itemsPedido: {
     type: [itemSchema],
     required: true,
