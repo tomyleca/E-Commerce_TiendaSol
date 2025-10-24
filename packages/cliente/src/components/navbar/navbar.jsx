@@ -3,13 +3,13 @@ import {FaShoppingCart} from 'react-icons/fa'
 import { FiLogIn } from 'react-icons/fi';
 import '../../index.css'
 
-const Navbar = () => {
+const Navbar = ({ onCartClick }) => {
   return (
     <header className="navbar-bg">
       <nav className="navbar">
         <div className="navbar-section left">
           <button className="menu-icon">☰</button>
-		    <button className="carrito">
+        <button className="carrito-button" onClick={onCartClick}>
 				<FaShoppingCart />
 				<span className="carrito-count">0</span>
           </button>

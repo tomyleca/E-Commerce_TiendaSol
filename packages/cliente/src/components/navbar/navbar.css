@@ -45,7 +45,7 @@ navbar-bg{
 	height: 70px;
 }
 
-.carrito{
+.carrito-button{
 	display: flex;
 	background-color: var(--primary-color);
 	color: var(--text-color);
