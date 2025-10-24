@@ -7,14 +7,14 @@ export class CategoriaService {
 
   async crearCategoria(categoria) {
     const catego = new Categoria(categoria.nombre);
-    return await this.categoriasRepository.create(catego);
+    return await this.categoriasRepository.crear(catego);
   }
 
   async buscarTodos() {
-    return await this.categoriasRepository.findAll();
+    return await this.categoriasRepository.buscarTodos();
   }
 
   async buscarPorId(idCategoria) {
-    return await this.categoriasRepository.findById(idCategoria);
+    return await this.categoriasRepository.buscarPorId(idCategoria);
   }
 }

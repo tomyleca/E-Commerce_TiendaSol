@@ -65,8 +65,8 @@ beforeEach(async () => {
   const cat1 = new Categoria("Electrónica");
   const cat2 = new Categoria("Artículos para el hogar y decoración");
 
-  const c1Guardada = await categoriasRepository.create(cat1);
-  const c2Guardada = await categoriasRepository.create(cat2);
+  const c1Guardada = await categoriasRepository.crear(cat1);
+  const c2Guardada = await categoriasRepository.crear(cat2);
 
   categoria1Id = c1Guardada.id || c1Guardada._id?.toString();
   categoria2Id = c2Guardada.id || c2Guardada._id?.toString();

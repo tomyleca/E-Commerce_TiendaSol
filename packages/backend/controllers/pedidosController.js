@@ -24,11 +24,8 @@ export class PedidosController {
     let idPedido = req.params.id;
 
     idPedido = chequearID(idPedido);
-    if (!idPedido) {
-      throw new FormatoInvalidoDeId(idPedido);
-    }
 
-    await this.pedidosService.cancelar(idPedido);
+	await this.pedidosService.cancelar(idPedido);
     res.status(200).json("Pedido cancelado exitosamente");
   }
 
@@ -36,10 +33,6 @@ export class PedidosController {
     let idPedido = req.params.id;
 
     idPedido = chequearID(idPedido);
-    if (!idPedido) {
-      throw new FormatoInvalidoDeId(idPedido);
-    }
-
     await this.pedidosService.enviar(idPedido);
     res.status(200).json("Pedido enviado exitosamente");
   }

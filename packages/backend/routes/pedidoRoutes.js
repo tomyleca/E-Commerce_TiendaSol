@@ -27,7 +27,7 @@ export default function pedidoRoutes(getController) {
   });
 
   // Cancelar un pedido
-  router.post(pathPedido + "id/cancelar", async (req, res, next) => {
+  router.post(pathPedido + "/:id/cancelar", async (req, res, next) => {
     try {
       await getController(PedidosController).cancelar(req, res);
     } catch (error) {
@@ -36,7 +36,7 @@ export default function pedidoRoutes(getController) {
   });
 
   // Enviar un pedido
-  router.post(pathPedido + "id/enviar", async (req, res, next) => {
+ router.post(pathPedido + "/:id/enviar", async (req, res, next) => {
     try {
       await getController(PedidosController).enviar(req, res);
     } catch (error) {

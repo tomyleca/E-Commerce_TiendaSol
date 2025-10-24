@@ -8,14 +8,14 @@ export class PedidosRepository {
 
   async buscarTodos() {
     return PedidoModel.find().populate(
-      "itemPedido vendedor direccionEntrega estado historialDeEstados",
+      "vendedor comprador itemsPedido.producto direccionEntrega estado historialDeEstados",
     );
   }
 
   async buscarPorId(id) {
     if (!mongoose.Types.ObjectId.isValid(id)) return null;
     return PedidoModel.findById(id).populate(
-      "itemPedido vendedor direccionEntrega estado historialDeEstados",
+      "vendedor comprador itemsPedido.producto direccionEntrega estado historialDeEstados",
     );
   }
 
@@ -52,7 +52,7 @@ export class PedidosRepository {
   async buscarPorUsuario(idUsuario) {
     if (!mongoose.Types.ObjectId.isValid(idUsuario)) return [];
     return PedidoModel.find({ comprador: idUsuario }).populate(
-      "itemPedido vendedor direccionEntrega estado historialDeEstados",
+      "vendedor comprador itemsPedido.producto direccionEntrega estado historialDeEstados",
     );
   }
 

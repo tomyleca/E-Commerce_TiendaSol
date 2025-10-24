@@ -1,36 +1,35 @@
 import { CategoriaModel } from "../../schemas/categoriaSchema.js";
-import mongoose from "mongoose";
 
 export class CategoriasRepository {
   constructor() {
     this.model = CategoriaModel;
   }
 
-  async findAll() {
+  async buscarTodos() {
     return await this.model.find();
   }
 
-  async findById(id) {
+  async buscarPorId(id) {
     return await this.model.findById(id);
   }
 
-  async findByNombre(nombre) {
+  async buscarPorNombre(nombre) {
     return await this.model.findOne({ nombre });
   }
 
-  async create(categoria) {
+  async crear(categoria) {
     const nuevaCategoria = new this.model(categoria);
     return await nuevaCategoria.save();
   }
 
-  async update(id, categoriaActualizada) {
+  async actualizar(id, categoriaActualizada) {
     return await this.model.findByIdAndUpdate(id, categoriaActualizada, {
       new: true,
       runValidators: true,
     });
   }
 
-  async delete(id) {
+  async eliminar(id) {
     return await this.model.findByIdAndDelete(id);
   }
 

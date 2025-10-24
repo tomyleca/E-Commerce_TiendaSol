@@ -24,9 +24,6 @@ export class UsuariosController {
     const id = req.params.id;
 
     const idUsuario = chequearID(id);
-    if (!idUsuario) {
-      throw new FormatoInvalidoDeId(id);
-    }
 
     const historialPedidos =
       await this.usuariosService.buscarHistorialDePedidos(idUsuario);
@@ -37,9 +34,6 @@ export class UsuariosController {
   async getNotificaciones(req, res) {
     const id = req.params.id;
     const idUsuario = chequearID(id);
-    if (!idUsuario) {
-      throw new FormatoInvalidoDeId(id);
-    }
 
     const queryParams = queryNotificacionSchema.parse(req.query);
     const notificaciones = await this.usuariosService.getNotificaciones(
@@ -53,16 +47,9 @@ export class UsuariosController {
   async leerNotificacion(req, res) {
     const id = req.params.id;
     const idUsuario = chequearID(id);
-    if (!idUsuario) {
-      throw new FormatoInvalidoDeId(id);
-    }
 
     let idNotificacion = req.params.notificacionId;
     idNotificacion = chequearID(idNotificacion);
-    if (!idNotificacion) {
-      throw new FormatoInvalidoDeId(idNotificacion);
-    }
-
     const notificacion = await this.usuariosService.leerNotificacion(
       idUsuario,
       idNotificacion,

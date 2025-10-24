@@ -1,10 +1,11 @@
 import { z } from "zod";
+import { FormatoInvalidoDeId } from "../errors/formatoInvalidoDeId.js";
 
 export function chequearID(id) {
   const idChequeado = idTransform.safeParse(id);
 
   if (idChequeado.error) {
-    return false;
+    throw new FormatoInvalidoDeId(idChequeado.error);
   }
   return idChequeado.data;
 }
