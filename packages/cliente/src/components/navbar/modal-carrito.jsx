@@ -1,6 +1,7 @@
 import React from 'react';
 import './modal-carrito.css';
 
+
 const ModalCarrito = ({ isOpen, onClose }) => {
 	if (!isOpen) return null;
 	return (

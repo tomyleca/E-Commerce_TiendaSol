@@ -1,7 +1,8 @@
 import './navbar.css';
-import {FaShoppingCart} from 'react-icons/fa'
 import { FiLogIn } from 'react-icons/fi';
 import '../../index.css'
+import Badge from '@mui/material/Badge';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const Navbar = ({ onCartClick }) => {
   return (
@@ -10,9 +11,10 @@ const Navbar = ({ onCartClick }) => {
         <div className="navbar-section left">
           <button className="menu-icon">☰</button>
         <button className="carrito-button" onClick={onCartClick}>
-				<FaShoppingCart />
-				<span className="carrito-count">0</span>
-          </button>
+			<Badge badgeContent={1} color="primary">
+ 				 <ShoppingCartIcon />
+			</Badge>
+		</button>
 
         </div>
 

@@ -1,19 +1,15 @@
-import { useState } from 'react';
 import './App.css';
-import Navbar from './components/navbar/navbar.jsx';
-import ModalCarrito from './components/navbar/modal-carrito.jsx';
+import ListadoProductos from './features/ListadoProductos.jsx';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
 function App() {
-	const [isCartOpen, setIsCartOpen] = useState(false);
-	const openCart = () => setIsCartOpen(true);
-	const closeCart = () => setIsCartOpen(false);
-
 	return (
-		<>
-			<Navbar onCartClick={openCart} />
-			<ModalCarrito isOpen={isCartOpen} onClose={closeCart} />
-		</>
+		<BrowserRouter>
+			<Routes>
+				<Route path="/productos" element={<ListadoProductos />} />
+			</Routes>
+		</BrowserRouter>
 	);
 }
 
