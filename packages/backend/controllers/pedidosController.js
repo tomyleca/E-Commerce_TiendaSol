@@ -54,7 +54,5 @@ const ItemPedidoSchema = z.object({
 const pedidosSchema = z.object({
   compradorId: z.string(),
   items: z.array(ItemPedidoSchema),
-  total: z.number().nonnegative(),
-  moneda: z.string(),
   direccionEntrega: z.string(),
 });

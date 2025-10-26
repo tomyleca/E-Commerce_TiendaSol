@@ -148,6 +148,8 @@ export class ProductosService {
       throw new NotFound("Producto", idProducto);
     }
     producto.ventas = (producto.ventas || 0) + cantidad;
+    producto.stock = (producto.stock || 0) - cantidad
     await this.productosRepository.actualizar(producto);
   }
+
 }
