@@ -11,6 +11,7 @@ const ListadoProductos = () => {
 		<>
 			<Navbar onCartClick={openCart} />
 			<ModalCarrito isOpen={isCartOpen} onClose={closeCart} />
+			<BodyProductos productos={productosPaginados}/>
 		</>
 	);
 }
