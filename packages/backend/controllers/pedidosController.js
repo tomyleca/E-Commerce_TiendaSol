@@ -14,8 +14,8 @@ export class PedidosController {
 
   async crear(req, res) {
     const BodyPedido = req.body;
-      const data = pedidosSchema.parse(BodyPedido);
-      const pedidoGuardado = await this.pedidosService.crear(data);
+    const data = pedidosSchema.parse(BodyPedido);
+    const pedidoGuardado = await this.pedidosService.crear(data);
 
     res.status(201).json(pedidoGuardado);
   }
@@ -25,7 +25,7 @@ export class PedidosController {
 
     idPedido = chequearID(idPedido);
 
-	await this.pedidosService.cancelar(idPedido);
+    await this.pedidosService.cancelar(idPedido);
     res.status(200).json("Pedido cancelado exitosamente");
   }
 

@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-
-
 export class ProductosController {
   constructor(productosService) {
     this.productosService = productosService;
@@ -25,12 +23,11 @@ export class ProductosController {
   }
 
   async crear(req, res) {
-    
-    const resultBodyProducto =  productoSchema.parse(req.body);
+    const resultBodyProducto = productoSchema.parse(req.body);
 
-    const productoGuardado = await this.productosService
-	.crear(resultBodyProducto);
-	res.status(201).json(productoGuardado);
+    const productoGuardado =
+      await this.productosService.crear(resultBodyProducto);
+    res.status(201).json(productoGuardado);
   }
 
   async buscarProductosDeVendedor(req, res) {

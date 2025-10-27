@@ -75,7 +75,7 @@ export class PedidosService {
     return await this.pedidosRepository.crear(nuevoPedido);
   }
 
- async cancelar(idPedido) {
+  async cancelar(idPedido) {
     const pedido = await this.pedidosRepository.buscarPorId(idPedido);
 
     if (!pedido) {
