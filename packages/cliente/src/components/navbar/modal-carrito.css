@@ -70,6 +70,13 @@
   }
 }
 
+.boton-comprar:disabled,
+.boton-vaciar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(10%);
+}
+
 .total-carrito {
   font-weight: bold;
   margin-top: 1rem;

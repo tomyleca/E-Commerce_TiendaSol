@@ -64,3 +64,23 @@ navbar-bg {
   margin-right: 2.8rem;
 }
 
+@media (max-width: 768px) {
+  .nombre-marca {
+	display:none;
+  }
+
+  .logo {
+	width: 60px;
+	height: 60px;
+  }
+
+  .carrito-button {
+	font-size: 1.2rem;
+	margin-top: 0.2rem;
+  }
+
+  .login-button {
+	font-size: 1.7rem;
+	margin-right: 0.4rem;
+}
+}
