@@ -10,9 +10,9 @@ export class CategoriaController {
     res.json(categorias);
   }
 
-    async crear(req,res){
-        const data = CategoriaSchema.parse(req.body)
-        const categoriaAlmacenada = await this.service.crearCategoria(data);
+  async crear(req, res) {
+    const data = CategoriaSchema.parse(req.body);
+    const categoriaAlmacenada = await this.service.crearCategoria(data);
     res.status(201).json(categoriaAlmacenada);
   }
 }

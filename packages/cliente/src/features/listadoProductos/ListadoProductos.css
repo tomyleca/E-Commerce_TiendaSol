@@ -1,10 +1,9 @@
-.contenedor-productos{
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: center;
-	gap: 45px;
-	padding: 0px;
-	margin-top : 40px;
-
+.contenedor-productos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 45px;
+  padding: 0px;
+  margin-top: 40px;
 }

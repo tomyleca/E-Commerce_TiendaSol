@@ -13,10 +13,9 @@ export class UsuariosController {
   }
 
   async crear(req, res) {
-    const body = req.body
-    const data = usuarioSchema.parse(body)
-      const usuarioCreado = await this.usuariosService
-        .crear(data)
+    const body = req.body;
+    const data = usuarioSchema.parse(body);
+    const usuarioCreado = await this.usuariosService.crear(data);
     res.status(201).json(usuarioCreado);
   }
 

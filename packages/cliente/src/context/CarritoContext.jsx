@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 //almacenamiento en el navegador para guardar datos del usuario
-const STORAGE_KEY = 'carrito:items';
+const STORAGE_KEY = "carrito:items";
 
 const CarritoContext = createContext(null);
 
@@ -39,7 +39,10 @@ export function CarritoProvider({ children }) {
   const alternar = () => setIsOpen((v) => !v);
 
   const cantidadTotal = items.reduce((acc, it) => acc + it.qty, 0);
-  const precioTotal = items.reduce((acc, it) => acc + it.qty * (it.price ?? 0), 0);
+  const precioTotal = items.reduce(
+    (acc, it) => acc + it.qty * (it.price ?? 0),
+    0,
+  );
 
   const value = useMemo(
     () => ({
@@ -57,11 +60,13 @@ export function CarritoProvider({ children }) {
     [items, isOpen],
   );
 
-  return <CarritoContext.Provider value={value}>{children}</CarritoContext.Provider>;
+  return (
+    <CarritoContext.Provider value={value}>{children}</CarritoContext.Provider>
+  );
 }
 
 export function useCarrito() {
   const ctx = useContext(CarritoContext);
-  if (!ctx) throw new Error('useCarrito must be used within CarritoProvider');
+  if (!ctx) throw new Error("useCarrito must be used within CarritoProvider");
   return ctx;
 }

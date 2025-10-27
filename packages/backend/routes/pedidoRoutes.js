@@ -36,7 +36,7 @@ export default function pedidoRoutes(getController) {
   });
 
   // Enviar un pedido
- router.post(pathPedido + "/:id/enviar", async (req, res, next) => {
+  router.post(pathPedido + "/:id/enviar", async (req, res, next) => {
     try {
       await getController(PedidosController).enviar(req, res);
     } catch (error) {

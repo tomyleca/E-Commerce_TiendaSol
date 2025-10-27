@@ -6,12 +6,12 @@ export default defineConfig([
   {
     files: ["packages/backend/**/*.{js,mjs,cjs,jsx}"],
     plugins: { js },
-      extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react/jsx-runtime" // desactiva react/react-in-jsx-scope
-  ],
-  settings: { react: { version: "detect" } },
+    extends: [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:react/jsx-runtime", // desactiva react/react-in-jsx-scope
+    ],
+    settings: { react: { version: "detect" } },
     languageOptions: { globals: globals.node },
     rules: {
       "no-unused-vars": [
