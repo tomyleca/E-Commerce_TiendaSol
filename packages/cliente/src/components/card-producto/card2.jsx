@@ -1,8 +1,10 @@
 import './card2.css';
 import { useCarrito } from '../../context/CarritoContext.jsx';
+import { useNavigate } from 'react-router';
 
 const Card2 = ({ producto }) => {
   const { agregarCarrito } = useCarrito();
+  const navegar = useNavigate();
 
   return (
     <div className="product-card-horizontal">
@@ -14,9 +16,9 @@ const Card2 = ({ producto }) => {
 
         <button
           className="btn-carrito"
-          onClick={() => agregarCarrito(producto)}
+          onClick={() => navegar(`/producto/${producto.id}`)}
         >
-          Agregar al carrito
+          Ver producto
         </button>
       </div>
     </div>
