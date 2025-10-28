@@ -14,7 +14,7 @@ import { useNotification } from "../../context/NotificacionContext.jsx";
 
 const Navbar = ({ onCartClick, minimalist = false }) => {
   const { abrirCarrito, cantidadTotalCarrito } = useCarrito();
-  const { toggleNotificaciones } = useNotification();
+  const { toggleNotificaciones, cantidadNotificaciones} = useNotification();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
@@ -47,7 +47,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
             {!minimalist && (
             <>
               <div role="button" onClick={toggleNotificaciones} className="notification-icon">
-                <Badge badgeContent={4} color="primary">
+                <Badge badgeContent={cantidadNotificaciones} color="primary">
                   <NotificationsIcon fontSize="medium" />
                 </Badge>
             </div>

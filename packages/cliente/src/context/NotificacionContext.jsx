@@ -6,21 +6,22 @@ export function NotificationProvider({ children })
 {
   const [notifications, setNotifications] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [totalNotifications, setTotalNotifications] = useState(3);
 
-  const abrirNotificaciones = () => setIsOpen(true);
+  
   const cerrarNotificaciones = () => setIsOpen(false);
-  const toggleNotificaciones = () => setIsOpen((v) => !v);
+  const toggleNotificaciones = () => {setIsOpen((v) => !v); setTotalNotifications(0); };
 
   const value = useMemo(
     () => ({
-      notificationes : notifications,
+      notificaciones : notifications,
       isOpenNotificaciones: isOpen,
-      abrirNotificaciones,
+	  cantidadNotificaciones: totalNotifications,
       cerrarNotificaciones,
       toggleNotificaciones,
       setNotifications,
     }),
-    [notifications, isOpen]
+    [notifications, isOpen, totalNotifications]
   );
 
 

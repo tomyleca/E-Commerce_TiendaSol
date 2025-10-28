@@ -1,5 +1,6 @@
 .notification-modal {
 	display: flex;
+	flex-direction: column;
 	background-color: white;
 	border: 1px solid #282727;
 	border-radius: 4px;
@@ -11,7 +12,24 @@
 	z-index: 1000;
 	width: 270px;
 	min-height: 400px;
+	
 
+}
+
+.notification-title{
+	margin-bottom:25px;
+}
+
+.notification{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 15px;
+	margin-top: 0px;
+	padding: 8px;
+	border-bottom: 1px solid #aca8a8;
+
+	
 }
 
 .modal-overlay {
