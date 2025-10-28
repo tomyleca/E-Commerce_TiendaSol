@@ -6,34 +6,33 @@ import { useCarrito } from '../../context/CarritoContext.jsx';
 import Body2 from '../../components/Body2.jsx';
 import { getProducto } from '../../services/productService.js';
 import BarraBusqueda from '../../components/BarraBusqueda.jsx';
-const ListadoProductos = () => {
-	const [productos,setProductos]=useState([]);
-	const [productosFiltrados,setProductosFiltrados]=useState([]);
-	
+import { useNavigate } from 'react-router'
 
-	
-	const filtarProductos=(busqueda)=>{
-		const filtrados=productos.filter((p)=>p.titulo.toLowerCase().includes(busqueda.toLowerCase()));
+const ListadoProductos = () => {
+	const [productos, setProductos] = useState([]);
+	const [productosFiltrados, setProductosFiltrados] = useState([]);
+
+	const filtarProductos = (busqueda) => {
+		const filtrados = productos.filter((p) => p.titulo.toLowerCase().includes(busqueda.toLowerCase()));
 		setProductosFiltrados(filtrados);
 	}
-	
 
-	const cargarProductos=async()=>{
-		const productosObtenidos=await getProducto();
+	const cargarProductos = async () => {
+		const productosObtenidos = await getProducto();
 		setProductos(productosObtenidos);
-		setProductosFiltrados(productosObtenidos);	
+		setProductosFiltrados(productosObtenidos);
 	}
 
-	useEffect(()=>{
+	useEffect(() => {
 		cargarProductos();
-	},[]);
-	
+	}, []);
+
 	return (
 		<>
 			<Navbar />
-			<BarraBusqueda  filtarProductos/>
+			<BarraBusqueda filtarProductos />
 			<div className="contenedor-productos">
-			<Body2 productos={productos} />
+				<Body2 productos={productos} />
 			</div>
 		</>
 	);
