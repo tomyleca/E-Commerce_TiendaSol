@@ -31,7 +31,6 @@ const ListadoProductos = () => {
 	return (
 		<>
 			<Navbar />
-			<ModalCarrito />
 			<BarraBusqueda  filtarProductos/>
 			<div className="contenedor-productos">
 			<Body2 productos={productos} />

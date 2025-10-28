@@ -2,7 +2,7 @@ import "./card.css";
 import { useCarrito } from "../../context/CarritoContext.jsx";
 
 const CardProducto = () => {
-  const { agregar } = useCarrito();
+  const { agregarCarrito } = useCarrito();
 
   return (
     <div className="card">
@@ -35,7 +35,7 @@ const CardProducto = () => {
               <span
                 role="button"
                 onClick={() =>
-                  agregar({ id: 1, title: "UltraBook Pro X", price: 1999 })
+                  agregarCarrito({ id: 1, title: "UltraBook Pro X", price: 1999 })
                 }
               >
                 Agregar al carrito

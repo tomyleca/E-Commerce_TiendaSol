@@ -51,9 +51,21 @@ navbar-bg {
   position: relative;
   gap: 0.5rem;
   margin-top: 0.4rem;
+  margin-left: 1rem;
 }
 
 .login-button {
+  display: flex;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  position: relative;
+  margin-right: 2.8rem;
+}
+
+.notification-icon {
   display: flex;
   background-color: var(--primary-color);
   color: var(--text-color);
@@ -80,7 +92,9 @@ navbar-bg {
   }
 
   .login-button {
-	font-size: 1.7rem;
+	font-size: 1.8rem;
 	margin-right: 0.4rem;
 }
+
+
 }

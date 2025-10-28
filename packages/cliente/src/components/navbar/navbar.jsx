@@ -7,11 +7,18 @@ import { useCarrito } from "../../context/CarritoContext";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import ResponsiveDrawer from "./drawer.jsx";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationModal from "./notification-modal.jsx";
+import ModalCarrito from "./modal-carrito.jsx";
+import { useNotification } from "../../context/NotificacionContext.jsx";
 
 const Navbar = ({ onCartClick, minimalist = false }) => {
-  const { abrir, cantidadTotal } = useCarrito();
+  const { abrirCarrito, cantidadTotalCarrito } = useCarrito();
+  const { toggleNotificaciones } = useNotification();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
   return (
+	<>
     <header className={`navbar-bg${minimalist ? " navbar-minimalist" : ""}`}>
       <nav className="navbar">
         
@@ -20,8 +27,8 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
               <>
                 <button className="menu-icon" onClick={() => setDrawerOpen(true)}>☰</button>
                 <ResponsiveDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-                <button className="carrito-button" onClick={abrir}>
-                  <Badge badgeContent={cantidadTotal} color="primary">
+                <button className="carrito-button" onClick={abrirCarrito}>
+                  <Badge badgeContent={cantidadTotalCarrito} color="primary">
                     <ShoppingCartIcon />
                   </Badge>
                 </button>
@@ -38,13 +45,23 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
         
           <div className="navbar-section right">
             {!minimalist && (
-              <Link to="/login" className="login-button" aria-label="Ir a login">
-                <FiLogIn />
-              </Link>
+            <>
+              <div role="button" onClick={toggleNotificaciones} className="notification-icon">
+                <Badge badgeContent={4} color="primary">
+                  <NotificationsIcon fontSize="medium" />
+                </Badge>
+            </div>
+                <Link to="/login" className="login-button" aria-label="Ir a login">
+                  <FiLogIn />
+                </Link>
+              </>
             )}
           </div>
         </nav>
+		<NotificationModal />
+		<ModalCarrito />
     </header>
+	</>
   );
 };
 

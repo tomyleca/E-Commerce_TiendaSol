@@ -20,7 +20,7 @@ export function CarritoProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
-  const agregar = (producto, cantidad = 1) => {
+  const agregarCarrito = (producto, cantidad = 1) => {
     setItems((prev) => {
       const i = prev.findIndex((p) => p.id === producto.id);
       if (i > -1) {
@@ -32,30 +32,30 @@ export function CarritoProvider({ children }) {
     });
   };
 
-  const quitar = (id) => setItems((prev) => prev.filter((p) => p.id !== id));
-  const vaciar = () => setItems([]);
-  const abrir = () => setIsOpen(true);
-  const cerrar = () => setIsOpen(false);
-  const alternar = () => setIsOpen((v) => !v);
+  const quitarCarrito = (id) => setItems((prev) => prev.filter((p) => p.id !== id));
+  const vaciarCarrito = () => setItems([]);
+  const abrirCarrito = () => setIsOpen(true);
+  const cerrarCarrito = () => setIsOpen(false);
+  const alternarCarrito = () => setIsOpen((v) => !v);
 
-  const cantidadTotal = items.reduce((acc, it) => acc + it.qty, 0);
-  const precioTotal = items.reduce(
+  const cantidadTotalCarrito = items.reduce((acc, it) => acc + it.qty, 0);
+  const precioTotalCarrito = items.reduce(
     (acc, it) => acc + it.qty * (it.price ?? 0),
     0,
   );
 
   const value = useMemo(
     () => ({
-      items,
-      agregar,
-      quitar,
-      vaciar,
-      isOpen,
-      abrir,
-      cerrar,
-      alternar,
-      cantidadTotal,
-      precioTotal,
+      itemsCarrito: items,
+      agregarCarrito,
+      quitarCarrito,
+      vaciarCarrito,
+      isOpenCarrito: isOpen,
+      abrirCarrito,
+      cerrarCarrito,
+      alternarCarrito,
+      cantidadTotalCarrito,
+      precioTotalCarrito,
     }),
     [items, isOpen],
   );
