@@ -19,7 +19,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
             {!minimalist && (
               <>
                 <button className="menu-icon" onClick={() => setDrawerOpen(true)}>☰</button>
-                <ResponsiveDrawer open={drawerOpen} />
+                <ResponsiveDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
                 <button className="carrito-button" onClick={abrir}>
                   <Badge badgeContent={cantidadTotal} color="primary">
                     <ShoppingCartIcon />
