@@ -1,0 +1,96 @@
+import { useParams } from 'react-router'
+import { productos } from '../../mockData/Productos'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router'
+import { ButtonGroup, Button } from '@mui/material'
+import "./ProductoDetailPage.css"
+import { getProductoById } from '../../services/productService'
+
+const conProductos = (cantidadProductos, producto) => ({ ...producto, cantidadProductos })
+const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
+    const navegar = useNavigate()
+    const { id } = useParams();
+
+    //const producto = productos.find(h => h.id === parseInt(id));
+    const [producto, setProducto] = useState(null);
+    useEffect(() => {
+        const cargarProducto = async () => {
+            const data = await getProductoById(id);
+            setProducto(data);
+        };
+        cargarProducto();
+    }, [id]);
+
+    const [cantProductos, setCantProductos] = useState(0);
+    useEffect(() => {
+        setCantProductos(0);
+    }, [id, carrito]);
+
+    const incrementarProductos = () => {
+        const nuevosProductos = cantProductos + 1;
+        setCantProductos(nuevosProductos);
+    };
+
+    const decrementarProductos = () => {
+        if (cantProductos > 0) {
+            const nuevosProductos = cantProductos - 1;
+            setCantProductos(nuevosProductos)
+        }
+    }
+
+    const comprar = () => {
+        actualizarCarrito(conProductos(cantProductos, producto))
+        navegar("/")
+    }
+
+    if (!producto) {
+        return (
+            <div className="producto-detail-container">
+                <div className="producto-header">
+                    <h1>Producto no encontrado</h1>
+                    <p>Lo sentimos, no pudimos encontrar el producto que buscas.</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="producto-detail-container">
+            <div className="producto-header">
+                <h1 className="producto-nombre">{producto.titulo}</h1>
+            </div>
+
+            <div className="producto-content">
+                <div className="producto-image-section">
+                    <img
+                        src={producto.imagen}
+                        alt={producto.titulo}
+                        className="producto-imagen"
+                    />
+                </div>
+
+                <div className="producto-info-section">
+                    <div className="producto-description">
+                        {producto.descripcion}
+                    </div>
+
+                    <div className="producto-price-section">
+                        <div className="producto-precio">$ {producto.precio?.toLocaleString()}</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div className="comprar-container">
+                <ButtonGroup variant="outlined" aria-label="outlined button group">
+                    <Button onClick={decrementarProductos} disabled={cantProductos === 0}>-</Button>
+                    <Button disabled>{cantProductos}</Button>
+                    <Button onClick={incrementarProductos}>+</Button>
+                </ButtonGroup>
+                <button className="comprar" onClick={comprar}>Comprar</button>
+            </div>
+        </div>
+    );
+}
+
+export default ProductoDetailPage
