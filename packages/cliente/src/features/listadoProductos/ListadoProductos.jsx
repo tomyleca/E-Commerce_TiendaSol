@@ -6,7 +6,6 @@ import { useCarrito } from '../../context/CarritoContext.jsx';
 import Body2 from '../../components/Body2.jsx';
 import { getProducto } from '../../services/productService.js';
 import BarraBusqueda from '../../components/BarraBusqueda.jsx';
-import { useNavigate } from 'react-router'
 
 const ListadoProductos = () => {
 	const [productos, setProductos] = useState([]);

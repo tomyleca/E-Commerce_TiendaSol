@@ -1,8 +1,8 @@
 import { useParams } from 'react-router'
-import { productos } from '../../mockData/Productos'
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { ButtonGroup, Button } from '@mui/material'
+import Navbar from '../../components/navbar/navbar.jsx';
 import "./ProductoDetailPage.css"
 import { getProductoById } from '../../services/productService'
 
@@ -11,7 +11,6 @@ const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
     const navegar = useNavigate()
     const { id } = useParams();
 
-    //const producto = productos.find(h => h.id === parseInt(id));
     const [producto, setProducto] = useState(null);
     useEffect(() => {
         const cargarProducto = async () => {
@@ -56,6 +55,7 @@ const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
 
     return (
         <div className="producto-detail-container">
+            <Navbar />
             <div className="producto-header">
                 <h1 className="producto-nombre">{producto.titulo}</h1>
             </div>
