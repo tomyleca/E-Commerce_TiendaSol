@@ -11,13 +11,14 @@
 	right: 25px;
 	z-index: 1000;
 	width: 270px;
-	min-height: 400px;
+	min-height: 300px;
 	
 
 }
 
 .notification-title{
-	margin-bottom:25px;
+	margin-bottom:10px;
+	text-align: center;
 }
 
 .notification{
@@ -32,16 +33,34 @@
 	
 }
 
+.notification-footer{
+	margin-top: auto;
+	text-align: center;
+	color: #22349b;
+	cursor: pointer;
+	font-weight: 500;
+	padding-top: 8px;
+	border-top: 1px solid #e0e0e0;
+	font-size: 0.8rem;
+	
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 
+}
+@media (max-width: 600px) {
+	.notification-modal {
+		right: 10px;
+		width: 180px;
+	}
 }
