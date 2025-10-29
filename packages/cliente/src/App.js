@@ -20,12 +20,14 @@ function App() {
       <NotificationProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Layout />} ></Route>
-            <Route path="/productos" element={<ListadoProductos />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/producto/:id" element={<ProductoDetailPage carrito={carrito}
-              actualizarCarrito={actualizarCarrito} />}></Route>
+            <Route path="/" element={<Layout />} ><Route index element={<Layout />} ></Route>
+              <Route path="/productos" element={<ListadoProductos />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/producto/:id" element={<ProductoDetailPage carrito={carrito}
+                actualizarCarrito={actualizarCarrito} />}></Route>
+            </Route>
+
           </Routes>
         </BrowserRouter>
       </NotificationProvider>

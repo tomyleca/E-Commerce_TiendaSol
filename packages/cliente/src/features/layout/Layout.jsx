@@ -1,10 +1,13 @@
 import React from 'react'
 import Navbar from '../../components/navbar/navbar'
+import BarraBusqueda from '../../components/BarraBusqueda'
 import { Outlet } from 'react-router'
+
 const Layout = () => {
     return (
         <>
-            <Navbar></Navbar>
+            <Navbar />
+            <BarraBusqueda />
             <Outlet />
         </>
     )
