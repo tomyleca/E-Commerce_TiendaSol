@@ -18,8 +18,8 @@ const ListadoProductos = () => {
   const [categorias, setCategorias] = useState([]);
   const [productosFiltrados, setProductosFiltrados] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPaginas, setTotalPaginas] = useState(3);
-  //const [vendedor,setVendedor]=useState('68f132ae7f31069b1cb49254');
+  const [totalPaginas, setTotalPaginas] = useState(1);
+  const [vendedor,setVendedor]=useState('68f132ae7f31069b1cb49254');
 
   const { selectedCategorias, orden, precio, masVendido, busqueda } =
     useFiltro();
@@ -36,6 +36,7 @@ const ListadoProductos = () => {
       busqueda
     );
     setProductos(productosObtenidos.data);
+	setTotalPaginas(productosObtenidos.totalPaginas);
     setProductosFiltrados(productosObtenidos.data);
     if (typeof productosObtenidos.totalPaginas === "number") {
       setTotalPaginas(productosObtenidos.totalPaginas);
@@ -49,7 +50,7 @@ const ListadoProductos = () => {
     const raw = Array.isArray(categoriasObtenidas?.data)
       ? categoriasObtenidas.data
       : categoriasObtenidas;
-    // Normalizar _id de Mongo a string estable
+    //Normalizar _id de Mongo a string estable
     const toIdString = (val) => {
       const base = val?._id ?? val?.id ?? val;
       if (base == null) return "";
@@ -91,6 +92,7 @@ const ListadoProductos = () => {
       </div>
       {totalPaginas >= 1 && (
         <Paginacion
+          key={`p-${totalPaginas}`}
           currentPage={currentPage}
           totalPaginas={totalPaginas}
           onPageChange={(page) => cargarProductos(page)}
