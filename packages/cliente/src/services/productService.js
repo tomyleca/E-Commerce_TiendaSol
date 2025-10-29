@@ -18,9 +18,9 @@ export const getProductoById = (id) =>
 
 	const API_BASE_URL = "http://localhost:3001";
 
-export const getProductos = async (page) => {
+export const getProductos = async (page,vendedor) => {
   try{
-    const response = await axios.get(`${API_BASE_URL}/producto?page=${page}`, {
+    const response = await axios.get(`${API_BASE_URL}/vendedores/${encodeURIComponent(vendedor)}/productos?pagina=${page}`, {
   headers: {
     'Cache-Control': 'no-cache'
   }

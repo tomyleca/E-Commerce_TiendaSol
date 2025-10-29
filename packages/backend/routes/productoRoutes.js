@@ -16,7 +16,7 @@ export default function productoRoutes(getController) {
     }
   });
 
-  //Get Producto por ID
+  //Get Producto p  //Get Producto por ID
   router.get(`${pathPedido}/:id`, async (req, res, next) => {
     try {
       await getController(ProductosController).buscarPorId(req, res);
@@ -25,8 +25,7 @@ export default function productoRoutes(getController) {
     }
   });
 
-  //Crear pedido
-  router.post(pathPedido, async (req, res, next) => {
+ost(pathPedido, async (req, res, next) => {
     try {
       await getController(ProductosController).crear(req, res);
     } catch (error) {

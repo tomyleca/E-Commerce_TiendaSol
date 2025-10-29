@@ -14,6 +14,7 @@ const ListadoProductos = () => {
 	const [productosFiltrados, setProductosFiltrados] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(3);
+	const [vendedor,setVendedor]=useState('68f132ae7f31069b1cb49254');
 
 
 	const filtarProductos = (busqueda) => {
@@ -22,7 +23,7 @@ const ListadoProductos = () => {
 	}
 
 	const cargarProductos = async (page) => {
-		const productosObtenidos = await getProductos(page);
+		const productosObtenidos = await getProductos(page,vendedor);
 		setProductos(productosObtenidos.data);
 		setProductosFiltrados(productosObtenidos.data);
 	}
