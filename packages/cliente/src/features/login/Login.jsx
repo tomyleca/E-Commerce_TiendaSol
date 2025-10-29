@@ -7,7 +7,7 @@ import "../../index.css";
 const Login = () => {
         return (
             <>
-                <Navbar minimalist />
+        <Navbar minimalist />
         <div className="login-page">
             <LoginForm />
         </div>
