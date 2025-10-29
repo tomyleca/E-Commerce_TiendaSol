@@ -27,12 +27,18 @@ import { ProductosRepository } from "./models/repositories/productosRepository.j
 import { CategoriaController } from "./controllers/categoriasController.js";
 import { CategoriaService } from "./services/categoriasService.js";
 import { CategoriasRepository } from "./models/repositories/categoriasRepository.js";
+import cors from "cors";
+
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
+//TODO PASARLO A SERVER CUANDO YA NO NECESITE POSTMAN
+app.use(cors());
 
-const port = process.env.PORT || 3000;
-dotenv.config();
+const port = process.env.PORT || 3001;
+
 
 const server = new Server(app, port);
 
