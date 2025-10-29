@@ -29,6 +29,10 @@ export const getProductos = async (
   try {
     const params = new URLSearchParams();
 
+	if(page){
+		params.append("pagina", page);
+	}
+
     if (selectedCategorias && selectedCategorias.length > 0) {
       params.append("categorias", selectedCategorias.join(","));
     }

@@ -8,7 +8,7 @@
   padding: 10px 15px;
   font-family: Arial, sans-serif;
   transition: transform 0.2s ease;
-  max-width: 1300px;
+  max-width: 1100px;
 }
 
 .product-card-horizontal:hover {
@@ -34,14 +34,15 @@
 .product-title {
   font-weight: 500;
   font-size: 20px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
+  margin-top:8px;
 }
 
 .product-price {
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 600;
+  font-size: 21px;
   color: #000;
-  margin-bottom: 12px;
+  
 }
 
 
@@ -51,24 +52,29 @@
   flex-direction: row;
 	gap: 10px;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 0px;
 }
 
 .stock {
   font-size: 14px;
   font-weight: 600;
   color: #187a3c;
+  margin-bottom: 4.5px;
+}
+
+.categorias-card {
+  display: flex;
+  gap: 8px;
+  
 }
 
 .categoria {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-size: 12px;
+  background: #f4f4f5;
   color: #71717a;
-  margin-bottom: 5px;
+  border-radius: 10px;
+  font-weight: 500;
 }
-
 
 .btn {
   background: linear-gradient(45deg, #18181b, #27272a);
@@ -84,8 +90,6 @@
   gap: 6px;
   transition: 0.3s;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-margin-top: auto;      
-  align-self: flex-end;  
 
 }
 
@@ -121,4 +125,18 @@ margin-top: auto;
 
 .btn:hover .icon {
   transform: rotate(-10deg) scale(1.1);
+}
+
+.product-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; 
+  margin-top: 12px;
+}
+
+/* Asegurar que el botón no se desplace dentro del footer */
+.product-footer .btn {
+  margin-top: 0;
+  align-self: center;
 }

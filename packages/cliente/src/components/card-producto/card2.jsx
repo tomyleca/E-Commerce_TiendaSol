@@ -16,18 +16,19 @@ const Card2 = ({ producto }) => {
 			<div className="stock">En Stock</div>
 		</div>
 		{Array.isArray(producto.categorias) && producto.categorias.length > 0 && (
-          <ul className="categorias">
+          <div className="categorias-card">
             {producto.categorias.map((cat) => (
-              <li
+              <span
                 key={cat?._id ?? cat?.id ?? cat?.nombre ?? String(cat)}
                 className="categoria"
               >
                 {cat?.nombre ?? String(cat)}
-              </li>
+              </span>
             ))}
-          </ul>
+          </div>
         )}
-        <div className="product-price">${producto.precio}</div>
+  <div className="product-footer">
+  <div className="product-price">${producto.precio}</div>
 		
       <button className="btn">
               <span
@@ -57,6 +58,7 @@ const Card2 = ({ producto }) => {
               </svg>
             </button>
       </div>
+	  </div>
     </div>
   );
 };
