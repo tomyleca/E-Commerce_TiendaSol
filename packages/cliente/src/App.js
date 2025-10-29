@@ -8,6 +8,7 @@ import Register from "./features/register/Register.jsx";
 import ProductoDetailPage from "./features/producto/ProductoDetailPage.jsx";
 import { useState } from "react";
 import { NotificationProvider } from "./context/NotificacionContext.jsx";
+import ListaNotificaciones from "./features/notificaciones/ListaNotificaciones.jsx";
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -26,9 +27,11 @@ function App() {
               <Route index element={<ListadoProductos />} />
               <Route path="productos" element={<ListadoProductos />} />
               <Route path="producto/:id" element={<ProductoDetailPage carrito={carrito} actualizarCarrito={actualizarCarrito} />} />
+              
             </Route>
 
             {/* Rutas sin Layout para evitar contenido extra arriba*/}
+			<Route path="notificaciones" element={<ListaNotificaciones />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>

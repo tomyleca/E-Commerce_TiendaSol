@@ -1,4 +1,5 @@
 import { productos } from '../mockData/Productos.js';
+import axios from 'axios';
 
 export const getProducto = () => new Promise((resolve) => {
     setTimeout(() => {
@@ -13,3 +14,16 @@ export const getProductoById = (id) =>
             resolve(producto);
         }, 500);
     });
+
+
+	const API_BASE_URL = "http://localhost:3001";
+
+export const getProductos = async () => {
+  try{
+    const response = await axios.get(`${API_BASE_URL}/producto`);
+    return response.data;
+  } catch (error) {
+    console.error("Error obteniendo los productos", error);
+    throw error;
+  }
+}

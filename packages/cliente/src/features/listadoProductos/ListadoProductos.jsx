@@ -4,7 +4,7 @@ import ModalCarrito from '../../components/navbar/modal-carrito.jsx';
 import './ListadoProductos.css';
 import { useCarrito } from '../../context/CarritoContext.jsx';
 import Body2 from '../../components/Body2.jsx';
-import { getProducto } from '../../services/productService.js';
+import { getProducto,getProductos } from '../../services/productService.js';
 import BarraBusqueda from '../../components/BarraBusqueda.jsx';
 
 const ListadoProductos = () => {
@@ -17,9 +17,9 @@ const ListadoProductos = () => {
 	}
 
 	const cargarProductos = async () => {
-		const productosObtenidos = await getProducto();
-		setProductos(productosObtenidos);
-		setProductosFiltrados(productosObtenidos);
+		const productosObtenidos = await getProductos();
+		setProductos(productosObtenidos.data);
+		setProductosFiltrados(productosObtenidos.data);
 	}
 
 	useEffect(() => {
