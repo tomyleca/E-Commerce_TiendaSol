@@ -24,6 +24,15 @@ export class ProductosController {
     res.json(productos);
   }
 
+  async buscarPorId(req, res) {
+    const { id } = req.params;
+    const producto = await this.productosService.buscarPorId(id);
+    if (!producto) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
+    return res.status(200).json(producto);
+  }
+
   async crear(req, res) {
     
     const resultBodyProducto =  productoSchema.parse(req.body);

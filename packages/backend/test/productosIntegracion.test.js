@@ -2,20 +2,19 @@ import { jest } from "@jest/globals";
 import request from "supertest";
 import { buildTestServer } from "./buildTestServer";
 
-import { ProductosService } from "../services/productosService";
-import { ProductosController } from "../controllers/productosController";
+import { ProductosService } from "../services/productosService.js";
+import { ProductosController } from "../controllers/productosController.js";
 import productoRoutes from "../routes/productoRoutes.js";
 
-import { UsuariosService } from "../services/usuariosService";
-import { CategoriaService } from "../services/categoriasService";
+import { UsuariosService } from "../services/usuariosService.js";
+import { CategoriaService } from "../services/categoriasService.js";
 import { Producto } from "../models/entities/producto.js";
 import { Usuario } from "../models/entities/usuario.js";
 import { Email } from "../models/entities/email.js";
 import { Categoria } from "../models/entities/categoria.js";
 import { Moneda } from "../models/entities/moneda.js";
 import { TipoUsuario } from "../models/entities/tipoUsuario.js";
-import { NotificacionesService } from "../services/notificacionesService";
-import { FactoryNotificacion } from "../models/entities/factoryNotificacion";
+import { NotificacionesService } from "../services/notificacionesService.js";
 
 const mockRepoProductos = {
   buscarTodos: jest.fn(),

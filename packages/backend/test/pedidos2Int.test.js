@@ -2,14 +2,14 @@ import { jest } from "@jest/globals";
 import request from "supertest";
 import { buildTestServer } from "./buildTestServer";
 
-import { ProductosService } from "../services/productosService";
-import { PedidosService } from "../services/pedidosService";
-import { NotificacionesService } from "../services/notificacionesService";
-import { CategoriaService } from "../services/categoriasService";
-import { UsuariosService } from "../services/usuariosService";
-import { FactoryNotificacion } from "../models/entities/factoryNotificacion";
+import { ProductosService } from "../services/productosService.js";
+import { PedidosService } from "../services/pedidosService.js";
+import { NotificacionesService } from "../services/notificacionesService.js";
+import { CategoriaService } from "../services/categoriasService.js";
+import { UsuariosService } from "../services/usuariosService.js";
+import { FactoryNotificacion } from "../models/entities/factoryNotificacion.js";
 
-import { PedidosController } from "../controllers/pedidosController";
+import { PedidosController } from "../controllers/pedidosController.js";
 import pedidoRoutes from "../routes/pedidoRoutes.js";
 
 import { Usuario } from "../models/entities/usuario.js";
@@ -106,12 +106,12 @@ describe("PedidosController", () => {
       })
       .set("Content-Type", "application/json");
 
-    expect(res.status).toBe(201);
+  expect(res.status).toBe(201);
     expect(mockRepoPedidos.crear).toHaveBeenCalled();
     expect(mockRepoFactory.crear).toHaveBeenCalled();
     expect(res.body).toMatchObject({
-      comprador: expect.any(Usuario),
-      items: expect.any(Array),
+      comprador: expect.any(Object),
+      itemsPedido: expect.any(Array),
     });
   });
 

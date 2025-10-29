@@ -1,13 +1,12 @@
-/*import { jest } from "@jest/globals";
+import { jest } from "@jest/globals";
 import request from "supertest";
 import { buildTestServer } from "./buildTestServer";
-import { ProductosService } from "../services/productosService";
-import { ProductosController } from "../controllers/productosController";
-import { NotificacionesService } from "../services/notificacionesService";
-import { CategoriaService } from "../services/categoriasService";
-import { UsuariosService } from "../services/usuariosService";
-import { FactoryNotificacion } from "../models/entities/factoryNotificacion";
-import { PedidosController } from "../controllers/pedidosController";
+import { ProductosService } from "../services/productosService.js";
+import { NotificacionesService } from "../services/notificacionesService.js";
+import { CategoriaService } from "../services/categoriasService.js";
+import { UsuariosService } from "../services/usuariosService.js";
+import { FactoryNotificacion } from "../models/entities/factoryNotificacion.js";
+import { PedidosController } from "../controllers/pedidosController.js";
 import pedidoRoutes from "../routes/pedidoRoutes.js";
 import { Usuario } from "../models/entities/usuario.js";
 import { Email } from "../models/entities/email.js";
@@ -128,22 +127,22 @@ describe("POST/Pedido", () => {
     const res = await request(server.app)
       .post("/pedido")
       .send({
-        compradorId: 2,
-        items: [{ productoId: 1, cantidad: 3, precioUnitario: 2000 }],
-        direccionEntrega: direccion
+        compradorId: "2",
+        items: [{ productoId: "1", cantidad: 3, precioUnitario: 2000 }],
+        direccionEntrega: "Av. Libertador 1234"
       })
       .set("Content-Type", "application/json");
 
-    debugger;
+  // No usar debugger en tests automatizados
     
     expect(res.status).toBe(201);
-    consolelog(res.status);
+  console.log(res.status);
     expect(mockRepoPedidos.crear).toHaveBeenCalled();
     expect(mockRepoFactory.crear).toHaveBeenCalled();
     expect(mockRepoProductos.actualizar).toHaveBeenCalled();
     expect(res.body).toMatchObject({
       comprador: expect.any(Object),
-      items: expect.any(Array),
+      itemsPedido: expect.any(Array),
     });
   });
 });
@@ -151,4 +150,3 @@ describe("POST/Pedido", () => {
 
 
 
-*/
