@@ -6,18 +6,23 @@ import { useCarrito } from '../../context/CarritoContext.jsx';
 import Body2 from '../../components/Body2.jsx';
 import { getProducto,getProductos } from '../../services/productService.js';
 import BarraBusqueda from '../../components/BarraBusqueda.jsx';
+import Paginacion from '../../components/paginacion/paginacion.jsx';
+
 
 const ListadoProductos = () => {
 	const [productos, setProductos] = useState([]);
 	const [productosFiltrados, setProductosFiltrados] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
+    const [totalPaginas, setTotalPaginas] = useState(3);
+
 
 	const filtarProductos = (busqueda) => {
 		const filtrados = productos.filter((p) => p.titulo.toLowerCase().includes(busqueda.toLowerCase()));
 		setProductosFiltrados(filtrados);
 	}
 
-	const cargarProductos = async () => {
-		const productosObtenidos = await getProductos();
+	const cargarProductos = async (page) => {
+		const productosObtenidos = await getProductos(page);
 		setProductos(productosObtenidos.data);
 		setProductosFiltrados(productosObtenidos.data);
 	}
@@ -31,6 +36,13 @@ const ListadoProductos = () => {
 			<div className="contenedor-productos">
 				<Body2 productos={productos} />
 			</div>
+		       {totalPaginas >= 1 && (
+            <Paginacion
+              currentPage={currentPage}
+              totalPaginas={totalPaginas}
+              onPageChange={(page) => cargarProductos(page)}
+           />
+          )}
 		</>
 	);
 }

@@ -18,12 +18,16 @@ export const getProductoById = (id) =>
 
 	const API_BASE_URL = "http://localhost:3001";
 
-export const getProductos = async () => {
+export const getProductos = async (page) => {
   try{
-    const response = await axios.get(`${API_BASE_URL}/producto`);
+    const response = await axios.get(`${API_BASE_URL}/producto?page=${page}`, {
+  headers: {
+    'Cache-Control': 'no-cache'
+  }
+});
     return response.data;
   } catch (error) {
-    console.error("Error obteniendo los productos", error);
+    console.error("Error obteniendo los hoteles", error);
     throw error;
   }
 }
