@@ -21,4 +21,6 @@
   cursor: pointer;
 }
 
-.check-categoria input{ margin-right: 8px; }
+.check-input input{ 
+  font: size 10px;
+  margin-right: 8px; }
