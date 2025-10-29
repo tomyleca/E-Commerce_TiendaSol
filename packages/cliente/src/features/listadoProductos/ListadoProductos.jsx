@@ -28,8 +28,6 @@ const ListadoProductos = () => {
 
 	return (
 		<>
-			<Navbar />
-			<BarraBusqueda filtarProductos />
 			<div className="contenedor-productos">
 				<Body2 productos={productos} />
 			</div>
