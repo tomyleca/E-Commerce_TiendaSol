@@ -63,12 +63,13 @@ export class PedidosService {
       throw new NoHayStock();
     } //Aca se valida si el stock esta disponible.
 
+
     // Registrar ventas solo si el stock es suficiente
+    // A demas en el service disminuye el stock
     await this.agregarVentasDePedido(items);
 
     //Creo la notificación según el pedido
-    const notificacion =
-      await this.factoryNotificacion.crearSegunPedido(nuevoPedido);
+    const notificacion = this.factoryNotificacion.crearSegunPedido(nuevoPedido);
 
     this.notificacionesService.enviar(notificacion);
 
@@ -132,4 +133,5 @@ export class PedidosService {
       ),
     );
   }
+
 }
