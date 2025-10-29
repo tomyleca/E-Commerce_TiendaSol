@@ -78,23 +78,23 @@ navbar-bg {
 
 @media (max-width: 768px) {
   .nombre-marca {
-	display:none;
+    display: none;
   }
 
   .logo {
-	width: 60px;
-	height: 60px;
+    width: 60px;
+    height: 60px;
   }
 
   .carrito-button {
-	font-size: 1.2rem;
-	margin-top: 0.2rem;
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
   }
 
   .login-button {
-	font-size: 1.8rem;
-	margin-right: 0.4rem;
-}
+    font-size: 1.8rem;
+    margin-right: 0.4rem;
+  }
 
 
 }
