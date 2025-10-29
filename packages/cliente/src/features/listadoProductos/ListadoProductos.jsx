@@ -13,7 +13,7 @@ const ListadoProductos = () => {
 	const [productos, setProductos] = useState([]);
 	const [productosFiltrados, setProductosFiltrados] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
-    const [totalPaginas, setTotalPaginas] = useState(3);
+	const [totalPaginas, setTotalPaginas] = useState(3);
 	const [vendedor,setVendedor]=useState('68f132ae7f31069b1cb49254');
 
 
@@ -23,13 +23,18 @@ const ListadoProductos = () => {
 	}
 
 	const cargarProductos = async (page) => {
-		const productosObtenidos = await getProductos(page,vendedor);
+		const numeroPagina = page ?? 1;
+		const productosObtenidos = await getProductos(numeroPagina, vendedor);
 		setProductos(productosObtenidos.data);
 		setProductosFiltrados(productosObtenidos.data);
+		if (typeof productosObtenidos.totalPaginas === 'number') {
+		  setTotalPaginas(productosObtenidos.totalPaginas);
+		}
+		setCurrentPage(productosObtenidos.page ?? numeroPagina);
 	}
 
 	useEffect(() => {
-		cargarProductos();
+		cargarProductos(1);
 	}, []);
 
 	return (
@@ -38,11 +43,11 @@ const ListadoProductos = () => {
 				<Body2 productos={productos} />
 			</div>
 		       {totalPaginas >= 1 && (
-            <Paginacion
-              currentPage={currentPage}
-              totalPaginas={totalPaginas}
-              onPageChange={(page) => cargarProductos(page)}
-           />
+					<Paginacion
+				  currentPage={currentPage}
+				  totalPaginas={totalPaginas}
+				  onPageChange={(page) => cargarProductos(page)}
+			  />
           )}
 		</>
 	);
