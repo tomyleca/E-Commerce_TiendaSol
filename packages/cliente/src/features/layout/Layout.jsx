@@ -4,12 +4,12 @@ import BarraBusqueda from '../../components/BarraBusqueda'
 import { Outlet } from 'react-router-dom'
 import './Layout.css'
 
-const Layout = () => {
+const Layout = ({ filtrarProductos }) => {
     return (
         <>
             <Navbar />
 			<div className="barra-container">
-			<BarraBusqueda />
+		    <BarraBusqueda filtrarProductos={filtrarProductos} />
 			</div>
             <Outlet />
         </>

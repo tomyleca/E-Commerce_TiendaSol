@@ -2,7 +2,7 @@ import { ProductosController } from "../controllers/productosController.js";
 import express from "express";
 import { generalErrorHandler } from "../middlewares/generalErrorHandler.js";
 
-const pathProducto = "/producto";
+const pathProducto = "/productos";
 
 export default function productoRoutes(getController) {
   const router = express.Router();

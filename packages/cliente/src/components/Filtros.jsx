@@ -1,17 +1,23 @@
 import "./Filtros.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFiltro } from "../context/FiltroContext.jsx";
 
 const Filtro = ({ categorias = [] }) => {
-  //agregarmas vendido
-  const { selectedCategorias, toggleCategoria, clearCategorias } = useFiltro();
+  
+  const { 
+  selectedCategorias, 
+  toggleCategoria,  
+  precio, 
+  setPrecioFiltro, 
+  masVendido, 
+  toggleMasVendido, 
+  orden, 
+  setOrdenFiltro 
+} = useFiltro();
 
-  const [filtros, setFiltros] = useState({
-    categoria: "",
-    precioMin: "",
-    precioMax: "",
-    orden: "asc",
-  });
+
+
+
 
   return (
     <div className="filtro-componente">
@@ -38,6 +44,10 @@ const Filtro = ({ categorias = [] }) => {
             <input
               type="number"
               name="precioMin"
+              onChange={(e) => {
+                const val = e.target.value;
+                setPrecioFiltro(val, precio.max);
+              }}
             />
           </label>
           <label>
@@ -46,6 +56,10 @@ const Filtro = ({ categorias = [] }) => {
               type="number"
               name="precioMax"
               placeholder="1000"
+               onChange={(e) => {
+                const val = e.target.value;
+                setPrecioFiltro(val, precio.min);
+              }}
             />
           </label>
         </div>
@@ -54,9 +68,9 @@ const Filtro = ({ categorias = [] }) => {
         <div className="filtro-grupo">
           <h3>Más Vendidos</h3>
           <label className="check-input">
-            <input 
-            type="checkbox" 
-            //onChange={()=>agregarMasVendido()}
+            <input
+              type="checkbox"
+              onChange={() => toggleMasVendido()}
             />
             Mas Vendidos
           </label>
@@ -66,11 +80,19 @@ const Filtro = ({ categorias = [] }) => {
         <div className="filtro-grupo">
           <h3>Ordenamiento</h3>
           <label className="check-input">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              //checked={orden === "asc"}
+              onChange={() => setOrdenFiltro("precio_asc")}
+            />
             Precio ascendente
           </label>
           <label className="check-input">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              //checked={orden === "desc"}
+              onChange={() => setOrdenFiltro("desc")}
+            />
             Precio descendente
           </label>
         </div>

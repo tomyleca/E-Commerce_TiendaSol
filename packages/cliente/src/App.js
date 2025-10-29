@@ -17,6 +17,11 @@ function App() {
     setCarrito([...carrito, producto]);
   };
 
+  const [productos, setProductos] = useState([]);
+  const [productosFiltrados, setProductosFiltrados] = useState([]);
+
+ 
+
   return (
     <CarritoProvider>
       <NotificationProvider>

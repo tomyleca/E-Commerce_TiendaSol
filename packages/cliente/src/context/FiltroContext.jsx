@@ -1,61 +1,90 @@
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
-
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 
 const FiltroContext = createContext(undefined);
 
 // Normaliza un valor de categoría (objeto Mongo, número o string) a string de id
 const normalizeId = (val) => {
-	if (val && typeof val === "object") {
-		const maybe = val._id ?? val.id ?? undefined;
-		return maybe !== undefined ? String(maybe) : "";
-	}
-	return val != null ? String(val) : "";
+  if (val && typeof val === "object") {
+    const maybe = val._id ?? val.id ?? undefined;
+    return maybe !== undefined ? String(maybe) : "";
+  }
+  return val != null ? String(val) : "";
 };
 
 export const FiltroProvider = ({ children, initialCategorias = [] }) => {
-	const [selectedCategorias, _setSelectedCategorias] = useState(
-		(initialCategorias || []).map((x) => normalizeId(x))
-	);
 
-	const setSelectedCategorias = useCallback((ids) => {
-		const next = (ids || []).map((x) => normalizeId(x));
-		_setSelectedCategorias(next);
-	}, []);
+  const [precio, setPrecio] = useState({ min: "", max: "" });
+  const [masVendido, setMasVendido] = useState(false);
+  const [orden, setOrden] = useState("");
+  const [busqueda, setBusqueda] = useState("");	
 
-	const toggleCategoria = useCallback((id) => {
-		const s = normalizeId(id);
-		_setSelectedCategorias((prev) =>
-			prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
-		);
-	}, []);
+  const [selectedCategorias, _setSelectedCategorias] = useState(
+    (initialCategorias || []).map((x) => normalizeId(x))
+  );
 
-	const clearCategorias = useCallback(() => {
-		_setSelectedCategorias([]);
-	}, []);
+  const setSelectedCategorias = useCallback((ids) => {
+    const next = (ids || []).map((x) => normalizeId(x));
+    _setSelectedCategorias(next);
+  }, []);
 
-	const value = useMemo(
-		() => ({
-			selectedCategorias,
-			setSelectedCategorias,
-			toggleCategoria,
-			clearCategorias,
-			hasCategoria: (id) => selectedCategorias.includes(normalizeId(id)),
-			countCategorias: selectedCategorias.length,
-		}),
-		[selectedCategorias, setSelectedCategorias, toggleCategoria, clearCategorias]
-	);
+  const toggleCategoria = useCallback((id) => {
+    const s = normalizeId(id);
+    _setSelectedCategorias((prev) =>
+      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
+    );
+  }, []);
 
-	return (
-		<FiltroContext.Provider value={value}>{children}</FiltroContext.Provider>
-	);
+  const clearCategorias = useCallback(() => {
+    _setSelectedCategorias([]);
+  }, []);
+
+  const toggleMasVendido = useCallback(
+    () => setMasVendido((prev) => !prev),
+    []
+  );
+  const setPrecioFiltro = useCallback(
+    (min, max) => setPrecio({ min, max }),
+    []
+  );
+  const setOrdenFiltro = useCallback((tipo) => setOrden(tipo), []);
+  const setBusquedaFiltro = useCallback((texto) => setBusqueda(texto), []);
+
+  const value = useMemo(
+    () => ({
+      selectedCategorias,
+      setSelectedCategorias,
+      toggleCategoria,
+      clearCategorias,
+      hasCategoria: (id) => selectedCategorias.includes(normalizeId(id)),
+      countCategorias: selectedCategorias.length,
+      precio,
+      setPrecioFiltro,
+      masVendido,
+      toggleMasVendido,
+      orden,
+      setOrdenFiltro,
+	  busqueda,
+	  setBusquedaFiltro,
+    }),
+    [selectedCategorias, precio, masVendido, orden]
+  );
+
+  return (
+    <FiltroContext.Provider value={value}>{children}</FiltroContext.Provider>
+  );
 };
 
 export const useFiltro = () => {
-	const ctx = useContext(FiltroContext);
-	if (!ctx) throw new Error("useFiltro debe usarse dentro de FiltroProvider");
-	return ctx;
+  const ctx = useContext(FiltroContext);
+  if (!ctx) throw new Error("useFiltro debe usarse dentro de FiltroProvider");
+  return ctx;
 };
-
 
 export default FiltroContext;
