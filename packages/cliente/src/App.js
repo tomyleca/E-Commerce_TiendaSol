@@ -21,6 +21,7 @@ function App() {
       <NotificationProvider>
         <BrowserRouter>
           <Routes>
+
             {/*Rutas envueltas por el Layout */}
             <Route element={<Layout />}>
               <Route index element={<ListadoProductos />} />

@@ -85,7 +85,7 @@ const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
                     <Button disabled>{cantProductos}</Button>
                     <Button onClick={incrementarProductos}>+</Button>
                 </ButtonGroup>
-                <button className="comprar" onClick={comprar}>Comprar</button>
+                <button className="comprar" onClick={comprar}>Añadir al carrito</button>
             </div>
         </div>
     );

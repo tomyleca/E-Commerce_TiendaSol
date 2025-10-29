@@ -52,9 +52,9 @@ export class ProductosService {
       const categorias = Array.isArray(catParam)
         ? catParam
         : String(catParam)
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean);
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
       for (const id of categorias) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
           throw new NotFound("Categoria", id);
@@ -136,6 +136,7 @@ export class ProductosService {
 
     return await this.productosRepository.crear(nuevoProducto);
   }
+
   async buscarPorVendedor(pagina, limite, vendedorId, filtros) {
     filtros.vendedor = vendedorId;
     const productos = await this.buscarTodosPaginado(pagina, limite, filtros);
