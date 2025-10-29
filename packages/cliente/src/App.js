@@ -22,12 +22,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />} >
               <Route path="/productos" element={<ListadoProductos />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
               <Route path="/producto/:id" element={<ProductoDetailPage carrito={carrito}
                 actualizarCarrito={actualizarCarrito} />}></Route>
             </Route>
-
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </BrowserRouter>
       </NotificationProvider>
