@@ -20,11 +20,15 @@ function App() {
       <NotificationProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Layout />} >
-              <Route path="/productos" element={<ListadoProductos />} />
-              <Route path="/producto/:id" element={<ProductoDetailPage carrito={carrito}
-                actualizarCarrito={actualizarCarrito} />}></Route>
+
+            {/*Rutas envueltas por el Layout */}
+            <Route element={<Layout />}>
+              <Route index element={<ListadoProductos />} />
+              <Route path="productos" element={<ListadoProductos />} />
+              <Route path="producto/:id" element={<ProductoDetailPage carrito={carrito} actualizarCarrito={actualizarCarrito} />} />
             </Route>
+
+            {/* Rutas sin Layout para evitar contenido extra arriba*/}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
