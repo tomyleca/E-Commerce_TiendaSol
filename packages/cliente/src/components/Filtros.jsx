@@ -22,8 +22,8 @@ const Filtro = ({ categorias = [] }) => {
             <label key={c.id} className="check-categoria">
               <input
                 type="checkbox"
-                value={c.id}
-                checked={selectedCategorias.includes(c.id)}
+                value={String(c.id)}
+                checked={selectedCategorias.includes(String(c.id))}
                 onChange={() => toggleCategoria(c.id)}
               />{" "}
               {c.nombre}
