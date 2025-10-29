@@ -17,6 +17,6 @@
 .paginacion button:hover {
   background-color: #606ebc;
 }
-.paginacion button.active{
-	  background-color: #22349b;
+.paginacion button.active {
+  background-color: #22349b;
 }

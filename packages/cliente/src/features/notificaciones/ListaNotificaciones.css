@@ -1,17 +1,17 @@
-.notificaciones-page{
+.notificaciones-page {
   max-width: 720px;
   margin: 24px auto;
   padding: 0 16px;
 }
 
-.notificaciones-header{
-  display:flex;
+.notificaciones-header {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
 
-.acciones .btn-primario{
+.acciones .btn-primario {
   background: #22349b;
   color: #fff;
   border: none;
@@ -20,7 +20,7 @@
   cursor: pointer;
 }
 
-.lista-notificaciones{
+.lista-notificaciones {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -29,8 +29,8 @@
   gap: 8px;
 }
 
-.item{
-  display:flex;
+.item {
+  display: flex;
   align-items: flex-start;
   gap: 12px;
   border: 1px solid #e5e5e5;
@@ -39,20 +39,35 @@
   background: #fff;
 }
 
-.item.nueva{
-  background:#f6f8ff;
-  border-color:#dbe4ff;
+.item.nueva {
+  background: #f6f8ff;
+  border-color: #dbe4ff;
 }
 
-.item.leida{
-  background:#a9a8a8e3; 
-  border-color:#b3b3b3;
+.item.leida {
+  background: #a9a8a8e3;
+  border-color: #b3b3b3;
 }
 
-.icono{ color:#22349b; display:flex; align-items:center; }
+.icono {
+  color: #22349b;
+  display: flex;
+  align-items: center;
+}
 
-.contenido{ flex:1; }
-.mensaje{ margin:0 0 4px 0; }
-.fecha{ color:#666; }
+.contenido {
+  flex: 1;
+}
+.mensaje {
+  margin: 0 0 4px 0;
+}
+.fecha {
+  color: #666;
+}
 
-.btn-link{ background:none; border:none; color:#22349b; cursor:pointer; }
+.btn-link {
+  background: none;
+  border: none;
+  color: #22349b;
+  cursor: pointer;
+}

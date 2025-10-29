@@ -4,8 +4,7 @@
   flex-wrap: nowrap;
   justify-content: center;
   gap: 45px;
-  padding: 0 16px;           /* gutter lateral para que no pegue a los bordes */
-  margin: 40px auto 0;       /* centra el contenedor dentro de la página */
-  max-width: 1200px;         /* ancho máximo para centrar visualmente */
-  
+  padding: 0 16px; /* gutter lateral para que no pegue a los bordes */
+  margin: 40px auto 0; /* centra el contenedor dentro de la página */
+  max-width: 1200px; /* ancho máximo para centrar visualmente */
 }

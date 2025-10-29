@@ -1,23 +1,28 @@
 import "./Filtros.css";
 import { useEffect, useState } from "react";
-import { useFiltro } from "../context/FiltroContext.jsx";
+import { useFiltro } from "../../context/FiltroContext.jsx";
 
 const Filtro = ({ categorias = [] }) => {
-  
-  const { 
-  selectedCategorias, 
-  toggleCategoria,  
-  precio, 
-  setPrecioFiltro, 
-  masVendido, 
-  toggleMasVendido, 
-  orden, 
-  setOrdenFiltro 
-} = useFiltro();
+  const {
+    selectedCategorias,
+    toggleCategoria,
+    precio,
+    setPrecioFiltro,
+    masVendido,
+    toggleMasVendido,
+    orden,
+    setOrdenFiltro,
+  } = useFiltro();
 
+  //cambio en local
+  const [minLocal, setMinLocal] = useState(precio?.min ?? "");
+  const [maxLocal, setMaxLocal] = useState(precio?.max ?? "");
 
-
-
+  //si el precio global cambia desde afuera, sincronizo
+  useEffect(() => {
+    setMinLocal(precio?.min ?? "");
+    setMaxLocal(precio?.max ?? "");
+  }, [precio?.min, precio?.max]);
 
   return (
     <div className="filtro-componente">
@@ -35,41 +40,49 @@ const Filtro = ({ categorias = [] }) => {
               {c.nombre}
             </label>
           ))}
-        
-        {/* Rango de Precio */}
-        <div className="filtro-grupo">
-          <h3>Precio</h3>
-          <label>
-            Mínimo:
-            <input
-              type="number"
-              name="precioMin"
-              onChange={(e) => {
-                const val = e.target.value;
-                setPrecioFiltro(val, precio.max);
-              }}
-            />
-          </label>
-          <label>
-            Máximo:
-            <input
-              type="number"
-              name="precioMax"
-              placeholder="1000"
-               onChange={(e) => {
-                const val = e.target.value;
-                setPrecioFiltro(precio.min, val);
-              }}
-            />
-          </label>
-        </div>
+
+          {/* Rango de Precio */}
+          <div className="filtro-grupo">
+            <h3>Precio</h3>
+            <label>
+              Mínimo:
+              <input
+                type="number"
+                name="precioMin"
+                value={minLocal}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setMinLocal(val);
+                }}
+              />
+            </label>
+            <label>
+              Máximo:
+              <input
+                type="number"
+                name="precioMax"
+                value={maxLocal}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setMaxLocal(val);
+                }}
+              />
+            </label>
+            <button
+              type="button"
+              onClick={() => setPrecioFiltro(minLocal, maxLocal)}
+              aria-label="Aplicar filtro de precio"
+            >
+              Aplicar rango de precio
+            </button>
+          </div>
         </div>
         {/* Ordenamiento */}
         <div className="filtro-grupo">
           <h3>Ordenar por</h3>
-		<label className="check-input">
+          <label className="check-input">
             <input
-            type="radio"
+              type="radio"
               name="orden-precio"
               checked={orden === "masVendido"}
               onClick={(e) => {
@@ -118,8 +131,6 @@ const Filtro = ({ categorias = [] }) => {
             Precio descendente
           </label>
         </div>
-
-        
       </aside>
     </div>
   );

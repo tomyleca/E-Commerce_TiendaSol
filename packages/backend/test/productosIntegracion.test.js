@@ -35,9 +35,16 @@ const mockRepoCategorias = {
 const mockRepoFactory = { crear: jest.fn() };
 
 const notificacionesService = new NotificacionesService(mockRepoFactory);
-const usuariosService = new UsuariosService(mockRepoUsuarios, notificacionesService);
+const usuariosService = new UsuariosService(
+  mockRepoUsuarios,
+  notificacionesService,
+);
 const categoriasService = new CategoriaService(mockRepoCategorias);
-const productosService = new ProductosService(mockRepoProductos, usuariosService, categoriasService);
+const productosService = new ProductosService(
+  mockRepoProductos,
+  usuariosService,
+  categoriasService,
+);
 
 const productosController = new ProductosController(productosService);
 
@@ -46,7 +53,12 @@ server.addRoute(productoRoutes);
 server.setController(ProductosController, productosController);
 server.configureRoutes();
 
-const vendedor = new Usuario("Vendedor", new Email("vendedor@test.com"), "111111", TipoUsuario.VENDEDOR);
+const vendedor = new Usuario(
+  "Vendedor",
+  new Email("vendedor@test.com"),
+  "111111",
+  TipoUsuario.VENDEDOR,
+);
 vendedor.id = "1";
 const categoria = new Categoria("Dulces");
 categoria.id = "cat1";
@@ -60,7 +72,7 @@ const producto = new Producto(
   Moneda.PESO_ARG,
   10,
   [],
-  true
+  true,
 );
 producto.id = "p1";
 
@@ -146,9 +158,8 @@ describe("ProductosController", () => {
     const res = await request(server.app)
       .get("/producto?pagina=1&limite=1")
       .set("Content-Type", "application/json");
-    
+
     //Tambien deberiamos evaluar los datos de paginacion
-    
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body.data)).toBe(true);

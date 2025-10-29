@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./BodyProductos.css";
-import CardProducto from "./card-producto/card";
+import CardProducto from "../card-producto/card";
 
 const BodyProductos = () => {
   const [mostrarFiltros, setMostrarFiltros] = useState(false);

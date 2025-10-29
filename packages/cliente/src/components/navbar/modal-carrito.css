@@ -9,7 +9,6 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-
 }
 
 .modal-content {
@@ -22,8 +21,6 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-
-
 .icono-eliminar-carrito {
   color: rgb(183, 58, 58);
   margin-left: 10px;
@@ -31,7 +28,7 @@
   transition: color 0.3s;
 
   &:hover {
-	color: darkred;
+    color: darkred;
   }
 }
 
@@ -44,15 +41,12 @@
   cursor: pointer;
   border-radius: 4px;
   margin-top: 1rem;
-    transition: color 0.3s;
+  transition: color 0.3s;
 
   &:hover {
-	background-color: rgb(90, 7, 7);
-	
+    background-color: rgb(90, 7, 7);
   }
 }
-
-
 
 .boton-comprar {
   background-color: rgb(6, 92, 6);
@@ -63,10 +57,9 @@
   cursor: pointer;
   border-radius: 4px;
   margin-right: 0.5rem;
-   transition: color 0.3s;
+  transition: color 0.3s;
   &:hover {
-	background-color: rgb(2, 76, 2);
-	
+    background-color: rgb(2, 76, 2);
   }
 }
 
@@ -88,5 +81,5 @@
 
   font-weight: 500;
   padding: 0rem;
-  margin: 0 0 1rem 0; 
+  margin: 0 0 1rem 0;
 }

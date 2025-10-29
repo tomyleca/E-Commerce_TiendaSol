@@ -32,7 +32,8 @@ export function CarritoProvider({ children }) {
     });
   };
 
-  const quitarCarrito = (id) => setItems((prev) => prev.filter((p) => p.id !== id));
+  const quitarCarrito = (id) =>
+    setItems((prev) => prev.filter((p) => p.id !== id));
   const vaciarCarrito = () => setItems([]);
   const abrirCarrito = () => setIsOpen(true);
   const cerrarCarrito = () => setIsOpen(false);

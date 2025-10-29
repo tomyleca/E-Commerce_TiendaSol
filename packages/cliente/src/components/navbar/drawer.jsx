@@ -1,43 +1,42 @@
-import * as React from 'react';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
-import Home from '@mui/icons-material/Home';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import StoreIcon from '@mui/icons-material/Store';
-import { Link } from 'react-router-dom';
+import * as React from "react";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Toolbar from "@mui/material/Toolbar";
+import Home from "@mui/icons-material/Home";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import StoreIcon from "@mui/icons-material/Store";
+import { Link } from "react-router-dom";
 import "./drawer.css";
 
 const drawerWidth = 240;
 
 //Drawer CONTROLADO por props: open y onClose.
 export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
-
-	const renderLink = (text) => {
-		switch (text) {
-			case 'Home':
-				return '/';
-			case 'Buscar Producto':
-				return '/productos';
-			case 'Mi Tienda':
-				return '/mi-tienda';
-			default:
-				return '/';
-		}
-	};
+  const renderLink = (text) => {
+    switch (text) {
+      case "Home":
+        return "/";
+      case "Buscar Producto":
+        return "/productos";
+      case "Mi Tienda":
+        return "/mi-tienda";
+      default:
+        return "/";
+    }
+  };
 
   const renderIcon = (text) => {
     switch (text) {
-      case 'Home':
+      case "Home":
         return <Home fontSize="large" />;
-      case 'Buscar Producto':
+      case "Buscar Producto":
         return <ManageSearchIcon fontSize="large" />;
-      case 'Mi Tienda':
+      case "Mi Tienda":
         return <StoreIcon fontSize="large" />;
       default:
         return null;
@@ -50,7 +49,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
       <Toolbar />
       <Divider />
       <List>
-        {['Home', 'Buscar Producto'].map((text) => (
+        {["Home", "Buscar Producto"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={renderLink(text)}>
               <ListItemIcon>{renderIcon(text)}</ListItemIcon>
@@ -61,7 +60,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
       </List>
       <Divider />
       <List>
-        {['Mi Tienda'].map((text) => (
+        {["Mi Tienda"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={renderLink(text)}>
               <ListItemIcon>{renderIcon(text)}</ListItemIcon>
@@ -79,10 +78,11 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
       open={open}
       onClose={onClose}
       ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } }}
+      sx={{
+        "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+      }}
     >
       {drawerContent}
     </Drawer>
   );
 }
-

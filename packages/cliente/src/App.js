@@ -20,30 +20,34 @@ function App() {
   const [productos, setProductos] = useState([]);
   const [productosFiltrados, setProductosFiltrados] = useState([]);
 
- 
-
   return (
     <CarritoProvider>
       <NotificationProvider>
-		<FiltroProvider>
-        <BrowserRouter>
-          <Routes>
+        <FiltroProvider>
+          <BrowserRouter>
+            <Routes>
+              {/*Rutas envueltas por el Layout */}
+              <Route element={<Layout />}>
+                <Route index element={<ListadoProductos />} />
+                <Route path="productos" element={<ListadoProductos />} />
+                <Route
+                  path="producto/:id"
+                  element={
+                    <ProductoDetailPage
+                      carrito={carrito}
+                      actualizarCarrito={actualizarCarrito}
+                    />
+                  }
+                />
+              </Route>
 
-            {/*Rutas envueltas por el Layout */}
-            <Route element={<Layout />}>
-              <Route index element={<ListadoProductos />} />
-              <Route path="productos" element={<ListadoProductos />} />
-              <Route path="producto/:id" element={<ProductoDetailPage carrito={carrito} actualizarCarrito={actualizarCarrito} />} />
-              
-            </Route>
-
-            {/* Rutas sin Layout para evitar contenido extra arriba*/}
-			<Route path="notificaciones" element={<ListaNotificaciones />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </BrowserRouter>
-		</FiltroProvider>
+              {/* Rutas sin Layout para evitar contenido extra arriba*/}
+              <Route path="notificaciones" element={<ListaNotificaciones />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </BrowserRouter>
+        </FiltroProvider>
       </NotificationProvider>
     </CarritoProvider>
   );

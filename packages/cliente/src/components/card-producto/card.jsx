@@ -31,15 +31,14 @@ const CardProducto = () => {
               <span className="old">$2,499</span>
               <span className="new">$1,999</span>
             </div>
-            <button className="btn">
-              <span
-                role="button"
-                onClick={() =>
-                  agregarCarrito({ id: 1, title: "UltraBook Pro X", price: 1999 })
-                }
-              >
-                Agregar al carrito
-              </span>
+            <button
+              className="btn"
+              aria-label="Agregar UltraBook Pro X al carrito"
+              onClick={() =>
+                agregarCarrito({ id: 1, title: "UltraBook Pro X", price: 1999 })
+              }
+            >
+              Agregar al carrito
               <svg
                 className="icon"
                 width="20"
@@ -48,6 +47,7 @@ const CardProducto = () => {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
+                aria-hidden="true"
               >
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4" />
                 <line x1="3" y1="6" x2="21" y2="6" />
@@ -64,6 +64,7 @@ const CardProducto = () => {
                 fill="#FFD700"
                 stroke="#FFD700"
                 strokeWidth="0.5"
+                aria-hidden="true"
               >
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
@@ -74,6 +75,7 @@ const CardProducto = () => {
                 fill="#FFD700"
                 stroke="#FFD700"
                 strokeWidth="0.5"
+                aria-hidden="true"
               >
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
@@ -84,6 +86,7 @@ const CardProducto = () => {
                 fill="#FFD700"
                 stroke="#FFD700"
                 strokeWidth="0.5"
+                aria-hidden="true"
               >
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
@@ -94,6 +97,7 @@ const CardProducto = () => {
                 fill="#FFD700"
                 stroke="#FFD700"
                 strokeWidth="0.5"
+                aria-hidden="true"
               >
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
@@ -104,6 +108,7 @@ const CardProducto = () => {
                 fill="#FFD700"
                 stroke="#FFD700"
                 strokeWidth="0.5"
+                aria-hidden="true"
               >
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>

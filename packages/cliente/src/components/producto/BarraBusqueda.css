@@ -1,0 +1,20 @@
+.barra-busqueda {
+  display: flex;
+  gap: 0px;
+  align-items: center;
+  margin: 4px auto 4px auto;
+  width: 100%;
+  max-width: 640px;
+  background-color: white;
+}
+
+.btn-buscar {
+  white-space: nowrap;
+  height: 40px;
+}
+
+@media (max-width: 600px) {
+  .barra-busqueda {
+    max-width: 75%;
+  }
+}

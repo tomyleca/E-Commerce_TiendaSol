@@ -1,6 +1,5 @@
-.barra-container{
-	display: flex;
-	justify-content: center;
-	margin-top:40px
-	
+.barra-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 }

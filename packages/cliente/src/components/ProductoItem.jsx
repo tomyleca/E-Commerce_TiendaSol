@@ -1,6 +1,6 @@
-import React from 'react';
-import HotelCard from './HotelCard';
-import hoteles from '../data/hoteles.json'; 
+import React from "react";
+import HotelCard from "./HotelCard";
+import hoteles from "../data/hoteles.json";
 
 const ProductoItem = () => {
   return (

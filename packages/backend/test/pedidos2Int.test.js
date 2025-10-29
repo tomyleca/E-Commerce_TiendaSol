@@ -23,7 +23,6 @@ import { Moneda } from "../models/entities/moneda.js";
 import { DireccionEntrega } from "../models/entities/direccionEntrega.js";
 import { Notificacion } from "../models/entities/notificacion.js";
 
-
 const mockRepoProductos = {
   buscarPorId: jest.fn(),
   buscarTodos: jest.fn(),
@@ -43,22 +42,27 @@ const mockRepoUsuarios = {
 };
 const mockCategorias = {};
 
-
 const factoryNoti = new FactoryNotificacion();
 const notificacionesService = new NotificacionesService(mockRepoFactory);
 const categoriasService = new CategoriaService(mockCategorias);
-const usuariosService = new UsuariosService(mockRepoUsuarios, notificacionesService);
-const productosService = new ProductosService(mockRepoProductos, usuariosService, categoriasService);
+const usuariosService = new UsuariosService(
+  mockRepoUsuarios,
+  notificacionesService,
+);
+const productosService = new ProductosService(
+  mockRepoProductos,
+  usuariosService,
+  categoriasService,
+);
 const pedidosService = new PedidosService(
   mockRepoPedidos,
   factoryNoti,
   notificacionesService,
   productosService,
-  usuariosService
+  usuariosService,
 );
 const pedidosController = new PedidosController(pedidosService);
 usuariosService.setPedidosService(pedidosService);
-
 
 const server = buildTestServer();
 server.addRoute(pedidoRoutes);
@@ -69,14 +73,53 @@ const emailVendedor = new Email("vendedor@test.com");
 const emailComprador = new Email("comprador@test.com");
 const cat1 = new Categoria("Dulces");
 
-const vendedor = new Usuario("Vendedor", emailVendedor, "111111", TipoUsuario.VENDEDOR);
-const comprador = new Usuario("Comprador", emailComprador, "222222", TipoUsuario.COMPRADOR);
+const vendedor = new Usuario(
+  "Vendedor",
+  emailVendedor,
+  "111111",
+  TipoUsuario.VENDEDOR,
+);
+const comprador = new Usuario(
+  "Comprador",
+  emailComprador,
+  "222222",
+  TipoUsuario.COMPRADOR,
+);
 
-const producto = new Producto(vendedor, "Caramelito", "Un dulce", cat1, 2000, Moneda.PESO_ARG, 4, []);
-const producto1 = new Producto(vendedor, "Alfajor", "Un dulce", cat1, 1500, Moneda.PESO_ARG, 4, []);
+const producto = new Producto(
+  vendedor,
+  "Caramelito",
+  "Un dulce",
+  cat1,
+  2000,
+  Moneda.PESO_ARG,
+  4,
+  [],
+);
+const producto1 = new Producto(
+  vendedor,
+  "Alfajor",
+  "Un dulce",
+  cat1,
+  1500,
+  Moneda.PESO_ARG,
+  4,
+  [],
+);
 const item1 = new ItemPedido(producto, 2, 2000);
-const item2 = new ItemPedido(producto1,1,1500)
-const direccion = new DireccionEntrega("Av. Libertador", "1234", "5", "B", "1428", "Buenos Aires", "Buenos Aires", "Argentina", "-34.6037", "-58.3816");
+const item2 = new ItemPedido(producto1, 1, 1500);
+const direccion = new DireccionEntrega(
+  "Av. Libertador",
+  "1234",
+  "5",
+  "B",
+  "1428",
+  "Buenos Aires",
+  "Buenos Aires",
+  "Argentina",
+  "-34.6037",
+  "-58.3816",
+);
 const pedido = new Pedido(comprador, [item1], direccion);
 const notificacion = new Notificacion(vendedor, "Se vendió algo");
 
@@ -85,10 +128,9 @@ describe("PedidosController", () => {
     jest.clearAllMocks();
     producto.id = "1";
     comprador.id = "2";
-    producto1.id = "3"; 
+    producto1.id = "3";
   });
 
-  
   test("POST /pedido - escenario correcto", async () => {
     mockRepoPedidos.crear.mockResolvedValue(pedido);
     mockRepoUsuarios.buscarPorId.mockResolvedValue(comprador);
@@ -106,7 +148,7 @@ describe("PedidosController", () => {
       })
       .set("Content-Type", "application/json");
 
-  expect(res.status).toBe(201);
+    expect(res.status).toBe(201);
     expect(mockRepoPedidos.crear).toHaveBeenCalled();
     expect(mockRepoFactory.crear).toHaveBeenCalled();
     expect(res.body).toMatchObject({
@@ -135,13 +177,11 @@ describe("PedidosController", () => {
   test("POST /pedido - sin items debe fallar", async () => {
     mockRepoUsuarios.buscarPorId.mockResolvedValue(comprador);
 
-    const res = await request(server.app)
-      .post("/pedido")
-      .send({
-        compradorId: "2",
-        items: [],
-        direccionEntrega: "Calle Falsa 123",
-      });
+    const res = await request(server.app).post("/pedido").send({
+      compradorId: "2",
+      items: [],
+      direccionEntrega: "Calle Falsa 123",
+    });
 
     expect(res.status).toBeGreaterThanOrEqual(400);
     expect(mockRepoPedidos.crear).not.toHaveBeenCalled();

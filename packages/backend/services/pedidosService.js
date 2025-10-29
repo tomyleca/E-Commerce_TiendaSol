@@ -63,7 +63,6 @@ export class PedidosService {
       throw new NoHayStock();
     } //Aca se valida si el stock esta disponible.
 
-
     // Registrar ventas solo si el stock es suficiente
     // A demas en el service disminuye el stock
     await this.agregarVentasDePedido(items);
@@ -133,5 +132,4 @@ export class PedidosService {
       ),
     );
   }
-
 }

@@ -6,7 +6,6 @@ import {
   useState,
 } from "react";
 
-
 const FiltroContext = createContext(undefined);
 
 // Normaliza un valor de categoría (objeto Mongo, número o string) a string de id
@@ -19,13 +18,12 @@ const normalizeId = (val) => {
 };
 
 export const FiltroProvider = ({ children, initialCategorias = [] }) => {
-
   const [precio, setPrecio] = useState({ min: "", max: "" });
   const [orden, setOrden] = useState("");
-  const [busqueda, setBusqueda] = useState("");	
+  const [busqueda, setBusqueda] = useState("");
 
   const [selectedCategorias, _setSelectedCategorias] = useState(
-    (initialCategorias || []).map((x) => normalizeId(x))
+    (initialCategorias || []).map((x) => normalizeId(x)),
   );
 
   const setSelectedCategorias = useCallback((ids) => {
@@ -36,7 +34,7 @@ export const FiltroProvider = ({ children, initialCategorias = [] }) => {
   const toggleCategoria = useCallback((id) => {
     const s = normalizeId(id);
     _setSelectedCategorias((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
+      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
     );
   }, []);
 
@@ -44,10 +42,9 @@ export const FiltroProvider = ({ children, initialCategorias = [] }) => {
     _setSelectedCategorias([]);
   }, []);
 
-
   const setPrecioFiltro = useCallback(
     (min, max) => setPrecio({ min, max }),
-    []
+    [],
   );
   const setOrdenFiltro = useCallback((tipo) => setOrden(tipo), []);
   const setBusquedaFiltro = useCallback((texto) => setBusqueda(texto), []);
@@ -64,10 +61,10 @@ export const FiltroProvider = ({ children, initialCategorias = [] }) => {
       setPrecioFiltro,
       orden,
       setOrdenFiltro,
-	  busqueda,
-	  setBusquedaFiltro,
+      busqueda,
+      setBusquedaFiltro,
     }),
-    [selectedCategorias, precio, orden, busqueda]
+    [selectedCategorias, precio, orden, busqueda],
   );
 
   return (

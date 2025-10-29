@@ -1,10 +1,9 @@
-import { Notificacion } from '../models/entities/notificacion';
-import {NotificacionesRepository} from '../models/repositories/notificacionesRepository'
-import { Usuario } from '../models/entities/usuario';
-import { Email } from '../models/entities/email';
-import { TipoUsuario } from '../models/entities/tipoUsuario';
+import { Notificacion } from "../models/entities/notificacion";
+import { NotificacionesRepository } from "../models/repositories/notificacionesRepository";
+import { Usuario } from "../models/entities/usuario";
+import { Email } from "../models/entities/email";
+import { TipoUsuario } from "../models/entities/tipoUsuario";
 import { jest } from "@jest/globals";
-
 
 describe("Notificaciones", () => {
   let usuario1;
@@ -12,22 +11,22 @@ describe("Notificaciones", () => {
   let _notis;
 
   beforeEach(() => {
-    
-    const email = new Email("mail@gmail.com")
+    const email = new Email("mail@gmail.com");
     usuario1 = new Usuario(
-            "Juan Perez",
-            email,
-            "1112341234",
-            TipoUsuario.VENDEDOR)
+      "Juan Perez",
+      email,
+      "1112341234",
+      TipoUsuario.VENDEDOR,
+    );
 
     _notis = [];
     repo = new NotificacionesRepository();
 
     // Mockeamos el método 'crear' del repositorio
-    repo.crear = jest.fn(n => {
-      n.id = _notis.length;   // asigna un id incremental
-      _notis.push(n);         // lo agrega al array simulado
-      return n;               // devuelve el objeto agregado
+    repo.crear = jest.fn((n) => {
+      n.id = _notis.length; // asigna un id incremental
+      _notis.push(n); // lo agrega al array simulado
+      return n; // devuelve el objeto agregado
     });
   });
 
@@ -39,7 +38,7 @@ describe("Notificaciones", () => {
 
     // Verificaciones
     expect(resultado).toBe(_notis[noti.id]);
-    expect(_notis).toContain(noti);         
-    expect(noti.id).toBeDefined();          
+    expect(_notis).toContain(noti);
+    expect(noti.id).toBeDefined();
   });
 });

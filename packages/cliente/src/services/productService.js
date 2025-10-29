@@ -24,25 +24,29 @@ export const getProductos = async (
   orden,
   precio,
   masVendido,
-  busqueda
+  busqueda,
 ) => {
   try {
     const params = new URLSearchParams();
 
-	if(page){
-		params.append("pagina", page);
-	}
+    if (page) {
+      params.append("pagina", page);
+    }
 
     if (selectedCategorias && selectedCategorias.length > 0) {
       params.append("categorias", selectedCategorias.join(","));
     }
 
-    
     if (orden === "masVendido") {
       params.set("sort", "masVendido");
     } else if (orden && orden !== "") {
       // Aceptar alias 'asc'/'desc' y mapearlos a precio_asc/precio_desc
-      const mapped = orden === "asc" ? "precio_asc" : orden === "desc" ? "precio_desc" : orden;
+      const mapped =
+        orden === "asc"
+          ? "precio_asc"
+          : orden === "desc"
+            ? "precio_desc"
+            : orden;
       params.set("sort", mapped);
     }
 
@@ -65,7 +69,7 @@ export const getProductos = async (
       `${API_BASE_URL}/productos?${params.toString()}`,
       {
         headers: { "Cache-Control": "no-cache" },
-      }
+      },
     );
 
     return response.data;

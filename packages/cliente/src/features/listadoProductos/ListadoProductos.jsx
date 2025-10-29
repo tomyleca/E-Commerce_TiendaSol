@@ -3,13 +3,13 @@ import Navbar from "../../components/navbar/navbar.jsx";
 import ModalCarrito from "../../components/navbar/modal-carrito.jsx";
 import "./ListadoProductos.css";
 import { useCarrito } from "../../context/CarritoContext.jsx";
-import Body2 from "../../components/Body2.jsx";
+import Body2 from "../../components/producto/ContainerProductos.jsx";
 import {
   getProducto,
   getProductos,
   getCategorias,
 } from "../../services/productService.js";
-import BarraBusqueda from "../../components/BarraBusqueda.jsx";
+import BarraBusqueda from "../../components/producto/BarraBusqueda.jsx";
 import Paginacion from "../../components/paginacion/paginacion.jsx";
 import { useFiltro, FiltroProvider } from "../../context/FiltroContext.jsx";
 
@@ -19,11 +19,10 @@ const ListadoProductos = () => {
   const [productosFiltrados, setProductosFiltrados] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
-  const [vendedor,setVendedor]=useState('68f132ae7f31069b1cb49254');
+  const [vendedor, setVendedor] = useState("68f132ae7f31069b1cb49254");
 
   const { selectedCategorias, orden, precio, masVendido, busqueda } =
     useFiltro();
-
 
   const cargarProductos = async (page) => {
     const numeroPagina = page ?? 1;
@@ -33,10 +32,10 @@ const ListadoProductos = () => {
       orden,
       precio,
       masVendido,
-      busqueda
+      busqueda,
     );
     setProductos(productosObtenidos.data);
-	setTotalPaginas(productosObtenidos.totalPaginas);
+    setTotalPaginas(productosObtenidos.totalPaginas);
     setProductosFiltrados(productosObtenidos.data);
     if (typeof productosObtenidos.totalPaginas === "number") {
       setTotalPaginas(productosObtenidos.totalPaginas);
@@ -82,8 +81,8 @@ const ListadoProductos = () => {
   //Cuando cambian las categorías seleccionadas (o el vendedor), re-buscamos desde página 1
   useEffect(() => {
     cargarProductos(1);
-	cargarCategorias();
-  }, [selectedCategorias, orden, masVendido, busqueda,precio]);
+    cargarCategorias();
+  }, [selectedCategorias, orden, masVendido, busqueda, precio]);
 
   return (
     <>

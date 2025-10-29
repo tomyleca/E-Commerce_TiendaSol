@@ -29,7 +29,6 @@ import { CategoriaService } from "./services/categoriasService.js";
 import { CategoriasRepository } from "./models/repositories/categoriasRepository.js";
 import cors from "cors";
 
-
 dotenv.config();
 
 const app = express();
@@ -38,7 +37,6 @@ app.use(express.json());
 app.use(cors());
 
 const port = process.env.PORT || 3001;
-
 
 const server = new Server(app, port);
 

@@ -1,20 +1,24 @@
 import React, { useContext, useState } from "react";
 import "./BarraBusqueda.css";
 import { TextField, Button } from "@mui/material";
-import { useFiltro } from "../context/FiltroContext";
-
+import { useFiltro } from "../../context/FiltroContext";
 
 const BarraBusqueda = ({ fltrarProductos, filtrarProductos }) => {
-  const { busqueda, setBusquedaFiltro, categorias, precio, masVendido, orden } = useFiltro();
+  const { busqueda, setBusquedaFiltro, categorias, precio, masVendido, orden } =
+    useFiltro();
   const onFilter = fltrarProductos ?? filtrarProductos ?? (() => {});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onFilter(busqueda,categorias,precio,masVendido,orden);
+    onFilter(busqueda, categorias, precio, masVendido, orden);
   };
 
   return (
-    <form className="barra-busqueda" onSubmit={handleSubmit}>
+    <form
+      className="barra-busqueda"
+      onSubmit={handleSubmit}
+      aria-label="Barra de búsqueda de productos"
+    >
       <TextField
         size="small"
         fullWidth
@@ -27,9 +31,6 @@ const BarraBusqueda = ({ fltrarProductos, filtrarProductos }) => {
           onFilter(val);
         }}
       />
-      <Button type="submit" variant="contained" className="btn-buscar">
-        Buscar
-      </Button>
     </form>
   );
 };

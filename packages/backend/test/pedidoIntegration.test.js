@@ -42,13 +42,13 @@ const notificacionesService = new NotificacionesService(mockRepoFactory);
 const categoriasService = new CategoriaService(mockCategorias);
 const usuariosService = new UsuariosService(
   mockRepoUsuarios,
-  notificacionesService
+  notificacionesService,
 );
 
 const productoServive = new ProductosService(
   mockRepoProductos,
   usuariosService,
-  categoriasService
+  categoriasService,
 );
 
 const pedidosService = new PedidosService(
@@ -56,7 +56,7 @@ const pedidosService = new PedidosService(
   factoryNoti,
   notificacionesService,
   productoServive,
-  usuariosService
+  usuariosService,
 );
 const pedidosController = new PedidosController(pedidosService);
 usuariosService.setPedidosService(pedidosService);
@@ -73,7 +73,7 @@ describe("POST/Pedido", () => {
     "Juanita",
     email2,
     "1133454342",
-    TipoUsuario.VENDEDOR
+    TipoUsuario.VENDEDOR,
   );
   let producto = new Producto(
     vendedor,
@@ -83,14 +83,14 @@ describe("POST/Pedido", () => {
     2000,
     Moneda.PESO_ARG,
     4,
-    []
+    [],
   );
   const email = new Email("hola@gmail.com");
   let comprador = new Usuario(
     "Juan",
     email,
     "1123456756",
-    TipoUsuario.COMPRADOR
+    TipoUsuario.COMPRADOR,
   );
 
   const item1 = new ItemPedido(producto, 2, 2000);
@@ -104,24 +104,21 @@ describe("POST/Pedido", () => {
     "Buenos Aires",
     "Argentina",
     "-34.6037",
-    "-58.3816"
+    "-58.3816",
   );
   let pedido = new Pedido(comprador, [item1], direccion);
   const notificacion = new Notificacion(vendedor, "se vendio algo");
 
   test("1 ESCENARIO CORRECTO ", async () => {
-
-    producto.id=1;
+    producto.id = 1;
     comprador.id = 2;
     mockRepoPedidos.crear = jest.fn().mockResolvedValue(pedido);
     mockRepoUsuarios.buscarPorId = jest.fn().mockResolvedValue(comprador);
     mockRepoProductos.buscarPorId = jest.fn().mockResolvedValue(producto);
     mockRepoProductos.actualizar = jest.fn().mockResolvedValue(producto);
     mockRepoFactory.crear = jest.fn().mockResolvedValue(notificacion);
-    
 
-
-    producto.id=1
+    producto.id = 1;
     comprador.id = 2;
 
     const res = await request(server.app)
@@ -129,14 +126,14 @@ describe("POST/Pedido", () => {
       .send({
         compradorId: "2",
         items: [{ productoId: "1", cantidad: 3, precioUnitario: 2000 }],
-        direccionEntrega: "Av. Libertador 1234"
+        direccionEntrega: "Av. Libertador 1234",
       })
       .set("Content-Type", "application/json");
 
-  // No usar debugger en tests automatizados
-    
+    // No usar debugger en tests automatizados
+
     expect(res.status).toBe(201);
-  console.log(res.status);
+    console.log(res.status);
     expect(mockRepoPedidos.crear).toHaveBeenCalled();
     expect(mockRepoFactory.crear).toHaveBeenCalled();
     expect(mockRepoProductos.actualizar).toHaveBeenCalled();
@@ -146,7 +143,3 @@ describe("POST/Pedido", () => {
     });
   });
 });
-
-
-
-

@@ -18,7 +18,7 @@
 
 /* ===== Layout general ===== */
 .home-body {
-  display: flex;            /* ✅ para alinear filtros y productos en fila */
+  display: flex; /* ✅ para alinear filtros y productos en fila */
   gap: 20px;
   padding: 20px;
   align-items: flex-start;
@@ -41,7 +41,7 @@
 
 /* ===== Contenedor de productos ===== */
 .contenedor-productos {
-  flex: 1;                     /* ocupa el resto del espacio */
+  flex: 1; /* ocupa el resto del espacio */
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -53,7 +53,7 @@
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  flex: 1 1 100%;  /* 1 por fila aprox */
+  flex: 1 1 100%; /* 1 por fila aprox */
   min-width: 220px;
   height: 150px;
   display: flex;

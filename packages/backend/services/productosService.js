@@ -52,9 +52,9 @@ export class ProductosService {
       const categorias = Array.isArray(catParam)
         ? catParam
         : String(catParam)
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean);
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
       for (const id of categorias) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
           throw new NotFound("Categoria", id);
@@ -149,8 +149,7 @@ export class ProductosService {
       throw new NotFound("Producto", idProducto);
     }
     producto.ventas = (producto.ventas || 0) + cantidad;
-    producto.stock = (producto.stock || 0) - cantidad
+    producto.stock = (producto.stock || 0) - cantidad;
     await this.productosRepository.actualizar(producto);
   }
-
 }
