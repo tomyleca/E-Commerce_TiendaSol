@@ -1,7 +1,10 @@
 import "./Filtros.css";
 import { useState } from "react";
+import { useFiltro } from "../context/FiltroContext.jsx";
 
-const Filtro = () => {
+const Filtro = ({ categorias = [] }) => {
+
+    const { selectedCategorias, toggleCategoria, clearCategorias } = useFiltro();
 
     const [filtros, setFiltros] = useState({
 		categoria: "",
@@ -11,20 +14,21 @@ const Filtro = () => {
 	});
 
   return (
-    <div>
-      <aside className="filtros">
-        <h3>Filtros</h3>
+    <div className="filtro-componente">
+      <aside className="categorias">
+        <h3>Categorías</h3>
         <div className="filtro-grupo">
-          <label>
-            <input type="checkbox" /> 
-          </label>
-          <label>
-            <input type="checkbox" /> Más vendidos
-          </label>
-        </div>
-        <div className="filtro-grupo">
-          <h4>Precio</h4>
-          <input type="range" min="0" max="200000" />
+          {categorias.map((c) => (
+            <label key={c.id} className="check-categoria">
+              <input
+                type="checkbox"
+                value={c.id}
+                checked={selectedCategorias.includes(c.id)}
+                onChange={() => toggleCategoria(c.id)}
+              />{" "}
+              {c.nombre}
+            </label>
+          ))}
         </div>
       </aside>
     </div>

@@ -1,22 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import "./BarraBusqueda.css";
-import { TextField } from "@mui/material";
-import { useState } from "react";
+import { TextField, Button } from "@mui/material";
 
-const BarraBusqueda = ({fltrarProductos}) => {
+
+const BarraBusqueda = ({ fltrarProductos, filtrarProductos }) => {
   const [busqueda, setBusqueda] = useState("");
+  const onFilter = fltrarProductos ?? filtrarProductos ?? (() => {});
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onFilter(busqueda);
+  };
+
   return (
-    <div className="barra-busqueda">
-
+    <form className="barra-busqueda" onSubmit={handleSubmit}>
       <TextField
-        type="text"
-        placeholder="Buscar productos..."
+        size="small"
+        fullWidth
+        label="Buscar productos"
+        placeholder="Nombre, descripción, categoría..."
         value={busqueda}
-        onChange={(e) => {setBusqueda(e.target.value)}}
+        onChange={(e) => {
+          const val = e.target.value;
+          setBusqueda(val);
+          onFilter(val);
+        }}
       />
-  
-
-    </div>
+      <Button type="submit" variant="contained" className="btn-buscar">
+        Buscar
+      </Button>
+    </form>
   );
 };
 

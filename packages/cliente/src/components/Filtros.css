@@ -3,6 +3,8 @@
   gap: 20px;
   padding: 20px;
 }
+
+
 .filtros h3 {
   margin-bottom: 10px;
   font-size: 18px;
@@ -18,3 +20,5 @@
   font-size: 14px;
   cursor: pointer;
 }
+
+.check-categoria input{ margin-right: 8px; }

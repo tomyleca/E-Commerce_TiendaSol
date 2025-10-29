@@ -9,6 +9,7 @@ import ProductoDetailPage from "./features/producto/ProductoDetailPage.jsx";
 import { useState } from "react";
 import { NotificationProvider } from "./context/NotificacionContext.jsx";
 import ListaNotificaciones from "./features/notificaciones/ListaNotificaciones.jsx";
+import { FiltroProvider } from "./context/FiltroContext.jsx";
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -19,6 +20,7 @@ function App() {
   return (
     <CarritoProvider>
       <NotificationProvider>
+		<FiltroProvider>
         <BrowserRouter>
           <Routes>
 
@@ -36,6 +38,7 @@ function App() {
             <Route path="/register" element={<Register />} />
           </Routes>
         </BrowserRouter>
+		</FiltroProvider>
       </NotificationProvider>
     </CarritoProvider>
   );

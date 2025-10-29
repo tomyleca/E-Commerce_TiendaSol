@@ -28,13 +28,34 @@ const Card2 = ({ producto }) => {
           </ul>
         )}
         <div className="product-price">${producto.precio}</div>
-
-        <button
-          className="btn-carrito"
-          onClick={() => navegar(`/producto/${producto.id}`)}
-        >
-          Ver producto
-        </button>
+		
+      <button className="btn">
+              <span
+                role="button"
+                onClick={() =>
+                  agregarCarrito({
+                    id: producto.id ?? producto._id,
+                    title: producto.titulo,
+                    price: Number(producto.precio) || 0,
+                  })
+                }
+              >
+                Agregar al carrito
+              </span>
+              <svg
+                className="icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 01-8 0" />
+              </svg>
+            </button>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ export default function productoRoutes(getController) {
   });
 
   //Get Producto p  //Get Producto por ID
-  router.get(`${pathPedido}/:id`, async (req, res, next) => {
+  router.get(`${pathProducto}/:id`, async (req, res, next) => {
     try {
       await getController(ProductosController).buscarPorId(req, res);
     } catch (error) {

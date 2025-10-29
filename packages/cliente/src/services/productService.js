@@ -18,16 +18,31 @@ export const getProductoById = (id) =>
 
 	const API_BASE_URL = "http://localhost:3001";
 
-export const getProductos = async (page,vendedor) => {
+export const getProductos = async (page,vendedor,selectedCategorias) => {
   try{
-    const response = await axios.get(`${API_BASE_URL}/vendedores/${encodeURIComponent(vendedor)}/productos?pagina=${page}`, {
+    const response = await axios.get(`${API_BASE_URL}/vendedores/${encodeURIComponent(vendedor)}/productos?pagina=${page}&categorias=${selectedCategorias.join(",")}`, {
+  headers: {
+    'Cache-Control': 'no-cache'
+  },
+
+});
+    return response.data;
+  } catch (error) {
+    console.error("Error obteniendo los hoteles", error);
+    throw error;
+  }
+}
+
+export const getCategorias = async () => {
+  try{
+    const response = await axios.get(`${API_BASE_URL}/categorias`, {
   headers: {
     'Cache-Control': 'no-cache'
   }
 });
     return response.data;
   } catch (error) {
-    console.error("Error obteniendo los hoteles", error);
+    console.error("Error obteniendo las categorías", error);
     throw error;
   }
 }
