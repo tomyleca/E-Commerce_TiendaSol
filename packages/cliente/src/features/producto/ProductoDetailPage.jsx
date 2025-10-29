@@ -41,7 +41,7 @@ const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
 
   const comprar = () => {
     actualizarCarrito(conProductos(cantProductos, producto));
-    navegar("/");
+    navegar("/productos");
   };
 
   if (!producto) {
@@ -82,13 +82,18 @@ const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
       </div>
 
       <div className="comprar-container">
-        <ButtonGroup variant="outlined" aria-label="outlined button group">
-          <Button onClick={decrementarProductos} disabled={cantProductos === 0}>
-            -
-          </Button>
-          <Button disabled>{cantProductos}</Button>
-          <Button onClick={incrementarProductos}>+</Button>
-        </ButtonGroup>
+        <div className="boton-contador">
+          <ButtonGroup variant="outlined" aria-label="outlined button group">
+            <Button
+              onClick={decrementarProductos}
+              disabled={cantProductos === 0}
+            >
+              -
+            </Button>
+            <Button disabled>{cantProductos}</Button>
+            <Button onClick={incrementarProductos}>+</Button>
+          </ButtonGroup>
+        </div>
         <button className="comprar" onClick={comprar}>
           Añadir al carrito
         </button>

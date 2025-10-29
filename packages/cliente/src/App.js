@@ -31,7 +31,7 @@ function App() {
                 <Route index element={<ListadoProductos />} />
                 <Route path="productos" element={<ListadoProductos />} />
                 <Route
-                  path="producto/:id"
+                  path="productos/:id"
                   element={
                     <ProductoDetailPage
                       carrito={carrito}

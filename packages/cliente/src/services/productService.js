@@ -8,7 +8,7 @@ export const getProducto = () =>
     }, 500);
   });
 
-export const getProductoById = (id) =>
+export const getProductoByIdMock = (id) =>
   new Promise((resolve) => {
     setTimeout(() => {
       const producto = productos.find((h) => h.id === parseInt(id));
@@ -78,6 +78,30 @@ export const getProductos = async (
     throw error;
   }
 };
+
+export const getProductoById = async (
+  id
+) => {
+  try {
+
+    if (!id.toString()) {
+      throw new Error("ID de producto no proporcionado");
+    }
+    
+    const response = await axios.get(
+      `${API_BASE_URL}/productos/${id}`,
+      {
+        headers: { "Cache-Control": "no-cache" },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error obteniendo los productos", error);
+    throw error;
+  }
+};
+
 
 export const getCategorias = async () => {
   try {
