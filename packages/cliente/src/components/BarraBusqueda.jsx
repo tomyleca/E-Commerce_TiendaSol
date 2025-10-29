@@ -19,7 +19,7 @@ const BarraBusqueda = ({ fltrarProductos, filtrarProductos }) => {
         size="small"
         fullWidth
         label="Buscar productos"
-        placeholder="Nombre, descripción, categoría..."
+        placeholder="Nombre..."
         value={busqueda}
         onChange={(e) => {
           const val = e.target.value;

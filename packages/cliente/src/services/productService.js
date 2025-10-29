@@ -33,9 +33,13 @@ export const getProductos = async (
       params.append("categorias", selectedCategorias.join(","));
     }
 
-    // Orden
-    if (orden && orden !== "") {
-      params.append("orden", orden);
+    
+    if (orden === "masVendido") {
+      params.set("sort", "masVendido");
+    } else if (orden && orden !== "") {
+      // Aceptar alias 'asc'/'desc' y mapearlos a precio_asc/precio_desc
+      const mapped = orden === "asc" ? "precio_asc" : orden === "desc" ? "precio_desc" : orden;
+      params.set("sort", mapped);
     }
 
     // Precio separado
@@ -46,14 +50,11 @@ export const getProductos = async (
       params.append("precioMax", precio.max);
     }
 
-    // Mas vendido
-    if (masVendido) {
-      params.append("masVendido", masVendido);
-    }
+    // Nota: no se envía 'masVendido' por separado; se usa en 'sort'
 
-    // Búsqueda
+    // Búsqueda: el backend espera 'nombre' para filtrar por titulo
     if (busqueda && busqueda !== "") {
-      params.append("titulo", busqueda);
+      params.append("nombre", busqueda);
     }
 
     const response = await axios.get(

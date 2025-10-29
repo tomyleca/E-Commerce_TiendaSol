@@ -82,7 +82,7 @@ const ListadoProductos = () => {
   useEffect(() => {
     cargarProductos(1);
 	cargarCategorias();
-  }, [selectedCategorias, orden, masVendido, busqueda]);
+  }, [selectedCategorias, orden, masVendido, busqueda,precio]);
 
   return (
     <>

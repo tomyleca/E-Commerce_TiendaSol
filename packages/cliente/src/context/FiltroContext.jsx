@@ -21,7 +21,6 @@ const normalizeId = (val) => {
 export const FiltroProvider = ({ children, initialCategorias = [] }) => {
 
   const [precio, setPrecio] = useState({ min: "", max: "" });
-  const [masVendido, setMasVendido] = useState(false);
   const [orden, setOrden] = useState("");
   const [busqueda, setBusqueda] = useState("");	
 
@@ -45,10 +44,7 @@ export const FiltroProvider = ({ children, initialCategorias = [] }) => {
     _setSelectedCategorias([]);
   }, []);
 
-  const toggleMasVendido = useCallback(
-    () => setMasVendido((prev) => !prev),
-    []
-  );
+
   const setPrecioFiltro = useCallback(
     (min, max) => setPrecio({ min, max }),
     []
@@ -66,14 +62,12 @@ export const FiltroProvider = ({ children, initialCategorias = [] }) => {
       countCategorias: selectedCategorias.length,
       precio,
       setPrecioFiltro,
-      masVendido,
-      toggleMasVendido,
       orden,
       setOrdenFiltro,
 	  busqueda,
 	  setBusquedaFiltro,
     }),
-    [selectedCategorias, precio, masVendido, orden]
+    [selectedCategorias, precio, orden, busqueda]
   );
 
   return (

@@ -58,40 +58,62 @@ const Filtro = ({ categorias = [] }) => {
               placeholder="1000"
                onChange={(e) => {
                 const val = e.target.value;
-                setPrecioFiltro(val, precio.min);
+                setPrecioFiltro(precio.min, val);
               }}
             />
           </label>
         </div>
         </div>
-        {/* Más Vendidos */}
-        <div className="filtro-grupo">
-          <h3>Más Vendidos</h3>
-          <label className="check-input">
-            <input
-              type="checkbox"
-              onChange={() => toggleMasVendido()}
-            />
-            Mas Vendidos
-          </label>
-        </div>
-
         {/* Ordenamiento */}
         <div className="filtro-grupo">
-          <h3>Ordenamiento</h3>
+          <h3>Ordenar por</h3>
+		<label className="check-input">
+            <input
+            type="radio"
+              name="orden-precio"
+              checked={orden === "masVendido"}
+              onClick={(e) => {
+                // Permitir desmarcar si ya está seleccionado
+                if (orden === "masVendido") {
+                  e.preventDefault();
+                  setOrdenFiltro("");
+                } else {
+                  setOrdenFiltro("masVendido");
+                }
+              }}
+            />
+            Más Vendido
+          </label>
           <label className="check-input">
             <input
-              type="checkbox"
-              //checked={orden === "asc"}
-              onChange={() => setOrdenFiltro("precio_asc")}
+              type="radio"
+              name="orden-precio"
+              checked={orden === "precio_asc"}
+              onClick={(e) => {
+                // Permitir desmarcar si ya está seleccionado
+                if (orden === "precio_asc") {
+                  e.preventDefault();
+                  setOrdenFiltro("");
+                } else {
+                  setOrdenFiltro("precio_asc");
+                }
+              }}
             />
             Precio ascendente
           </label>
           <label className="check-input">
             <input
-              type="checkbox"
-              //checked={orden === "desc"}
-              onChange={() => setOrdenFiltro("desc")}
+              type="radio"
+              name="orden-precio"
+              checked={orden === "precio_desc"}
+              onClick={(e) => {
+                if (orden === "precio_desc") {
+                  e.preventDefault();
+                  setOrdenFiltro("");
+                } else {
+                  setOrdenFiltro("precio_desc");
+                }
+              }}
             />
             Precio descendente
           </label>
