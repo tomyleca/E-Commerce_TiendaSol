@@ -33,10 +33,6 @@ export const FiltroProvider = ({ children, initialCategorias = [] }) => {
       case "SET_BUSQUEDA": {
         return { ...state, busqueda: action.payload ?? "" };
       }
-      case "SET_SELECTED_CATEGORIAS": {
-        const next = (action.payload || []).map((x) => normalizeId(x));
-        return { ...state, selectedCategorias: next };
-      }
       case "TOGGLE_CATEGORIA": {
         const s = normalizeId(action.payload);
         const has = state.selectedCategorias.includes(s);
@@ -44,9 +40,6 @@ export const FiltroProvider = ({ children, initialCategorias = [] }) => {
           ? state.selectedCategorias.filter((x) => x !== s)
           : [...state.selectedCategorias, s];
         return { ...state, selectedCategorias: next };
-      }
-      case "CLEAR_CATEGORIAS": {
-        return { ...state, selectedCategorias: [] };
       }
       default:
         return state;

@@ -23,7 +23,6 @@ export const getProductos = async (
   selectedCategorias,
   orden,
   precio,
-  masVendido,
   busqueda,
 ) => {
   try {

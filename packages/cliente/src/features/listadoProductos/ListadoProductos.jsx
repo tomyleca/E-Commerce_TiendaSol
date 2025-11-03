@@ -16,11 +16,12 @@ import { useFiltro, FiltroProvider } from "../../context/FiltroContext.jsx";
 const ListadoProductos = () => {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [productosFiltrados, setProductosFiltrados] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
+  //vendedor harcodeado
   const [vendedor, setVendedor] = useState("68f132ae7f31069b1cb49254");
 
+  //Obtener filtros desde el contexto
   const { state } = useFiltro();
   const { selectedCategorias, orden, precio, busqueda } = state;
 
@@ -31,12 +32,11 @@ const ListadoProductos = () => {
       selectedCategorias,
       orden,
       precio,
-      undefined,
       busqueda,
     );
     setProductos(productosObtenidos.data);
     setTotalPaginas(productosObtenidos.totalPaginas);
-    setProductosFiltrados(productosObtenidos.data);
+    
     if (typeof productosObtenidos.totalPaginas === "number") {
       setTotalPaginas(productosObtenidos.totalPaginas);
     }
@@ -45,32 +45,11 @@ const ListadoProductos = () => {
 
   const cargarCategorias = async () => {
     const categoriasObtenidas = await getCategorias();
-    // El backend puede responder { data: [...] } o directamente [...]
-    const raw = Array.isArray(categoriasObtenidas?.data)
-      ? categoriasObtenidas.data
-      : categoriasObtenidas;
-    //Normalizar _id de Mongo a string estable
-    const toIdString = (val) => {
-      const base = val?._id ?? val?.id ?? val;
-      if (base == null) return "";
-      if (typeof base === "string" || typeof base === "number")
-        return String(base);
-      // Intentar formatos comunes { $oid: "..." }
-      if (typeof base === "object") {
-        if (typeof base.$oid === "string") return base.$oid;
-        // Si tiene toHexString (ObjectId real)
-        if (typeof base.toHexString === "function") return base.toHexString();
-        const s = String(base);
-        return s === "[object Object]" ? JSON.stringify(base) : s;
-      }
-      return String(base);
-    };
-    // Normalizar a { id, nombre }
-    const cats = (Array.isArray(raw) ? raw : []).map((c) => ({
-      id: toIdString(c),
-      nombre: c?.nombre ?? String(c?.nombre ?? ""),
-    }));
-    setCategorias(cats);
+	const categoriasNormalizadas = categoriasObtenidas.map((c) => ({
+	  id: c._id,
+	  nombre: c.nombre,
+	}));
+	setCategorias(categoriasNormalizadas);
   };
 
   useEffect(() => {
