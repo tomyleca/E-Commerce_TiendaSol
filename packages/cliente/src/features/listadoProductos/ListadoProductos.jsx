@@ -21,8 +21,8 @@ const ListadoProductos = () => {
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [vendedor, setVendedor] = useState("68f132ae7f31069b1cb49254");
 
-  const { selectedCategorias, orden, precio, masVendido, busqueda } =
-    useFiltro();
+  const { state } = useFiltro();
+  const { selectedCategorias, orden, precio, busqueda } = state;
 
   const cargarProductos = async (page) => {
     const numeroPagina = page ?? 1;
@@ -31,7 +31,7 @@ const ListadoProductos = () => {
       selectedCategorias,
       orden,
       precio,
-      masVendido,
+      undefined,
       busqueda,
     );
     setProductos(productosObtenidos.data);
@@ -82,7 +82,7 @@ const ListadoProductos = () => {
   useEffect(() => {
     cargarProductos(1);
     cargarCategorias();
-  }, [selectedCategorias, orden, masVendido, busqueda, precio]);
+  }, [selectedCategorias, orden, busqueda, precio]);
 
   return (
     <>

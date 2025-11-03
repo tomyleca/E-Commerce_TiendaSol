@@ -3,16 +3,8 @@ import { useEffect, useState } from "react";
 import { useFiltro } from "../../context/FiltroContext.jsx";
 
 const Filtro = ({ categorias = [] }) => {
-  const {
-    selectedCategorias,
-    toggleCategoria,
-    precio,
-    setPrecioFiltro,
-    masVendido,
-    toggleMasVendido,
-    orden,
-    setOrdenFiltro,
-  } = useFiltro();
+  const { state, dispatch } = useFiltro();
+  const { selectedCategorias, precio, orden } = state;
 
   //cambio en local
   const [minLocal, setMinLocal] = useState(precio?.min ?? "");
@@ -35,7 +27,9 @@ const Filtro = ({ categorias = [] }) => {
                 type="checkbox"
                 value={String(c.id)}
                 checked={selectedCategorias.includes(String(c.id))}
-                onChange={() => toggleCategoria(c.id)}
+                onChange={() =>
+                  dispatch({ type: "TOGGLE_CATEGORIA", payload: c.id })
+                }
               />{" "}
               {c.nombre}
             </label>
@@ -70,7 +64,12 @@ const Filtro = ({ categorias = [] }) => {
             </label>
             <button
               type="button"
-              onClick={() => setPrecioFiltro(minLocal, maxLocal)}
+              onClick={() =>
+                dispatch({
+                  type: "SET_PRECIO",
+                  payload: { min: minLocal, max: maxLocal },
+                })
+              }
               aria-label="Aplicar filtro de precio"
             >
               Aplicar rango de precio
@@ -89,9 +88,9 @@ const Filtro = ({ categorias = [] }) => {
                 // Permitir desmarcar si ya está seleccionado
                 if (orden === "masVendido") {
                   e.preventDefault();
-                  setOrdenFiltro("");
+                  dispatch({ type: "SET_ORDEN", payload: "" });
                 } else {
-                  setOrdenFiltro("masVendido");
+                  dispatch({ type: "SET_ORDEN", payload: "masVendido" });
                 }
               }}
             />
@@ -106,9 +105,9 @@ const Filtro = ({ categorias = [] }) => {
                 // Permitir desmarcar si ya está seleccionado
                 if (orden === "precio_asc") {
                   e.preventDefault();
-                  setOrdenFiltro("");
+                  dispatch({ type: "SET_ORDEN", payload: "" });
                 } else {
-                  setOrdenFiltro("precio_asc");
+                  dispatch({ type: "SET_ORDEN", payload: "precio_asc" });
                 }
               }}
             />
@@ -122,9 +121,9 @@ const Filtro = ({ categorias = [] }) => {
               onClick={(e) => {
                 if (orden === "precio_desc") {
                   e.preventDefault();
-                  setOrdenFiltro("");
+                  dispatch({ type: "SET_ORDEN", payload: "" });
                 } else {
-                  setOrdenFiltro("precio_desc");
+                  dispatch({ type: "SET_ORDEN", payload: "precio_desc" });
                 }
               }}
             />

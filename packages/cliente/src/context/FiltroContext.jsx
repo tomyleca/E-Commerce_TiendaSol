@@ -1,14 +1,8 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useMemo, useReducer } from "react";
 
 const FiltroContext = createContext(undefined);
 
-// Normaliza un valor de categoría (objeto Mongo, número o string) a string de id
+//Normaliza un valor de categoría (objeto Mongo, número o string) a string de id
 const normalizeId = (val) => {
   if (val && typeof val === "object") {
     const maybe = val._id ?? val.id ?? undefined;
@@ -18,54 +12,51 @@ const normalizeId = (val) => {
 };
 
 export const FiltroProvider = ({ children, initialCategorias = [] }) => {
-  const [precio, setPrecio] = useState({ min: "", max: "" });
-  const [orden, setOrden] = useState("");
-  const [busqueda, setBusqueda] = useState("");
+  //Reducer y estado inicial
+  const initialState = {
+    precio: { min: "", max: "" },
+    orden: "",
+    busqueda: "",
+    selectedCategorias: (initialCategorias || []).map((x) => normalizeId(x)),
+  };
 
-  const [selectedCategorias, _setSelectedCategorias] = useState(
-    (initialCategorias || []).map((x) => normalizeId(x)),
-  );
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "SET_PRECIO": {
+        const { min, max } = action.payload || {};
+		//los ... hacen que copie el objeto anterior y, luego, solo modifico el precio
+        return { ...state, precio: { min, max } };
+      }
+      case "SET_ORDEN": {
+        return { ...state, orden: action.payload ?? "" };
+      }
+      case "SET_BUSQUEDA": {
+        return { ...state, busqueda: action.payload ?? "" };
+      }
+      case "SET_SELECTED_CATEGORIAS": {
+        const next = (action.payload || []).map((x) => normalizeId(x));
+        return { ...state, selectedCategorias: next };
+      }
+      case "TOGGLE_CATEGORIA": {
+        const s = normalizeId(action.payload);
+        const has = state.selectedCategorias.includes(s);
+        const next = has
+          ? state.selectedCategorias.filter((x) => x !== s)
+          : [...state.selectedCategorias, s];
+        return { ...state, selectedCategorias: next };
+      }
+      case "CLEAR_CATEGORIAS": {
+        return { ...state, selectedCategorias: [] };
+      }
+      default:
+        return state;
+    }
+  };
 
-  const setSelectedCategorias = useCallback((ids) => {
-    const next = (ids || []).map((x) => normalizeId(x));
-    _setSelectedCategorias(next);
-  }, []);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const toggleCategoria = useCallback((id) => {
-    const s = normalizeId(id);
-    _setSelectedCategorias((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
-    );
-  }, []);
-
-  const clearCategorias = useCallback(() => {
-    _setSelectedCategorias([]);
-  }, []);
-
-  const setPrecioFiltro = useCallback(
-    (min, max) => setPrecio({ min, max }),
-    [],
-  );
-  const setOrdenFiltro = useCallback((tipo) => setOrden(tipo), []);
-  const setBusquedaFiltro = useCallback((texto) => setBusqueda(texto), []);
-
-  const value = useMemo(
-    () => ({
-      selectedCategorias,
-      setSelectedCategorias,
-      toggleCategoria,
-      clearCategorias,
-      hasCategoria: (id) => selectedCategorias.includes(normalizeId(id)),
-      countCategorias: selectedCategorias.length,
-      precio,
-      setPrecioFiltro,
-      orden,
-      setOrdenFiltro,
-      busqueda,
-      setBusquedaFiltro,
-    }),
-    [selectedCategorias, precio, orden, busqueda],
-  );
+  // Solo exponer { state, dispatch }
+  const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
   return (
     <FiltroContext.Provider value={value}>{children}</FiltroContext.Provider>
