@@ -3,7 +3,7 @@ import express from "express";
 import { usuarioErrorHandler } from "../middlewares/usuarioErrorHandler.js";
 import { generalErrorHandler } from "../middlewares/generalErrorHandler.js";
 
-const pathUsuario = "/usuario";
+const pathUsuario = "/usuarios";
 
 export default function pedidoRoutes(getController) {
   const router = express.Router();
@@ -14,6 +14,14 @@ export default function pedidoRoutes(getController) {
     } catch (error) {
       next(error);
     }
+  });
+
+  router.get(pathUsuario + "/:id", async (req, res, next) => {
+	try {
+	  await getController(UsuariosController).buscarPorId(req, res);
+	} catch (error) {
+	  next(error);
+	}
   });
 
   //Obtener el historial de pedidos de un usuario

@@ -34,7 +34,7 @@ export default function productoRoutes(getController) {
     }
   });
 
-  router.get("/vendedores/:id/productos", async (req, res, next) => {
+  router.get("/usuarios/:id/productos", async (req, res, next) => {
     try {
       await getController(ProductosController).buscarProductosDeVendedor(
         req,

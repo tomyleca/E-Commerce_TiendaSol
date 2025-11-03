@@ -12,6 +12,13 @@ export class UsuariosController {
     res.json(usuarios);
   }
 
+  async buscarPorId(req, res) {
+	const id = req.params.id;
+	const idUsuario = chequearID(id);
+	const usuario = await this.usuariosService.buscarPorId(idUsuario);
+	res.status(200).json(usuario);
+	  }
+
   async crear(req, res) {
     const body = req.body;
     const data = usuarioSchema.parse(body);

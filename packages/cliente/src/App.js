@@ -10,6 +10,7 @@ import { useState } from "react";
 import { NotificationProvider } from "./context/NotificacionContext.jsx";
 import ListaNotificaciones from "./features/notificaciones/ListaNotificaciones.jsx";
 import { FiltroProvider } from "./context/FiltroContext.jsx";
+import Tienda from "./features/tienda/Tienda.jsx";
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -45,6 +46,7 @@ function App() {
               <Route path="notificaciones" element={<ListaNotificaciones />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/tienda/:id" element={<Tienda />} />
             </Routes>
           </BrowserRouter>
         </FiltroProvider>
