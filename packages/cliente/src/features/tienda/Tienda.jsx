@@ -4,10 +4,14 @@ import Navbar from '../../components/navbar/navbar.jsx';
 import './Tienda.css'
 import { Avatar } from '@mui/material';
 import { getUsuario } from '../../services/usuarioService.js';	
+import { getProductos } from '../../services/productService.js';
+import CardProducto from '../../components/card-producto/card.jsx';
+
 
 const Tienda = () => {
 	const { id } = useParams(); //Lee el :id de la URL
 	const [vendedor, setVendedor] = useState(null);
+	const [productosDestacados, setProductosDestacados] = useState([]);
 
 	useEffect(() => {
 		// Cargar datos del vendedor cuando cambia el id
@@ -20,8 +24,18 @@ const Tienda = () => {
 			}
 		};
 
+		const cargarProductosDestacados = async () => {
+			try {
+				const response = await getProductos(1, null, 'masVendido', null, null, id);
+				setProductosDestacados(response?.data || []);
+			} catch (error) {
+				console.error('Error cargando productos destacados:', error);
+			}
+		};
+
 		if (id) {
 			cargarUsuario();
+			cargarProductosDestacados();
 		}
 	}, [id]);
 
@@ -46,7 +60,16 @@ const Tienda = () => {
 					<button className="ver-productos-btn">Ver todos los productos</button>
 				</div>
 				<hr className="tienda-separator" />
-				<div className="tienda-lower-section"></div>
+				<div className="tienda-lower-section">
+					<h2 className='titulo-productos-destacados' >Productos Destacados</h2>
+					<div className="productos-destacados">
+						{productosDestacados.map((producto) => (
+							<div key={producto._id} className="producto-card">
+								<CardProducto producto={producto} />
+							</div>
+						))}
+					</div>
+				</div>
 			</div>
 		</>
 	);

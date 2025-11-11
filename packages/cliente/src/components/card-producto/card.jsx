@@ -1,7 +1,7 @@
 import "./card.css";
 import { useCarrito } from "../../context/CarritoContext.jsx";
 
-const CardProducto = () => {
+const CardProducto = ({ producto }) => {
   const { agregarCarrito } = useCarrito();
 
   return (
@@ -10,32 +10,31 @@ const CardProducto = () => {
       <div className="tilt">
         <div className="img">
           <img
-            src="https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"
-            alt="Premium Laptop"
+            src={producto?.fotos?.[0] ? `/images/${producto.fotos[0]}` : "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"}
+            alt={producto?.titulo || "Premium Laptop"}
           />
         </div>
         <div className="info">
-          <div className="cat">High-Performance Laptop</div>
-          <h2 className="title">UltraBook Pro X</h2>
+
+		<h2 className="title">{producto?.titulo || "UltraBook Pro X"}</h2>
           <p className="desc">
-            Cutting-edge performance with Intel Core i9, 32GB RAM, and a 1TB SSD
-            in a sleek, lightweight design.
+            {producto?.descripcion || "Cutting-edge performance with Intel Core i9, 32GB RAM, and a 1TB SSD in a sleek, lightweight design."}
           </p>
           <div className="feats">
-            <span className="feat">4K Display</span>
-            <span className="feat">16-Hour Battery</span>
-            <span className="feat">Thunderbolt 4</span>
+            {producto?.categorias.map((cat) => (
+              <span key={cat.id} className="feat">{cat.nombre}</span>
+            ))}
           </div>
           <div className="bottom">
             <div className="price">
-              <span className="old">$2,499</span>
-              <span className="new">$1,999</span>
+              <span className="old">${producto?.precioAnterior || producto?.precio}</span>
+              <span className="new">${producto?.precio || "1,999"}</span>
             </div>
             <button
               className="btn"
-              aria-label="Agregar UltraBook Pro X al carrito"
+              aria-label={`Agregar ${producto?.nombre || "producto"} al carrito`}
               onClick={() =>
-                agregarCarrito({ id: 1, title: "UltraBook Pro X", price: 1999 })
+                agregarCarrito(producto)
               }
             >
               Agregar al carrito

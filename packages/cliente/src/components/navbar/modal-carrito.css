@@ -32,20 +32,9 @@
   }
 }
 
-.boton-vaciar {
-  background-color: rgb(143, 44, 44);
-  color: var(--text-color);
-  border: none;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 4px;
+.boton-vaciar-modal {
+  margin-left: 0.7rem;
   margin-top: 1rem;
-  transition: color 0.3s;
-
-  &:hover {
-    background-color: rgb(90, 7, 7);
-  }
 }
 
 .boton-comprar {
@@ -63,8 +52,26 @@
   }
 }
 
-.boton-comprar:disabled,
-.boton-vaciar:disabled {
+.boton-ver-carrito {
+  background-color: rgb(23, 23, 23);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  margin-top: 1rem;
+  transition: all 0.3s;
+  width: 100%;
+  
+  &:hover {
+    background-color: rgb(41, 40, 40);
+    transform: translateY(-2px);
+  }
+}
+
+.boton-comprar:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   filter: grayscale(10%);

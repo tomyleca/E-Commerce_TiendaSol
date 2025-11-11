@@ -9,7 +9,7 @@ const Card2 = ({ producto }) => {
   return (
     <div className="product-card-horizontal">
       <img
-        src={`images/${producto.fotos[0]}`}
+        src={`/images/${producto.fotos[0]}`}
         alt={producto.titulo}
         className="product-img"
       />
@@ -38,13 +38,7 @@ const Card2 = ({ producto }) => {
           <button
             className="btn"
             aria-label={`Agregar ${producto.titulo} al carrito`}
-            onClick={() =>
-              agregarCarrito({
-                id: producto.id ?? producto._id,
-                title: producto.titulo,
-                price: Number(producto.precio) || 0,
-              })
-            }
+            onClick={() => agregarCarrito(producto)}
           >
             Agregar al carrito
             <svg

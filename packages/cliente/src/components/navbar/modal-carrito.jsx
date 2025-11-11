@@ -1,21 +1,26 @@
 import React from "react";
 import "./modal-carrito.css";
 import { FaTrashCan } from "react-icons/fa6";
-
+import { useNavigate } from "react-router-dom";
 import { useCarrito } from "../../context/CarritoContext";
+import BotonVaciarCarrito from "../boton-vaciar-carrito/BotonVaciarCarrito.jsx";
 // ...
 const ModalCarrito = () => {
+  const navigate = useNavigate();
   const {
     isOpenCarrito,
     cerrarCarrito,
     itemsCarrito,
     precioTotalCarrito,
     quitarCarrito,
-    vaciarCarrito,
   } = useCarrito();
+  
+  const irACarrito = () => {
+    cerrarCarrito();
+    navigate('/carrito');
+  };
+  
   if (!isOpenCarrito) return null;
-  const deshabilitado =
-    !itemsCarrito || itemsCarrito.length === 0 || precioTotalCarrito < 0;
   return (
     <div className="modal-overlay" onClick={cerrarCarrito}>
       <div
@@ -44,22 +49,15 @@ const ModalCarrito = () => {
             </button>
           </div>
         ))}
-        <div className="total-carrito">Total: ${precioTotalCarrito}</div>
+        <div className="total-carrito">
+          Total: ${precioTotalCarrito}
+          <BotonVaciarCarrito className="boton-vaciar-modal" />
+        </div>
         <button
-          className="boton-comprar"
-          onClick={vaciarCarrito}
-          disabled={deshabilitado}
-          title={deshabilitado ? "No hay productos en el carrito" : undefined}
+          className="boton-ver-carrito"
+          onClick={irACarrito}
         >
-          Comprar
-        </button>
-        <button
-          className="boton-vaciar"
-          onClick={vaciarCarrito}
-          disabled={deshabilitado}
-          title={deshabilitado ? "No hay productos para vaciar" : undefined}
-        >
-          Vaciar
+          Ver carrito completo
         </button>
       </div>
     </div>

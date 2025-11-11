@@ -33,6 +33,7 @@ const ListadoProductos = () => {
       orden,
       precio,
       busqueda,
+	  vendedor
     );
     setProductos(productosObtenidos.data);
     setTotalPaginas(productosObtenidos.totalPaginas);

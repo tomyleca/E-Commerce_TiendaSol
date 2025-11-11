@@ -17,11 +17,12 @@
 }
 
 .product-img {
-  width: 140px;
-  height: 140px;
+  width: 200px;
+  height: 112px;
   border-radius: 8px;
   object-fit: cover;
   margin-right: 15px;
+  aspect-ratio: 16 / 9;
 }
 
 .product-info {

@@ -51,7 +51,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
           </div>
 
           <div className="navbar-section center">
-            <img src="tiendaSolLogo.png" alt="Logo" className="logo" />
+            <img src="/tiendaSolLogo.png" alt="Logo" className="logo" />
             <h1 className="nombre-marca">Tienda Sol</h1>
           </div>
 

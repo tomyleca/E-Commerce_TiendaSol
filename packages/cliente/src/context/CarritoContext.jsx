@@ -22,13 +22,26 @@ export function CarritoProvider({ children }) {
 
   const agregarCarrito = (producto, cantidad = 1) => {
     setItems((prev) => {
-      const i = prev.findIndex((p) => p.id === producto.id);
+      const productId = producto.id || producto._id;
+      const i = prev.findIndex((p) => p.id === productId);
+      
       if (i > -1) {
         const copy = [...prev];
         copy[i] = { ...copy[i], qty: copy[i].qty + cantidad };
         return copy;
       }
-      return [...prev, { ...producto, qty: cantidad }];
+
+      //normalizo el item carrito
+      const itemCarrito = {
+        id: productId,
+        title: producto.titulo || producto.nombre || producto.title,
+        price: Number(producto.precio || producto.price) || 0,
+        fotos: producto.fotos || [],
+        descripcion: producto.descripcion || '',
+        qty: cantidad
+      };
+
+      return [...prev, itemCarrito];
     });
   };
 

@@ -63,6 +63,7 @@ const Filtro = ({ categorias = [] }) => {
               />
             </label>
             <button
+              className="btn-filtros"
               type="button"
               onClick={() =>
                 dispatch({

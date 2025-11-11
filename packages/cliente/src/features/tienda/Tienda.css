@@ -54,3 +54,41 @@
   margin: 24px auto 16px; 
   margin-top:40px;
 }
+
+.titulo-productos-destacados{
+  text-align: center;
+  color: rgb(47, 46, 46);
+  font-size: 2rem;
+  margin-top:40px;
+}
+
+.productos-destacados {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 3 columnas fijas */
+  grid-auto-rows: 1fr; /* todas las filas con la misma altura */
+  gap: 20px;
+  padding: 0 20px 40px 20px;
+  margin-top: 30px;
+  max-width: 1600px; /* opcional: limita el ancho máximo */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Asegura que las cards ocupen toda la altura de la celda */
+.productos-destacados > * {
+  height: 100%;
+}
+
+/* Responsive: 2 columnas en tablets */
+@media (max-width: 1024px) {
+  .productos-destacados {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Responsive: 1 columna en móviles */
+@media (max-width: 640px) {
+  .productos-destacados {
+    grid-template-columns: 1fr;
+  }
+}

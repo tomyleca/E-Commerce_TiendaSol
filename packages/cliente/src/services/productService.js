@@ -1,20 +1,6 @@
 import { productos } from "../mockData/Productos.js";
 import axios from "axios";
 
-export const getProducto = () =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(productos);
-    }, 500);
-  });
-
-export const getProductoByIdMock = (id) =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      const producto = productos.find((h) => h.id === parseInt(id));
-      resolve(producto);
-    }, 500);
-  });
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -24,6 +10,7 @@ export const getProductos = async (
   orden,
   precio,
   busqueda,
+  vendedor
 ) => {
   try {
     const params = new URLSearchParams();
@@ -50,10 +37,10 @@ export const getProductos = async (
     }
 
     // Precio separado
-    if (precio?.min !== "") {
+    if (precio?.min && precio.min !== "") {
       params.append("precioMin", precio.min);
     }
-    if (precio?.max !== "") {
+    if (precio?.max && precio.max !== "") {
       params.append("precioMax", precio.max);
     }
 
@@ -64,12 +51,17 @@ export const getProductos = async (
       params.append("nombre", busqueda);
     }
 
-    const response = await axios.get(
-      `${API_BASE_URL}/productos?${params.toString()}`,
-      {
-        headers: { "Cache-Control": "no-cache" },
-      },
-    );
+	let url;
+
+	if (vendedor) {
+		url = `${API_BASE_URL}/usuarios/${vendedor}/productos?${params.toString()}`;
+	} else {
+		url = `${API_BASE_URL}/productos?${params.toString()}`;
+	}
+
+    const response = await axios.get(url, {
+      headers: { "Cache-Control": "no-cache" },
+    });
 
     return response.data;
   } catch (error) {

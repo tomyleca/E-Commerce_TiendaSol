@@ -1,0 +1,20 @@
+.boton-vaciar {
+  background-color: rgb(143, 44, 44);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.boton-vaciar:hover {
+  background-color: rgb(90, 7, 7);
+}
+
+.boton-vaciar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(10%);
+}
