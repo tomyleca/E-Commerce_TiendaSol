@@ -31,6 +31,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route index element={<ListadoProductos />} />
                 <Route path="productos" element={<ListadoProductos />} />
+				 <Route path="tienda/:idTienda/productos" element={<ListadoProductos />} />
                 <Route
                   path="productos/:id"
                   element={
@@ -46,7 +47,7 @@ function App() {
               <Route path="notificaciones" element={<ListaNotificaciones />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-			  <Route path={`/tienda/:id`} element={<Tienda />} />
+			  <Route path={`/tienda/:idTienda`} element={<Tienda />} />
               
               <Route path="/carrito" element={<Carrito />} />
             </Routes>

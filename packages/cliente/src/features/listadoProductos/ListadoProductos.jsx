@@ -12,20 +12,28 @@ import {
 import BarraBusqueda from "../../components/producto/BarraBusqueda.jsx";
 import Paginacion from "../../components/paginacion/paginacion.jsx";
 import { useFiltro, FiltroProvider } from "../../context/FiltroContext.jsx";
+import { useParams } from "react-router-dom";
 
 const ListadoProductos = () => {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
-  //vendedor harcodeado
-  const [vendedor, setVendedor] = useState("6914d10f91bb989457804b29");
+  //vendedor harcodeado //TODO sacarlo
+  const [vendedor, setVendedor] = useState("68f132ae7f31069b1cb49254");
+
+  const { idTienda } = useParams();
 
   //Obtener filtros desde el contexto
   const { state } = useFiltro();
   const { selectedCategorias, orden, precio, busqueda } = state;
 
   const cargarProductos = async (page) => {
+	if(idTienda){
+		setVendedor(idTienda);
+	}
+
+
     const numeroPagina = page ?? 1;
     const productosObtenidos = await getProductos(
       numeroPagina,
