@@ -1,12 +1,54 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./form.css";
 import "./login-form.css";
+import { loginUsuario } from "../../services/usuarioService.js";
+import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthContext.jsx";
+
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [usuario, setUsuario] = useState({ email: "", password: "" });
   const [mostrarPassword, setMostrarPassword] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (enviando) return; // evitar doble envío
+
+    // Validaciones básicas
+    if (!usuario.password?.trim()) {
+      toast.error("Debes completar la contraseña.");
+      return;
+    }
+    if (!usuario.email?.trim()) {
+      toast.error("Debes completar el email.");
+      return;
+    }
+
+    try {
+      setEnviando(true);
+      
+      const data = await loginUsuario(usuario);
+      if (!data) {
+        toast.error("Respuesta vacía del servidor");
+        return;
+      }
+      // Guardar usuario en contexto de auth
+      login(data);
+      toast.success("Sesión iniciada");
+      navigate("/");
+    } catch (err) {
+      const msg = err?.message || "Error desconocido al iniciar sesión";
+      toast.error(`No se pudo iniciar sesión: ${msg}`);
+    } finally {
+      setEnviando(false);
+    }
+  };
 
   return (
     <div className="login-container">
@@ -16,7 +58,7 @@ const LoginForm = () => {
           <p>Ingresa tus credenciales para acceder a tu cuenta</p>
         </div>
 
-        <form className="login-form" id="loginForm" noValidate>
+        <form className="login-form" id="loginForm" noValidate onSubmit={handleSubmit}>
           <div className="form-group">
             <div className="input-wrapper">
               <input
@@ -27,8 +69,10 @@ const LoginForm = () => {
                 autoComplete="email"
                 placeholder="Email"
                 aria-label="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={usuario.email}
+                onChange={(e) =>
+                  setUsuario((u) => ({ ...u, email: e.target.value }))
+                }
               />
             </div>
             <span className="error-message" id="emailError"></span>
@@ -44,8 +88,10 @@ const LoginForm = () => {
                 autoComplete="current-password"
                 placeholder="Contraseña"
                 aria-label="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={usuario.password}
+                onChange={(e) =>
+                  setUsuario((u) => ({ ...u, password: e.target.value }))
+                }
               />
               <button
                 type="button"
@@ -68,9 +114,9 @@ const LoginForm = () => {
 
           <div className="form-options" style={{ display: "none" }}></div>
 
-          <button type="submit" className="form-btn">
-            <span className="btn-text">Iniciar Sesión</span>
-            <span className="btn-loader"></span>
+          <button type="submit" className="form-btn" disabled={enviando}>
+            <span className="btn-text">{enviando ? "Ingresando..." : "Iniciar Sesión"}</span>
+            {enviando && <span className="btn-loader"></span>}
           </button>
         </form>
 
@@ -80,11 +126,6 @@ const LoginForm = () => {
           </p>
         </div>
 
-        <div className="success-message" id="successMessage">
-          <div className="success-icon">✓</div>
-          <h3>¡Inicio de sesión exitoso!</h3>
-          <p>Redirigiendo al home…</p>
-        </div>
       </div>
     </div>
   );
