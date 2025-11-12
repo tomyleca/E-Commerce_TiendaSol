@@ -54,7 +54,7 @@ navbar-bg {
   margin-left: 1rem;
 }
 
-.login-button {
+.login-button, .logout-button {
   display: flex;
   background-color: var(--primary-color);
   color: var(--text-color);
@@ -92,7 +92,7 @@ navbar-bg {
     margin-left: 0.2rem;
   }
 
-  .login-button {
+  .login-button, .logout-button {
     font-size: 1.8rem;
     margin-right: 1.4rem;
   }

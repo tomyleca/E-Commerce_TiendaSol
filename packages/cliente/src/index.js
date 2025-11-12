@@ -3,12 +3,24 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import { CarritoProvider } from "./context/CarritoContext.jsx";
+import { NotificationProvider } from "./context/NotificacionContext.jsx";
+import { FiltroProvider } from "./context/FiltroContext.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <AuthProvider>
+	  <CarritoProvider>
+      <NotificationProvider>
+        <FiltroProvider>
+          <App />
+        </FiltroProvider>
+      </NotificationProvider>
+    </CarritoProvider>
+  </AuthProvider>
+</React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const STORAGE_KEY = "user:session";
+const STORAGE_KEY = "usuario:session";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
+  const [usuario, setUsuario] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       return saved ? JSON.parse(saved) : null;
@@ -15,27 +15,29 @@ export function AuthProvider({ children }) {
   });
 
   useEffect(() => {
-    if (user) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+    if (usuario) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(usuario));
     } else {
       localStorage.removeItem(STORAGE_KEY);
     }
-  }, [user]);
 
-  const login = (userData) => {
-    setUser(userData);
+	console.log(usuario);
+  }, [usuario]);
+
+  const login = (usuarioData) => {
+    setUsuario(usuarioData);
   };
 
   const logout = () => {
-    setUser(null);
+    setUsuario(null);
   };
 
-  const isVendedor = (user?.tipo || "").toString().toUpperCase() === "VENDEDOR";
+  const isVendedor = (usuario?.tipo || "").toString().toUpperCase() === "VENDEDOR";
 
-  const isAuthenticated = Boolean(user);
+  const isAuthenticated = Boolean(usuario);
 
   const value = {
-    user,
+    usuario,
     login,
     logout,
     isAuthenticated,

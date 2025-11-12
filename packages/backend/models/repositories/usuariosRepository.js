@@ -14,6 +14,16 @@ export class UsuariosRepository {
     return await this.model.findById(id);
   }
 
+  async buscarPorEmail(email) {
+    const direccion = typeof email === "string" ? email : email?.direccion;
+    if (!direccion) return null;
+    return await this.model.findOne({ "email.direccion": direccion.trim().toLowerCase() });
+  }
+
+  async buscarPorNombre(nombre) {
+	return await this.model.findOne({ "nombre": nombre });
+  }
+
   async crear(usuario) {
     const nuevoUsuario = new this.model(usuario);
     return await nuevoUsuario.save();

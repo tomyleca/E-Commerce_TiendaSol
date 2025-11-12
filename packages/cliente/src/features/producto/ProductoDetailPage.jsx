@@ -59,7 +59,7 @@ const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
     <div className="producto-content">
       <div className="producto-image-section">
         <img
-          src={producto.imagen}
+          src={`/images/${producto.fotos[0]}`}
           alt={producto.titulo}
           className="producto-imagen"
         />

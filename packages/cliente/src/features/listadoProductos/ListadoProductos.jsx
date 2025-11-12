@@ -19,7 +19,7 @@ const ListadoProductos = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
   //vendedor harcodeado
-  const [vendedor, setVendedor] = useState("68f132ae7f31069b1cb49254");
+  const [vendedor, setVendedor] = useState("6914d10f91bb989457804b29");
 
   //Obtener filtros desde el contexto
   const { state } = useFiltro();

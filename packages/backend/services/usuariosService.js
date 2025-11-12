@@ -65,7 +65,7 @@ export class UsuariosService {
 		throw new LoginError();
 	}
 
-	const ok = await bcrypt.compare(password, usuario.passwordHash);
+	const ok = await bcrypt.compare(data.password, usuario.passwordHash);
     if (!ok) {
       throw new LoginError();
     }

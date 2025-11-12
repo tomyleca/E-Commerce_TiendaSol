@@ -25,7 +25,7 @@ const LoginForm = () => {
       toast.error("Debes completar la contraseña.");
       return;
     }
-    if (!usuario.email?.trim()) {
+    if (!usuario.email?.trim() && !usuario.username?.trim()) {
       toast.error("Debes completar el email.");
       return;
     }
@@ -62,17 +62,24 @@ const LoginForm = () => {
           <div className="form-group">
             <div className="input-wrapper">
               <input
-                type="email"
-                id="email"
-                name="email"
+                type="text"
+                id="Email o Nombre de Usuario"
+                name="Email o Nombre de Usuario"
                 required
-                autoComplete="email"
-                placeholder="Email"
-                aria-label="Email"
-                value={usuario.email}
-                onChange={(e) =>
-                  setUsuario((u) => ({ ...u, email: e.target.value }))
+                autoComplete="Email o Nombre de Usuario"
+                placeholder="Email o Nombre de Usuario"
+                aria-label="Email o Nombre de Usuario"
+                value={usuario.email ? usuario.email : usuario.username}
+                onChange={(e) =>{
+                  if (e.target.value.includes("@")) {
+					setUsuario((u) => ({ ...u, email: e.target.value }))
+					setUsuario((u) => ({ ...u, username: null }))
+				  } else {
+					setUsuario((u) => ({ ...u, username: e.target.value }))
+					setUsuario((u) => ({ ...u, email: null }))
+				  }		
                 }
+				}
               />
             </div>
             <span className="error-message" id="emailError"></span>

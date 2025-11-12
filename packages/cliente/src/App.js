@@ -1,16 +1,12 @@
 import "./App.css";
 import ListadoProductos from "./features/listadoProductos/ListadoProductos.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CarritoProvider } from "./context/CarritoContext.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
 import Layout from "./features/layout/Layout.jsx";
 import Login from "./features/login/Login.jsx";
 import Register from "./features/register/Register.jsx";
 import ProductoDetailPage from "./features/producto/ProductoDetailPage.jsx";
 import { useState } from "react";
-import { NotificationProvider } from "./context/NotificacionContext.jsx";
 import ListaNotificaciones from "./features/notificaciones/ListaNotificaciones.jsx";
-import { FiltroProvider } from "./context/FiltroContext.jsx";
 import { Toaster } from "react-hot-toast";
 import Tienda from "./features/tienda/Tienda.jsx";
 import Carrito from "./features/carrito/Carrito.jsx";
@@ -21,14 +17,13 @@ function App() {
     setCarrito([...carrito, producto]);
   };
 
+ 
+
   const [productos, setProductos] = useState([]);
   const [productosFiltrados, setProductosFiltrados] = useState([]);
 
   return (
-	<AuthProvider>
-    <CarritoProvider>
-      <NotificationProvider>
-        <FiltroProvider>
+ 
           <BrowserRouter>
             <Toaster position="bottom-center" containerStyle={{ bottom: 70 }} />
             <Routes>
@@ -51,14 +46,12 @@ function App() {
               <Route path="notificaciones" element={<ListaNotificaciones />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/tienda/:id" element={<Tienda />} />
+			  <Route path={`/tienda/:id`} element={<Tienda />} />
+              
               <Route path="/carrito" element={<Carrito />} />
             </Routes>
           </BrowserRouter>
-        </FiltroProvider>
-      </NotificationProvider>
-    </CarritoProvider>
-	</AuthProvider>
+ 
   );
 }
 

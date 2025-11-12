@@ -64,6 +64,8 @@ export const loginUsuario = async (usuario) => {
 			password: usuario.password,
 			
 		};
+
+		console.log("Payload de login:", payload);
 		const response = await axios.post(
 				`${API_BASE_URL}/usuarios/login`,
 				payload,
@@ -75,10 +77,14 @@ export const loginUsuario = async (usuario) => {
 					validateStatus: (s) => s >= 200 && s < 500,
 				}
 			);
-			if (response.status >= 400) {
+		if (response.status >= 400) {
 			const detalle = typeof response.data === "string" ? response.data : (response.data?.message || JSON.stringify(response.data));
 			throw new Error(`Error ${response.status} creando usuario: ${detalle}`);
-		}
+
+			}
+		
+	
+		return response.data;
 
 		}
 		catch (error) {

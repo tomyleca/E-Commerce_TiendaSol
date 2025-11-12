@@ -1,5 +1,5 @@
 import "./navbar.css";
-import { FiLogIn } from "react-icons/fi";
+import { FiLogIn, FiLogOut } from "react-icons/fi";
 import "../../index.css";
 import Badge from "@mui/material/Badge";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -11,11 +11,14 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationModal from "./notification-modal.jsx";
 import ModalCarrito from "./modal-carrito.jsx";
 import { useNotification } from "../../context/NotificacionContext.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
+
 
 const Navbar = ({ onCartClick, minimalist = false }) => {
   const { abrirCarrito, cantidadTotalCarrito } = useCarrito();
   const { toggleNotificaciones, cantidadNotificaciones } = useNotification();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const {  isAuthenticated, logout} = useAuth();
 
   return (
     <>
@@ -69,6 +72,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                     <NotificationsIcon fontSize="medium" />
                   </Badge>
                 </button>
+				{!isAuthenticated && (
                 <Link
                   to="/login"
                   className="login-button"
@@ -76,6 +80,18 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                 >
                   <FiLogIn />
                 </Link>
+				)}
+
+				{isAuthenticated && (
+				<Link
+                  to="/"
+                  className="logout-button"
+                  aria-label="Ir a logout"
+				  onClick={logout}
+                >
+                  <FiLogOut />
+                </Link>
+				)}
               </>
             )}
           </div>
