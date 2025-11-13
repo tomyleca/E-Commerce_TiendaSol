@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/navbar/navbar.jsx';
 import CarritoItem from '../../components/carrito-item/CarritoItem.jsx';
 import BotonVaciarCarrito from '../../components/boton-vaciar-carrito/BotonVaciarCarrito.jsx';
+import BotonVolver from '../../components/boton-volver/BotonVolver.jsx';
 import { useCarrito } from '../../context/CarritoContext.jsx';
 import './Carrito.css';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 
@@ -26,9 +26,7 @@ const Carrito = () => {
             <ShoppingCartOutlinedIcon className="carrito-vacio-icon" />
             <h2>Tu carrito está vacío</h2>
             <p>¡Agrega productos para comenzar tu compra!</p>
-            <button className="btn-continuar-comprando" onClick={() => navigate(-1)}>
-              <ArrowBackIcon /> Continuar comprando
-            </button>
+            <BotonVolver className="btn-continuar-comprando">Continuar comprando</BotonVolver>
           </div>
         </div>
       </>
@@ -40,9 +38,7 @@ const Carrito = () => {
       <Navbar />
       <div className="carrito-container">
         <div className="carrito-header">
-          <button className="btn-volver" onClick={() => navigate(-1)}>
-            <ArrowBackIcon /> Volver
-          </button>
+          <BotonVolver className="btn-volver">Volver</BotonVolver>
 		  <div className='titulo-carrito'>
         	<ShoppingCartOutlinedIcon className="carrito-header-icon" />
           <h1>Carrito</h1>

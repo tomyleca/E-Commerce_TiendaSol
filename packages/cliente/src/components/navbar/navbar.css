@@ -76,6 +76,40 @@ navbar-bg {
   margin-right: 2.8rem;
 }
 
+.search-toggle-button {
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  position: relative;
+  margin-right: 1.5rem;
+  transition: transform 0.2s ease;
+}
+
+.search-toggle-button:hover {
+  transform: scale(1.1);
+}
+
+.search-toggle-button:active {
+  transform: scale(0.95);
+}
+
+.search-dropdown {
+  max-height: 0;
+  overflow: hidden;
+  background-color: var(--primary-color);
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+  padding: 0;
+}
+
+.search-dropdown-open {
+  max-height: 150px;
+  padding: 0.5rem 0 1rem 0;
+}
+
 @media (max-width: 768px) {
   .nombre-marca {
     display: none;
@@ -95,5 +129,14 @@ navbar-bg {
   .login-button, .logout-button {
     font-size: 1.8rem;
     margin-right: 1.4rem;
+  }
+
+  .search-toggle-button {
+    font-size: 1.6rem;
+    margin-right: 1rem;
+  }
+
+  .search-dropdown-open {
+    max-height: 120px;
   }
 }

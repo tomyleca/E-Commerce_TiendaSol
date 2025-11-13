@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ButtonGroup, Button } from "@mui/material";
+import BotonVolver from "../../components/boton-volver/BotonVolver.jsx";
 import "./ProductoDetailPage.css";
 import { getProductoById } from "../../services/productService";
 
@@ -57,6 +58,7 @@ const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
 
   return (
     <div className="producto-content">
+      <BotonVolver>Volver</BotonVolver>
       <div className="producto-image-section">
         <img
           src={`/images/${producto.fotos[0]}`}

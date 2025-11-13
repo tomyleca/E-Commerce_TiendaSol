@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Navbar from '../../components/navbar/navbar.jsx';
+import BotonVolver from '../../components/boton-volver/BotonVolver.jsx';
 import './Tienda.css'
 import { Avatar } from '@mui/material';
 import { getUsuario } from '../../services/usuarioService.js';	
