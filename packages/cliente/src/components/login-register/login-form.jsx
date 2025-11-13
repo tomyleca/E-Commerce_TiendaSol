@@ -5,11 +5,11 @@ import "./login-form.css";
 import { loginUsuario } from "../../services/usuarioService.js";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext.jsx";
+import InputField from "../../components/input-field/InputField.jsx";
 
 
 const LoginForm = () => {
   const [usuario, setUsuario] = useState({ email: "", password: "" });
-  const [mostrarPassword, setMostrarPassword] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -59,65 +59,37 @@ const LoginForm = () => {
         </div>
 
         <form className="login-form" id="loginForm" noValidate onSubmit={handleSubmit}>
-          <div className="form-group">
-            <div className="input-wrapper">
-              <input
-                type="text"
-                id="Email o Nombre de Usuario"
-                name="Email o Nombre de Usuario"
-                required
-                autoComplete="Email o Nombre de Usuario"
-                placeholder="Email o Nombre de Usuario"
-                aria-label="Email o Nombre de Usuario"
-                value={usuario.email ? usuario.email : usuario.username}
-                onChange={(e) =>{
-                  if (e.target.value.includes("@")) {
-					setUsuario((u) => ({ ...u, email: e.target.value }))
-					setUsuario((u) => ({ ...u, username: null }))
-				  } else {
-					setUsuario((u) => ({ ...u, username: e.target.value }))
-					setUsuario((u) => ({ ...u, email: null }))
-				  }		
-                }
-				}
-              />
-            </div>
-            <span className="error-message" id="emailError"></span>
-          </div>
+          <InputField
+            id="emailOrUsername"
+            name="emailOrUsername"
+            type="text"
+            label="Email o Nombre de Usuario"
+            placeholder="Email o Nombre de Usuario"
+            value={usuario.email || usuario.username || ""}
+            onChange={(e) => {
+              if (e.target.value.includes("@")) {
+                setUsuario((u) => ({ ...u, email: e.target.value, username: null }));
+              } else {
+                setUsuario((u) => ({ ...u, username: e.target.value, email: null }));
+              }
+            }}
+            autoComplete="username"
+            required
+            errorId="emailError"
+          />
 
-          <div className="form-group">
-            <div className="input-wrapper password-wrapper">
-              <input
-                type={mostrarPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                required
-                autoComplete="current-password"
-                placeholder="Contraseña"
-                aria-label="Contraseña"
-                value={usuario.password}
-                onChange={(e) =>
-                  setUsuario((u) => ({ ...u, password: e.target.value }))
-                }
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                id="passwordToggle"
-                aria-label="Mostrar/ocultar contraseña"
-                aria-pressed={mostrarPassword}
-                title={
-                  mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-                }
-                onClick={() => setMostrarPassword((v) => !v)}
-              >
-                <span
-                  className={`eye-icon${mostrarPassword ? " show-password" : ""}`}
-                ></span>
-              </button>
-            </div>
-            <span className="error-message" id="passwordError"></span>
-          </div>
+          <InputField
+            id="password"
+            name="password"
+            label="Contraseña"
+            placeholder="Contraseña"
+            value={usuario.password}
+            onChange={(e) => setUsuario((u) => ({ ...u, password: e.target.value }))}
+            autoComplete="current-password"
+            required
+            errorId="passwordError"
+            showPasswordToggle
+          />
 
           <div className="form-options" style={{ display: "none" }}></div>
 
