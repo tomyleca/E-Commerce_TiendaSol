@@ -1,6 +1,4 @@
-import { productos } from "../mockData/Productos.js";
 import axios from "axios";
-
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -51,13 +49,13 @@ export const getProductos = async (
       params.append("nombre", busqueda);
     }
 
-	let url;
+    let url;
 
-	if (vendedor) {
-		url = `${API_BASE_URL}/usuarios/${vendedor}/productos?${params.toString()}`;
-	} else {
-		url = `${API_BASE_URL}/productos?${params.toString()}`;
-	}
+    if (vendedor) {
+      url = `${API_BASE_URL}/usuarios/${vendedor}/productos?${params.toString()}`;
+    } else {
+      url = `${API_BASE_URL}/productos?${params.toString()}`;
+    }
 
     const response = await axios.get(url, {
       headers: { "Cache-Control": "no-cache" },
@@ -78,7 +76,7 @@ export const getProductoById = async (
     if (!id.toString()) {
       throw new Error("ID de producto no proporcionado");
     }
-    
+
     const response = await axios.get(
       `${API_BASE_URL}/productos/${id}`,
       {

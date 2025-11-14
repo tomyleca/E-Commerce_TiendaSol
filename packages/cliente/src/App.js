@@ -12,6 +12,7 @@ import ListaNotificaciones from "./features/notificaciones/ListaNotificaciones.j
 import { FiltroProvider } from "./context/FiltroContext.jsx";
 import Tienda from "./features/tienda/Tienda.jsx";
 import Carrito from "./features/carrito/Carrito.jsx";
+import NuevoProducto from "./features/nuevoProducto/NuevoProducto.jsx";
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -49,6 +50,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/tienda/:id" element={<Tienda />} />
               <Route path="/carrito" element={<Carrito />} />
+              <Route path="/nuevoProducto" element={<NuevoProducto />} />
             </Routes>
           </BrowserRouter>
         </FiltroProvider>
