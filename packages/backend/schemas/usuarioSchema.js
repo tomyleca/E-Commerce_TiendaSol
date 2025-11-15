@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Usuario } from "../models/entities/usuario.js";
+import {direccionSchema} from "./direccionSchema.js";
 
 // Subdocumento embebido para email
 const emailSchema = new mongoose.Schema(
@@ -25,7 +26,7 @@ const usuarioSchema = new mongoose.Schema(
 	passwordHash: { type: String, required: true },
 	// Campos opcionales para vendedores
 	descripcion: { type: String, required: false },
-	ubicacion: { type: String, required: false },
+	direccion: { type: direccionSchema },
 },
   { collection: "usuarios" },
 );

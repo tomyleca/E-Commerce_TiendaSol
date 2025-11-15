@@ -80,25 +80,18 @@ export class UsuariosService {
 	  throw new NotFound("Usuario no encontrado");
 	}
 
-	// Actualizar solo los campos proporcionados
-	if (datosActualizados.nombre) {
-	  usuario.nombre = datosActualizados.nombre;
-	}
-	if (datosActualizados.email) {
-	  usuario.email = new Email(datosActualizados.email);
-	}
-	if (datosActualizados.telefono) {
-	  usuario.telefono = datosActualizados.telefono;
-	}
-	if (datosActualizados.tipo) {
-	  usuario.tipo = datosActualizados.tipo;
-	}
-	if (datosActualizados.password) {
-	  const saltRounds = 10;
-	  usuario.passwordHash = await bcrypt.hash(datosActualizados.password, saltRounds);
-	}
 
-	return await this.usuariosRepository.update(id, usuario);
+  //Si viene password, la hasheás antes
+  if (datosActualizados.password) {
+    const saltRounds = 10;
+    datosActualizados.passwordHash = await bcrypt.hash(datosActualizados.password, saltRounds);
+    delete datosActualizados.password;
+  }
+
+  //Mezcla no-destructiva
+  Object.assign(usuario, datosActualizados);
+
+  return await this.usuariosRepository.update(id, usuario);
   }
 
 

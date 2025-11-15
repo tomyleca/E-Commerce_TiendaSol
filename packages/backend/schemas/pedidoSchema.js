@@ -2,49 +2,8 @@ import mongoose from "mongoose";
 import { Pedido } from "../models/entities/pedido.js";
 import { itemSchema } from "./itemSchema.js";
 import { EstadoPedido } from "../models/entities/estadoPedido.js";
+import { direccionSchema } from "./direccionSchema.js";
 
-const direccionSchema = new mongoose.Schema({
-  calle: {
-    type: String,
-    required: true,
-  },
-  altura: {
-    type: String,
-    required: true,
-  },
-  piso: {
-    type: String,
-    required: true,
-  },
-  departamento: {
-    type: String,
-    required: true,
-  },
-  cosigoPostal: {
-    type: String,
-    requiered: true,
-  },
-  ciudad: {
-    type: String,
-    requiered: true,
-  },
-  provincia: {
-    type: String,
-    requiered: true,
-  },
-  pais: {
-    type: String,
-    requiered: true,
-  },
-  lat: {
-    type: String,
-    requiered: true,
-  },
-  lon: {
-    type: String,
-    requiered: true,
-  },
-});
 
 const pedidoSchema = new mongoose.Schema({
   comprador: {
