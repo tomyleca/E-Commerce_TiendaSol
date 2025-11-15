@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from '../../components/navbar/navbar.jsx';
 import {
     TextField,
     Button,
@@ -149,128 +150,131 @@ export default function NuevoProducto({ onCreated }) {
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit}>
-            <Typography variant="h5" mb={2}>
-                Nuevo producto
-            </Typography>
-            <Stack>
-                <TextField label="Título" value={formulario.titulo} onChange={handleChange("titulo")} error={!!errores.titulo} helperText={errores.titulo} fullWidth />
+        <>
+            <Navbar />
+            <Box component="form" onSubmit={handleSubmit}>
+                <Typography variant="h5" mb={2}>
+                    Nuevo producto
+                </Typography>
+                <Stack>
+                    <TextField label="Título" value={formulario.titulo} onChange={handleChange("titulo")} error={!!errores.titulo} helperText={errores.titulo} fullWidth />
 
-                <TextField label="Descripción" value={formulario.descripcion} onChange={handleChange("descripcion")} error={!!errores.descripcion} helperText={errores.descripcion} multiline rows={3} fullWidth />
+                    <TextField label="Descripción" value={formulario.descripcion} onChange={handleChange("descripcion")} error={!!errores.descripcion} helperText={errores.descripcion} multiline rows={3} fullWidth />
 
-                <FormControl fullWidth>
-                    <InputLabel id="categorias-label">Categorías</InputLabel>
-                    <Select
-                        labelId="categorias-label"
-                        multiple
-                        value={formulario.categoriasId}
-                        onChange={handleCategoriasChange}
-                        input={<OutlinedInput label="Categorías" />}
-                        renderValue={(selected) =>
-                            categorias
-                                .filter((c) => selected.includes(c._id || c.id))
-                                .map((c) => c.nombre || c.name)
-                                .join(", ")
-                        }
-                    >
-                        {categorias.map((c) => (
-                            <MenuItem key={c._id || c.id} value={c._id || c.id}>
-                                <Checkbox checked={formulario.categoriasId.indexOf(c._id || c.id) > -1} />
-                                <ListItemText primary={c.nombre || c.name} />
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-                <TextField label="Precio" value={formulario.precio} onChange={handleChange("precio")} error={!!errores.precio} helperText={errores.precio} />
-
-                <FormControl>
-                    <InputLabel id="moneda-label">Moneda</InputLabel>
-                    <Select
-                        labelId="moneda-label"
-                        value={formulario.moneda}
-                        onChange={handleChange("moneda")}
-                        label="Moneda"
-                        sx={{ minWidth: 180 }}
-                    >
-                        {MONEDAS.map((m) => (
-                            <MenuItem key={m} value={m}>
-                                {m}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-                <Box mt={2}>
-                    <Box mb={1}>Fotos</Box>
-                    <input
-                        accept="image/*"
-                        id="fotos-input"
-                        type="file"
-                        multiple
-                        style={{ display: 'none' }}
-                        onChange={handleFotosChange}
-                    />
-                    <label htmlFor="fotos-input">
-                        <Button variant="outlined" component="span">Seleccionar fotos</Button>
-                    </label>
-                    {Array.isArray(formulario.fotos) && formulario.fotos.length > 0 && (
-                        <Box mt={1} display="flex" gap={1} flexWrap="wrap">
-                            {formulario.fotos.map((src, idx) => (
-                                <img key={idx} src={src} alt={`foto-${idx}`} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4 }} />
-                            ))}
-                        </Box>
-                    )}
-                </Box>
-
-                <Box>
-                    <Box mb={1}>Stock</Box>
-                    <ButtonGroup variant="outlined" aria-label="stock controls">
-                        <Button
-                            onClick={() => setFormulario((f) => ({ ...f, stock: Math.max(0, Number(f.stock) - 1) }))}
-                            disabled={Number(formulario.stock) <= 0}
-                        >
-                            -
-                        </Button>
-                        <TextField
-                            value={formulario.stock}
-                            onChange={(e) =>
-                                setFormulario((f) => ({ ...f, stock: e.target.value }))
+                    <FormControl fullWidth>
+                        <InputLabel id="categorias-label">Categorías</InputLabel>
+                        <Select
+                            labelId="categorias-label"
+                            multiple
+                            value={formulario.categoriasId}
+                            onChange={handleCategoriasChange}
+                            input={<OutlinedInput label="Categorías" />}
+                            renderValue={(selected) =>
+                                categorias
+                                    .filter((c) => selected.includes(c._id || c.id))
+                                    .map((c) => c.nombre || c.name)
+                                    .join(", ")
                             }
-                            inputProps={{ inputMode: "numeric", pattern: "[0-9]*", style: { textAlign: "center", width: 60 } }}
-                        />
-                        <Button onClick={() => setFormulario((f) => ({ ...f, stock: Number(f.stock) + 1 }))}>+</Button>
-                    </ButtonGroup>
-                    {errores.stock && (
-                        <Box mt={1} sx={{ color: 'error.main', fontSize: '0.875rem' }}>{errores.stock}</Box>
-                    )}
-                </Box>
+                        >
+                            {categorias.map((c) => (
+                                <MenuItem key={c._id || c.id} value={c._id || c.id}>
+                                    <Checkbox checked={formulario.categoriasId.indexOf(c._id || c.id) > -1} />
+                                    <ListItemText primary={c.nombre || c.name} />
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
-                <Box display="flex" gap={2}>
-                    <Button type="submit" variant="contained" disabled={carga}>
-                        {carga ? "Creando..." : "Crear producto"}
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="outlined"
-                        onClick={() =>
-                            setFormulario({
-                                vendedorId: "69129b802aafccbbe4ab9987",
-                                titulo: "",
-                                descripcion: "",
-                                categoriasId: [],
-                                precio: "",
-                                moneda: "PESO_ARG",
-                                stock: 0,
-                                fotos: [],
-                                activo: true,
-                            })
-                        }
-                    >
-                        Limpiar
-                    </Button>
-                </Box>
-            </Stack>
-        </Box>
+                    <TextField label="Precio" value={formulario.precio} onChange={handleChange("precio")} error={!!errores.precio} helperText={errores.precio} />
+
+                    <FormControl>
+                        <InputLabel id="moneda-label">Moneda</InputLabel>
+                        <Select
+                            labelId="moneda-label"
+                            value={formulario.moneda}
+                            onChange={handleChange("moneda")}
+                            label="Moneda"
+                            sx={{ minWidth: 180 }}
+                        >
+                            {MONEDAS.map((m) => (
+                                <MenuItem key={m} value={m}>
+                                    {m}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
+                    <Box mt={2}>
+                        <Box mb={1}>Fotos</Box>
+                        <input
+                            accept="image/*"
+                            id="fotos-input"
+                            type="file"
+                            multiple
+                            style={{ display: 'none' }}
+                            onChange={handleFotosChange}
+                        />
+                        <label htmlFor="fotos-input">
+                            <Button variant="outlined" component="span">Seleccionar fotos</Button>
+                        </label>
+                        {Array.isArray(formulario.fotos) && formulario.fotos.length > 0 && (
+                            <Box mt={1} display="flex" gap={1} flexWrap="wrap">
+                                {formulario.fotos.map((src, idx) => (
+                                    <img key={idx} src={src} alt={`foto-${idx}`} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4 }} />
+                                ))}
+                            </Box>
+                        )}
+                    </Box>
+
+                    <Box>
+                        <Box mb={1}>Stock</Box>
+                        <ButtonGroup variant="outlined" aria-label="stock controls">
+                            <Button
+                                onClick={() => setFormulario((f) => ({ ...f, stock: Math.max(0, Number(f.stock) - 1) }))}
+                                disabled={Number(formulario.stock) <= 0}
+                            >
+                                -
+                            </Button>
+                            <TextField
+                                value={formulario.stock}
+                                onChange={(e) =>
+                                    setFormulario((f) => ({ ...f, stock: e.target.value }))
+                                }
+                                inputProps={{ inputMode: "numeric", pattern: "[0-9]*", style: { textAlign: "center" } }}
+                            />
+                            <Button onClick={() => setFormulario((f) => ({ ...f, stock: Number(f.stock) + 1 }))}>+</Button>
+                        </ButtonGroup>
+                        {errores.stock && (
+                            <Box mt={1} sx={{ color: 'error.main', fontSize: '0.875rem' }}>{errores.stock}</Box>
+                        )}
+                    </Box>
+
+                    <Box display="flex" gap={2}>
+                        <Button type="submit" variant="contained" disabled={carga}>
+                            {carga ? "Creando..." : "Crear producto"}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="outlined"
+                            onClick={() =>
+                                setFormulario({
+                                    vendedorId: "69129b802aafccbbe4ab9987",
+                                    titulo: "",
+                                    descripcion: "",
+                                    categoriasId: [],
+                                    precio: "",
+                                    moneda: "PESO_ARG",
+                                    stock: 0,
+                                    fotos: [],
+                                    activo: true,
+                                })
+                            }
+                        >
+                            Limpiar
+                        </Button>
+                    </Box>
+                </Stack>
+            </Box>
+        </>
     );
 }
