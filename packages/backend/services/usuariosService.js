@@ -74,5 +74,32 @@ export class UsuariosService {
     return usuario;
   }
 
+  async editar(id, datosActualizados) {
+	const usuario = await this.usuariosRepository.buscarPorId(id);
+	if (!usuario) {
+	  throw new NotFound("Usuario no encontrado");
+	}
+
+	// Actualizar solo los campos proporcionados
+	if (datosActualizados.nombre) {
+	  usuario.nombre = datosActualizados.nombre;
+	}
+	if (datosActualizados.email) {
+	  usuario.email = new Email(datosActualizados.email);
+	}
+	if (datosActualizados.telefono) {
+	  usuario.telefono = datosActualizados.telefono;
+	}
+	if (datosActualizados.tipo) {
+	  usuario.tipo = datosActualizados.tipo;
+	}
+	if (datosActualizados.password) {
+	  const saltRounds = 10;
+	  usuario.passwordHash = await bcrypt.hash(datosActualizados.password, saltRounds);
+	}
+
+	return await this.usuariosRepository.update(id, usuario);
+  }
+
 
 }

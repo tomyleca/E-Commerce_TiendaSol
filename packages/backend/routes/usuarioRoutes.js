@@ -76,8 +76,15 @@ export default function pedidoRoutes(getController) {
     } catch (error) {
       next(error);
     }
-  }
-);
+  });
+
+  router.patch(pathUsuario + '/:id', async (req, res, next) => {
+	try {
+	  await getController(UsuariosController).editar(req, res);
+	} catch (error) {
+      next(error);
+    }
+  });
 
 
 

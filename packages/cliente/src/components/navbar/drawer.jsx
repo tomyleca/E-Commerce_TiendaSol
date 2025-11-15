@@ -64,7 +64,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
         ))}
       </List>
       <Divider />
-	  {isVendedor && ( 
+	  {true && ( 
       <List>
         {["Mi Tienda"].map((text) => (
           <ListItem key={text} disablePadding>

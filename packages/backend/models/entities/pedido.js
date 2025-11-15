@@ -6,7 +6,7 @@ import { EstadoPedido } from "./estadoPedido.js";
 import { ValorNoCumpleConEnum } from "../../errors/valorNoCumpleConEnum.js";
 import { Moneda } from "./moneda.js";
 import { ItemPedido } from "./itemPedido.js";
-import { DireccionEntrega } from "./direccionEntrega.js";
+import { Direccion } from "./direccion.js";
 import { MonedaInconsistenteItems } from "../../errors/monedaInconsistenteItems.js";
 
 export class Pedido {
@@ -14,7 +14,7 @@ export class Pedido {
     z.object({
       comprador: z.instanceof(Usuario),
       items: z.array(z.instanceof(ItemPedido)).min(1),
-      direccionEntrega: z.instanceof(DireccionEntrega),
+      direccionEntrega: z.instanceof(Direccion),
     });
     this.id = null;
     this.comprador = comprador;

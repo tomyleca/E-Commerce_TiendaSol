@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export class DireccionEntrega {
+export class Direccion {
   constructor(
     calle,
     altura,

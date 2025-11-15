@@ -7,12 +7,17 @@ import { Avatar } from '@mui/material';
 import { getUsuario } from '../../services/usuarioService.js';	
 import { getProductos } from '../../services/productService.js';
 import CardProducto from '../../components/card-producto/card.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
+import AddHomeIcon from '@mui/icons-material/AddHome';
+import StoreIcon from '@mui/icons-material/Store';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 
 const Tienda = () => {
 	const { idTienda } = useParams(); //Lee el :id de la URL
 	const [vendedor, setVendedor] = useState(null);
 	const [productosDestacados, setProductosDestacados] = useState([]);
+	const {isVendedor} = useAuth();	
 	
 
 	useEffect(() => {
@@ -40,6 +45,34 @@ const Tienda = () => {
 			cargarProductosDestacados();
 		}
 	}, [idTienda]);
+
+	if (vendedor?.tipo !== 'VENDEDOR') {
+    return (
+      <>
+        <Navbar />
+        <div className="tienda-container">
+          <div className="tienda-vacia">
+            <div className="tienda-vacia-icon-wrapper">
+              <StoreIcon className="tienda-vacia-icon" />
+              <div className="icon-slash"></div>
+            </div>
+			<h2>¡No se ha podido encontrar una tienda para este usuario!</h2>
+        	{!isVendedor && (
+			<>
+            <h3>¿Querés crear tu propia tienda?</h3>
+            <p>¡Estás solo a unos pocos pasos!</p>
+            <button className="btn-agregar-tienda">
+              <AddBusinessIcon />
+              Agregar tienda
+            </button>
+			</>
+			)}
+          </div>
+        </div>
+      </>
+    );
+  }
+
 
 	return (
 		<>

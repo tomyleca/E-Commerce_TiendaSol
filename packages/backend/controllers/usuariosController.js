@@ -26,6 +26,16 @@ export class UsuariosController {
     res.status(201).json(usuarioCreado);
   }
 
+
+  async editar(req, res) {
+	const id = req.params.id;
+	const idUsuario = chequearID(id);
+	const body = req.body;
+	const data = editarUsuarioSchema.parse(body);
+	const usuarioActualizado = await this.usuariosService.editar(idUsuario, data);
+	res.status(200).json(usuarioActualizado);
+  }
+
   async buscarHistorialDePedidos(req, res) {
     const id = req.params.id;
 
@@ -99,5 +109,18 @@ const loginSchema = z.object({
   {
     message: "Debes enviar nombre o email",
     path: ["nombre"] // o ["email"]; es solo para ubicar el error
+  }
+);
+
+const editarUsuarioSchema = z.object({
+  nombre: z.string().min(1, "El nombre es obligatorio").optional(),
+  email: z.string().email("Email inválido").optional(),
+  telefono: z.number().min(1, "El teléfono es incorrecto").optional(),
+  tipo: z.string().min(1, "El tipo de usuario es obligatorio").optional(),
+  password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres").optional(),
+}).refine(
+  (data) => Object.keys(data).length > 0,
+  {
+    message: "Debes enviar al menos un campo para actualizar",
   }
 );
