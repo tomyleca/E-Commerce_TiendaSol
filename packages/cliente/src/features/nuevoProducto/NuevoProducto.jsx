@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from '../../components/navbar/navbar.jsx';
+import "./NuevoProducto.css";
 import {
     TextField,
     Button,
     ButtonGroup,
-    Box,
     FormControl,
     InputLabel,
     Select,
@@ -13,15 +13,12 @@ import {
     OutlinedInput,
     Checkbox,
     ListItemText,
-    FormControlLabel,
     Stack,
     Typography,
 } from "@mui/material";
 import { getCategorias } from "../../services/productService";
 
-const API_BASE =
-    process.env.REACT_APP_API_BASE_URL ||
-    (process.env.NODE_ENV === "development" ? "http://localhost:3001" : "");
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export default function NuevoProducto({ onCreated }) {
     const [categorias, setCategorias] = useState([]);
@@ -122,7 +119,7 @@ export default function NuevoProducto({ onCreated }) {
 
         setCarga(true);
         try {
-            const res = await axios.post(`${API_BASE}/productos`, payload, {
+            const res = await axios.post(`${API_BASE_URL}/productos`, payload, {
                 headers: { "Content-Type": "application/json" },
             });
             if (onCreated) onCreated(res.data);
@@ -152,16 +149,16 @@ export default function NuevoProducto({ onCreated }) {
     return (
         <>
             <Navbar />
-            <Box component="form" onSubmit={handleSubmit}>
-                <Typography variant="h5" mb={2}>
+            <div className="form" onSubmit={handleSubmit}>
+                <Typography variant="h5" className="titulo-nuevo-producto">
                     Nuevo producto
                 </Typography>
                 <Stack>
-                    <TextField label="Título" value={formulario.titulo} onChange={handleChange("titulo")} error={!!errores.titulo} helperText={errores.titulo} fullWidth />
+                    <TextField label="Título" value={formulario.titulo} onChange={handleChange("titulo")} error={!!errores.titulo} helperText={errores.titulo} />
 
-                    <TextField label="Descripción" value={formulario.descripcion} onChange={handleChange("descripcion")} error={!!errores.descripcion} helperText={errores.descripcion} multiline rows={3} fullWidth />
+                    <TextField label="Descripción" value={formulario.descripcion} onChange={handleChange("descripcion")} error={!!errores.descripcion} helperText={errores.descripcion} />
 
-                    <FormControl fullWidth>
+                    <FormControl>
                         <InputLabel id="categorias-label">Categorías</InputLabel>
                         <Select
                             labelId="categorias-label"
@@ -204,8 +201,8 @@ export default function NuevoProducto({ onCreated }) {
                         </Select>
                     </FormControl>
 
-                    <Box mt={2}>
-                        <Box mb={1}>Fotos</Box>
+                    <div mt={2}>
+                        <div mb={1}>Fotos</div>
                         <input
                             accept="image/*"
                             id="fotos-input"
@@ -218,16 +215,16 @@ export default function NuevoProducto({ onCreated }) {
                             <Button variant="outlined" component="span">Seleccionar fotos</Button>
                         </label>
                         {Array.isArray(formulario.fotos) && formulario.fotos.length > 0 && (
-                            <Box mt={1} display="flex" gap={1} flexWrap="wrap">
+                            <div mt={1} display="flex" gap={1} flexWrap="wrap">
                                 {formulario.fotos.map((src, idx) => (
                                     <img key={idx} src={src} alt={`foto-${idx}`} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4 }} />
                                 ))}
-                            </Box>
+                            </div>
                         )}
-                    </Box>
+                    </div>
 
-                    <Box>
-                        <Box mb={1}>Stock</Box>
+                    <div>
+                        <div mb={1}>Stock</div>
                         <ButtonGroup variant="outlined" aria-label="stock controls">
                             <Button
                                 onClick={() => setFormulario((f) => ({ ...f, stock: Math.max(0, Number(f.stock) - 1) }))}
@@ -245,11 +242,11 @@ export default function NuevoProducto({ onCreated }) {
                             <Button onClick={() => setFormulario((f) => ({ ...f, stock: Number(f.stock) + 1 }))}>+</Button>
                         </ButtonGroup>
                         {errores.stock && (
-                            <Box mt={1} sx={{ color: 'error.main', fontSize: '0.875rem' }}>{errores.stock}</Box>
+                            <div mt={1} sx={{ color: 'error.main', fontSize: '0.875rem' }}>{errores.stock}</div>
                         )}
-                    </Box>
+                    </div>
 
-                    <Box display="flex" gap={2}>
+                    <div display="flex" gap={2}>
                         <Button type="submit" variant="contained" disabled={carga}>
                             {carga ? "Creando..." : "Crear producto"}
                         </Button>
@@ -272,9 +269,9 @@ export default function NuevoProducto({ onCreated }) {
                         >
                             Limpiar
                         </Button>
-                    </Box>
+                    </div>
                 </Stack>
-            </Box>
+            </div>
         </>
     );
 }
