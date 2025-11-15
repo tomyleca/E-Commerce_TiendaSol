@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ButtonGroup, Button } from "@mui/material";
+import BotonVolver from "../../components/boton-volver/BotonVolver.jsx";
 import "./ProductoDetailPage.css";
 import { getProductoById } from "../../services/productService";
 
@@ -56,47 +57,43 @@ const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
   }
 
   return (
-    <div className="producto-detail-container">
-      <div className="producto-header">
-        <h1 className="producto-nombre">{producto.titulo}</h1>
+    <div className="producto-content">
+      <BotonVolver>Volver</BotonVolver>
+      <div className="producto-image-section">
+        <img
+          src={`/images/${producto.fotos[0]}`}
+          alt={producto.titulo}
+          className="producto-imagen"
+        />
       </div>
 
-      <div className="producto-content">
-        <div className="producto-image-section">
-          <img
-            src={producto.imagen}
-            alt={producto.titulo}
-            className="producto-imagen"
-          />
-        </div>
+      <div className="producto-info-section">
+        <div className="producto-nombre">{producto.titulo}</div>
+        <div className="producto-description">{producto.descripcion}</div>
 
-        <div className="producto-info-section">
-          <div className="producto-description">{producto.descripcion}</div>
-
-          <div className="producto-price-section">
-            <div className="producto-precio">
-              $ {producto.precio?.toLocaleString()}
-            </div>
+        <div className="producto-price-section">
+          <div className="producto-precio">
+            $ {producto.precio?.toLocaleString()}
           </div>
         </div>
-      </div>
 
-      <div className="comprar-container">
-        <div className="boton-contador">
-          <ButtonGroup variant="outlined" aria-label="outlined button group">
-            <Button
-              onClick={decrementarProductos}
-              disabled={cantProductos === 0}
-            >
-              -
-            </Button>
-            <Button disabled>{cantProductos}</Button>
-            <Button onClick={incrementarProductos}>+</Button>
-          </ButtonGroup>
+        <div className="comprar-container">
+          <div className="boton-contador">
+            <ButtonGroup variant="outlined" aria-label="outlined button group">
+              <Button
+                onClick={decrementarProductos}
+                disabled={cantProductos === 0}
+              >
+                -
+              </Button>
+              <Button disabled>{cantProductos}</Button>
+              <Button onClick={incrementarProductos}>+</Button>
+            </ButtonGroup>
+          </div>
+          <button className="comprar" onClick={comprar}>
+            Añadir al carrito
+          </button>
         </div>
-        <button className="comprar" onClick={comprar}>
-          Añadir al carrito
-        </button>
       </div>
     </div>
   );

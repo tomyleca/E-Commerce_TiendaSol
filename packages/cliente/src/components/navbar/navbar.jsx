@@ -1,8 +1,10 @@
 import "./navbar.css";
-import { FiLogIn } from "react-icons/fi";
+import { FiLogIn, FiLogOut } from "react-icons/fi";
 import "../../index.css";
 import Badge from "@mui/material/Badge";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 import { useCarrito } from "../../context/CarritoContext";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -11,11 +13,16 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationModal from "./notification-modal.jsx";
 import ModalCarrito from "./modal-carrito.jsx";
 import { useNotification } from "../../context/NotificacionContext.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
+import BarraBusqueda from "../producto/BarraBusqueda.jsx";
 
-const Navbar = ({ onCartClick, minimalist = false }) => {
+
+const Navbar = ({ onCartClick, minimalist = false, fltrarProductos, filtrarProductos }) => {
   const { abrirCarrito, cantidadTotalCarrito } = useCarrito();
   const { toggleNotificaciones, cantidadNotificaciones } = useNotification();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const {  isAuthenticated, logout} = useAuth();
 
   return (
     <>
@@ -43,7 +50,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                   aria-haspopup="dialog"
                 >
                   <Badge badgeContent={cantidadTotalCarrito} color="primary">
-                    <ShoppingCartIcon />
+                    <ShoppingCartIcon fontSize="large" />
                   </Badge>
                 </button>
               </>
@@ -59,16 +66,14 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
             {!minimalist && (
               <>
                 <button
-                  type="button"
-                  onClick={toggleNotificaciones}
-                  className="notification-icon"
-                  aria-label="Abrir notificaciones"
-                  aria-haspopup="dialog"
+                  className="search-toggle-button"
+                  onClick={() => setSearchOpen(!searchOpen)}
+                  aria-label={searchOpen ? "Cerrar búsqueda" : "Abrir búsqueda"}
                 >
-                  <Badge badgeContent={cantidadNotificaciones} color="primary">
-                    <NotificationsIcon fontSize="medium" />
-                  </Badge>
+                  {searchOpen ? <CloseIcon fontSize="large" /> : <SearchIcon fontSize="large" />}
                 </button>
+        
+				{!isAuthenticated && (
                 <Link
                   to="/login"
                   className="login-button"
@@ -76,10 +81,46 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                 >
                   <FiLogIn />
                 </Link>
+				)}
+
+				{isAuthenticated && (
+				<>
+				<button
+                  type="button"
+                  onClick={toggleNotificaciones}
+                  className="notification-icon"
+                  aria-label="Abrir notificaciones"
+                  aria-haspopup="dialog"
+                >
+                  <Badge badgeContent={cantidadNotificaciones} color="primary">
+                    <NotificationsIcon fontSize="large" />
+                  </Badge>
+                </button>
+				<Link
+                  to="/"
+                  className="logout-button"
+                  aria-label="Ir a logout"
+				  onClick={logout}
+                >
+                  <FiLogOut />
+                </Link>
+				</>
+				)}
               </>
             )}
           </div>
         </nav>
+        
+        {/* Barra de búsqueda desplegable */}
+        <div className={`search-dropdown ${searchOpen ? 'search-dropdown-open' : ''}`}>
+          {searchOpen && (
+            <BarraBusqueda 
+              fltrarProductos={fltrarProductos} 
+              filtrarProductos={filtrarProductos}
+            />
+          )}
+        </div>
+        
         <NotificationModal />
         <ModalCarrito />
       </header>

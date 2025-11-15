@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Navbar from '../../components/navbar/navbar.jsx';
+import BotonVolver from '../../components/boton-volver/BotonVolver.jsx';
 import './Tienda.css'
 import { Avatar } from '@mui/material';
 import { getUsuario } from '../../services/usuarioService.js';	
@@ -9,15 +10,16 @@ import CardProducto from '../../components/card-producto/card.jsx';
 
 
 const Tienda = () => {
-	const { id } = useParams(); //Lee el :id de la URL
+	const { idTienda } = useParams(); //Lee el :id de la URL
 	const [vendedor, setVendedor] = useState(null);
 	const [productosDestacados, setProductosDestacados] = useState([]);
+	
 
 	useEffect(() => {
-		// Cargar datos del vendedor cuando cambia el id
+		// Cargar datos del vendedor cuando cambia el idTienda
 		const cargarUsuario = async () => {
 			try {
-				const data = await getUsuario(id);
+				const data = await getUsuario(idTienda);
 				setVendedor(data);
 			} catch (error) {
 				console.error('Error cargando usuario:', error);
@@ -26,18 +28,18 @@ const Tienda = () => {
 
 		const cargarProductosDestacados = async () => {
 			try {
-				const response = await getProductos(1, null, 'masVendido', null, null, id);
+				const response = await getProductos(1, null, 'masVendido', null, null, idTienda);
 				setProductosDestacados(response?.data || []);
 			} catch (error) {
 				console.error('Error cargando productos destacados:', error);
 			}
 		};
 
-		if (id) {
+		if (idTienda) {
 			cargarUsuario();
 			cargarProductosDestacados();
 		}
-	}, [id]);
+	}, [idTienda]);
 
 	return (
 		<>
@@ -57,7 +59,9 @@ const Tienda = () => {
 						<p>Ubicación: {vendedor?.ubicacion || 'Buenos Aires, Argentina'}</p>
 						<p>Calificación: ★★★★☆ (4.5/5)</p>
 					</div>
+					<Link to={`/tienda/${idTienda}/productos`}>
 					<button className="ver-productos-btn">Ver todos los productos</button>
+					</Link>
 				</div>
 				<hr className="tienda-separator" />
 				<div className="tienda-lower-section">

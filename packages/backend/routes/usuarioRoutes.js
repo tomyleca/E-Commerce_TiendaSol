@@ -65,7 +65,23 @@ export default function pedidoRoutes(getController) {
     } catch (error) {
       next(error);
     }
-  });
+	
+  }
+);
+
+  	//Login de un usuario
+  router.post(pathUsuario + '/login', async (req, res, next) => {
+    try {
+      await getController(UsuariosController).login(req, res);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
+
+
 
   router.use(usuarioErrorHandler);
   router.use(generalErrorHandler);

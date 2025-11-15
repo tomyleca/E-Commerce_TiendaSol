@@ -19,10 +19,11 @@ const usuarioSchema = new mongoose.Schema(
   {
     nombre: { type: String, required: true, trim: true },
     email: { type: emailSchema, required: true },
-    telefono: { type: Number, required: true },
+    telefono: { type: Number, required: false },
     tipo: { type: String, required: true },
     fechaDeAlta: { type: Date, required: true, default: Date.now },
-  },
+	passwordHash: { type: String, required: true },
+},
   { collection: "usuarios" },
 );
 

@@ -3,4 +3,6 @@ export class NotFound extends Error {
     super();
     this.message = "el " + objeto + " de id " + id + " no fue encontrado";
   }
+
+    
 }

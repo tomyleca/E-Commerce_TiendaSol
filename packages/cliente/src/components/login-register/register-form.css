@@ -38,34 +38,6 @@
   font-size: 0.875rem;
 }
 
-.register-page .input-wrapper input::placeholder {
-  color: transparent;
-}
-
-.register-page .input-wrapper label {
-  position: absolute;
-  left: 16px;
-  top: 12px;
-  color: #64748b;
-  font-size: 16px;
-  transition: all 0.2s ease;
-  pointer-events: none;
-  transform-origin: left top;
-}
-
-.register-page .input-wrapper input:focus,
-.register-page .input-wrapper input:valid,
-.register-page .input-wrapper input.has-value {
-  border-color: #6366f1;
-}
-
-.register-page .input-wrapper input:focus + label,
-.register-page .input-wrapper input:not(:placeholder-shown) + label,
-.register-page .input-wrapper input.has-value + label {
-  transform: translateY(-16px) scale(0.72);
-  color: #6366f1;
-  font-weight: 500;
-}
 
 @media (max-width: 480px) {
   .register-card {

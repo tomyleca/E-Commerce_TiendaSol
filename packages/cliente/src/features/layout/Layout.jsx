@@ -8,9 +8,8 @@ const Layout = ({ filtrarProductos }) => {
   return (
     <>
       <Navbar />
-      <div className="barra-container">
-        <BarraBusqueda filtrarProductos={filtrarProductos} />
-      </div>
+      
+     
       <Outlet />
     </>
   );

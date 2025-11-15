@@ -12,11 +12,16 @@ import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import StoreIcon from "@mui/icons-material/Store";
 import { Link } from "react-router-dom";
 import "./drawer.css";
+import { useAuth } from "../../context/AuthContext";
 
 const drawerWidth = 240;
 
 //Drawer CONTROLADO por props: open y onClose.
 export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
+	
+	const { usuario, isAuthenticated, isVendedor } = useAuth();
+
+
   const renderLink = (text) => {
     switch (text) {
       case "Home":
@@ -24,7 +29,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
       case "Buscar Producto":
         return "/productos";
       case "Mi Tienda":
-        return "/mi-tienda";
+        return `/tienda/${usuario._id}`;
       default:
         return "/";
     }
@@ -59,6 +64,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
         ))}
       </List>
       <Divider />
+	  {isVendedor && ( 
       <List>
         {["Mi Tienda"].map((text) => (
           <ListItem key={text} disablePadding>
@@ -69,6 +75,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
           </ListItem>
         ))}
       </List>
+	  )}
     </div>
   );
 

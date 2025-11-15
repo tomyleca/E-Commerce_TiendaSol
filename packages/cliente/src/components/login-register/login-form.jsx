@@ -1,12 +1,54 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./form.css";
 import "./login-form.css";
+import { loginUsuario } from "../../services/usuarioService.js";
+import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthContext.jsx";
+import InputField from "../../components/input-field/InputField.jsx";
+
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [mostrarPassword, setMostrarPassword] = useState(false);
+  const [usuario, setUsuario] = useState({ email: "", password: "" });
+  const [enviando, setEnviando] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (enviando) return; // evitar doble envío
+
+    // Validaciones básicas
+    if (!usuario.password?.trim()) {
+      toast.error("Debes completar la contraseña.");
+      return;
+    }
+    if (!usuario.email?.trim() && !usuario.username?.trim()) {
+      toast.error("Debes completar el email.");
+      return;
+    }
+
+    try {
+      setEnviando(true);
+      
+      const data = await loginUsuario(usuario);
+      if (!data) {
+        toast.error("Respuesta vacía del servidor");
+        return;
+      }
+      // Guardar usuario en contexto de auth
+      login(data);
+      toast.success("Sesión iniciada");
+      navigate("/");
+    } catch (err) {
+      const msg = err?.message || "Error desconocido al iniciar sesión";
+      toast.error(`No se pudo iniciar sesión: ${msg}`);
+    } finally {
+      setEnviando(false);
+    }
+  };
 
   return (
     <div className="login-container">
@@ -16,61 +58,44 @@ const LoginForm = () => {
           <p>Ingresa tus credenciales para acceder a tu cuenta</p>
         </div>
 
-        <form className="login-form" id="loginForm" noValidate>
-          <div className="form-group">
-            <div className="input-wrapper">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                autoComplete="email"
-                placeholder="Email"
-                aria-label="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <span className="error-message" id="emailError"></span>
-          </div>
+        <form className="login-form" id="loginForm" noValidate onSubmit={handleSubmit}>
+          <InputField
+            id="emailOrUsername"
+            name="emailOrUsername"
+            type="text"
+            label="Email o Nombre de Usuario"
+            placeholder="Email o Nombre de Usuario"
+            value={usuario.email || usuario.username || ""}
+            onChange={(e) => {
+              if (e.target.value.includes("@")) {
+                setUsuario((u) => ({ ...u, email: e.target.value, username: null }));
+              } else {
+                setUsuario((u) => ({ ...u, username: e.target.value, email: null }));
+              }
+            }}
+            autoComplete="username"
+            required
+            errorId="emailError"
+          />
 
-          <div className="form-group">
-            <div className="input-wrapper password-wrapper">
-              <input
-                type={mostrarPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                required
-                autoComplete="current-password"
-                placeholder="Contraseña"
-                aria-label="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                id="passwordToggle"
-                aria-label="Mostrar/ocultar contraseña"
-                aria-pressed={mostrarPassword}
-                title={
-                  mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-                }
-                onClick={() => setMostrarPassword((v) => !v)}
-              >
-                <span
-                  className={`eye-icon${mostrarPassword ? " show-password" : ""}`}
-                ></span>
-              </button>
-            </div>
-            <span className="error-message" id="passwordError"></span>
-          </div>
+          <InputField
+            id="password"
+            name="password"
+            label="Contraseña"
+            placeholder="Contraseña"
+            value={usuario.password}
+            onChange={(e) => setUsuario((u) => ({ ...u, password: e.target.value }))}
+            autoComplete="current-password"
+            required
+            errorId="passwordError"
+            showPasswordToggle
+          />
 
           <div className="form-options" style={{ display: "none" }}></div>
 
-          <button type="submit" className="form-btn">
-            <span className="btn-text">Iniciar Sesión</span>
-            <span className="btn-loader"></span>
+          <button type="submit" className="form-btn" disabled={enviando}>
+            <span className="btn-text">{enviando ? "Ingresando..." : "Iniciar Sesión"}</span>
+            {enviando && <span className="btn-loader"></span>}
           </button>
         </form>
 
@@ -80,11 +105,6 @@ const LoginForm = () => {
           </p>
         </div>
 
-        <div className="success-message" id="successMessage">
-          <div className="success-icon">✓</div>
-          <h3>¡Inicio de sesión exitoso!</h3>
-          <p>Redirigiendo al home…</p>
-        </div>
       </div>
     </div>
   );
