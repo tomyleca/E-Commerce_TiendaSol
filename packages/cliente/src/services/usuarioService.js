@@ -27,7 +27,7 @@ export const crearUsuario = async (usuario) => {
 			email: usuario.email?.trim(),
 			password: usuario.password,
 			// Mantener el tipo si viene, o usar el valor que ya se estaba estableciendo por defecto
-			tipo: usuario.tipo ?? "VENDEDOR",
+			tipo: usuario.tipo ?? "USUARIO",
 			telefono: usuario.telefono ? Number(usuario.telefono) : undefined,
 		};
 
@@ -93,3 +93,31 @@ export const loginUsuario = async (usuario) => {
 		}
 	
 }
+
+
+export const actualizarUsuario = async (idUsuario, datosActualizados) => {
+  try {
+    const response = await axios.patch(
+      `${API_BASE_URL}/usuarios/${idUsuario}`,
+      datosActualizados,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        validateStatus: (status) => status < 500,
+      }
+    );
+
+    if (response.status >= 400) {
+      const errorMsg = response.data?.message || response.data?.error || "Error actualizando usuario";
+      throw new Error(errorMsg);
+    }
+
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data?.message || "Error del servidor");
+    }
+    throw error;
+  }
+};

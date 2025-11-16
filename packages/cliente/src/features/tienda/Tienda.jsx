@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/navbar/navbar.jsx';
 import BotonVolver from '../../components/boton-volver/BotonVolver.jsx';
 import './Tienda.css'
@@ -17,7 +17,8 @@ const Tienda = () => {
 	const { idTienda } = useParams(); //Lee el :id de la URL
 	const [vendedor, setVendedor] = useState(null);
 	const [productosDestacados, setProductosDestacados] = useState([]);
-	const {isVendedor} = useAuth();	
+	const {isVendedor} = useAuth();
+	const navigate = useNavigate();	
 	
 
 	useEffect(() => {
@@ -61,7 +62,7 @@ const Tienda = () => {
 			<>
             <h3>¿Querés crear tu propia tienda?</h3>
             <p>¡Estás solo a unos pocos pasos!</p>
-            <button className="btn-agregar-tienda">
+            <button className="btn-agregar-tienda" onClick={() => navigate('/crear-tienda')}>
               <AddBusinessIcon />
               Agregar tienda
             </button>

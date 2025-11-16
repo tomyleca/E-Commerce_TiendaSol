@@ -29,7 +29,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
       case "Buscar Producto":
         return "/productos";
       case "Mi Tienda":
-        return `/tienda/${usuario._id}`;
+        return `/tienda/${usuario?._id ?? ''}`;
       default:
         return "/";
     }
@@ -64,7 +64,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
         ))}
       </List>
       <Divider />
-	  {true && ( 
+	  {isAuthenticated && ( 
       <List>
         {["Mi Tienda"].map((text) => (
           <ListItem key={text} disablePadding>

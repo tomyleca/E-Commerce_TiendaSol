@@ -11,6 +11,7 @@ import { Toaster } from "react-hot-toast";
 import Tienda from "./features/tienda/Tienda.jsx";
 import Carrito from "./features/carrito/Carrito.jsx";
 import NuevoProducto from "./features/nuevoProducto/NuevoProducto.jsx";
+import CrearTienda from "./features/crear-tienda/CrearTienda.jsx";
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -49,6 +50,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path={`/tienda/:idTienda`} element={<Tienda />} />
+        <Route path="/crear-tienda" element={<CrearTienda />} />
         <Route path="/carrito" element={<Carrito />} />
         <Route path="/nuevoProducto" element={<NuevoProducto />} />
       </Routes>
