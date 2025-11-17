@@ -13,14 +13,15 @@ import StoreIcon from "@mui/icons-material/Store";
 import { Link } from "react-router-dom";
 import "./drawer.css";
 import { useAuth } from "../../context/AuthContext";
-
+import PedidosCliente from "../pedido/PedidosCliente";
+import { ShoppingBag } from "@mui/icons-material";
 const drawerWidth = 240;
 
 //Drawer CONTROLADO por props: open y onClose.
 export default function ResponsiveDrawer({ open = false, onClose = () => { } }) {
 
   const { usuario, isAuthenticated, isVendedor } = useAuth();
-
+  
 
   const renderLink = (text) => {
     switch (text) {
@@ -31,6 +32,8 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       case "Mi Tienda":
         // usuario puede ser null si no está autenticado; prevenir acceso a _id
         return usuario ? `/tienda/${usuario._id}` : "/";
+      case "Mis Pedidos":
+        return `/clientes/${usuario?._id}/pedidos`;
       default:
         return "/";
     }
@@ -44,6 +47,9 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         return <ManageSearchIcon fontSize="large" />;
       case "Mi Tienda":
         return <StoreIcon fontSize="large" />;
+      case "Mis Pedidos":
+        return <ShoppingBag fontSize="large"/>;
+      
       default:
         return null;
     }
@@ -55,7 +61,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       <Toolbar />
       <Divider />
       <List>
-        {["Home", "Buscar Producto"].map((text) => (
+        {["Home", "Buscar Producto", "Mis Pedidos"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={renderLink(text)}>
               <ListItemIcon>{renderIcon(text)}</ListItemIcon>

@@ -20,7 +20,7 @@ const ListadoProductos = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
   //vendedor harcodeado //TODO sacarlo
-  const [vendedor, setVendedor] = useState("68f132ae7f31069b1cb49254");
+  const [vendedor, setVendedor] = useState(null);
 
   const { idTienda } = useParams();
 
