@@ -17,7 +17,8 @@ const Card2 = ({ producto }) => {
       <div className="product-info">
         <div className="product-header">
           <div className="product-title">{producto.titulo}</div>
-          <div className="stock">En Stock</div>
+          {producto.stock > 0 && <div className="stock">En Stock</div>}
+		   {producto.stock <= 0 && <div className="sin-stock">Sin Stock</div>}
         </div>
         {Array.isArray(producto.categorias) &&
           producto.categorias.length > 0 && (

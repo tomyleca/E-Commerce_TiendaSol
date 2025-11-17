@@ -3,7 +3,7 @@
   height: 450px;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: var(--white);
   border-radius: 15px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   transition: 0.3s;
@@ -15,7 +15,7 @@
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xl);
 }
 
 .badge {
@@ -28,7 +28,7 @@
     rgba(196, 72, 72, 1) 44%,
     rgba(170, 34, 56, 1) 100%
   );
-  color: #fff;
+  color: var(--white);
   padding: 5px 10px;
   font-size: 11px;
   font-weight: 600;
@@ -74,14 +74,14 @@
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #71717a;
+  color: var(--text-light);
   margin-bottom: 5px;
 }
 
 .title {
   font-size: 18px;
   font-weight: 700;
-  color: #18181b;
+  color: var(--text-dark);
   margin: 0 0 10px;
   letter-spacing: -0.5px;
   display: -webkit-box;
@@ -95,7 +95,7 @@
 
 .desc {
   font-size: 13px;
-  color: #52525b;
+  color: var(--text-medium);
   line-height: 1.4;
   margin-bottom: 12px;
   display: -webkit-box;
@@ -115,8 +115,8 @@
 
 .feat {
   font-size: 10px;
-  background: #f4f4f5;
-  color: #71717a;
+  background: var(--gray-100);
+  color: var(--text-light);
   padding: 3px 8px;
   border-radius: 10px;
   font-weight: 500;
@@ -137,19 +137,19 @@
 .old {
   font-size: 13px;
   text-decoration: line-through;
-  color: #a1a1aa;
+  color: var(--text-lighter);
   margin-bottom: 2px;
 }
 
 .new {
   font-size: 20px;
   font-weight: 700;
-  color: #18181b;
+  color: var(--text-dark);
 }
 
 .btn {
-  background: linear-gradient(45deg, #18181b, #27272a);
-  color: #fff;
+  background: linear-gradient(45deg, var(--gray-900), var(--gray-800));
+  color: var(--white);
   border: none;
   border-radius: 10px;
   padding: 8px 15px;
@@ -160,13 +160,13 @@
   align-items: center;
   gap: 6px;
   transition: 0.3s;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn:hover {
-  background: linear-gradient(45deg, #27272a, #3f3f46);
+  background: linear-gradient(45deg, var(--gray-800), var(--gray-700));
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xl);
 }
 
 .btn:before {
@@ -201,7 +201,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #f4f4f5;
+  border-top: 1px solid var(--gray-100);
   padding-top: 12px;
 }
 
@@ -214,13 +214,13 @@
 .rcount {
   margin-left: 6px;
   font-size: 11px;
-  color: #71717a;
+  color: var(--text-light);
 }
 
 .stock {
   font-size: 11px;
   font-weight: 600;
-  color: #22c55e;
+  color: var(--success);
 }
 
 @media (max-width: 400px) {

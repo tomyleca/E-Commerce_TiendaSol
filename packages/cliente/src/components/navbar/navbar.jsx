@@ -22,7 +22,7 @@ const Navbar = ({ onCartClick, minimalist = false, fltrarProductos, filtrarProdu
   const { toggleNotificaciones, cantidadNotificaciones } = useNotification();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const {  isAuthenticated, logout} = useAuth();
+  const { usuario, isAuthenticated, logout} = useAuth();
 
   return (
     <>
@@ -50,7 +50,7 @@ const Navbar = ({ onCartClick, minimalist = false, fltrarProductos, filtrarProdu
                   aria-haspopup="dialog"
                 >
                   <Badge badgeContent={cantidadTotalCarrito} color="primary">
-                    <ShoppingCartIcon fontSize="large" />
+                    <ShoppingCartIcon fontSize="medium" />
                   </Badge>
                 </button>
               </>
@@ -70,7 +70,7 @@ const Navbar = ({ onCartClick, minimalist = false, fltrarProductos, filtrarProdu
                   onClick={() => setSearchOpen(!searchOpen)}
                   aria-label={searchOpen ? "Cerrar búsqueda" : "Abrir búsqueda"}
                 >
-                  {searchOpen ? <CloseIcon fontSize="large" /> : <SearchIcon fontSize="large" />}
+                  {searchOpen ? <CloseIcon fontSize="medium" /> : <SearchIcon fontSize="medium" />}
                 </button>
         
 				{!isAuthenticated && (
@@ -93,7 +93,7 @@ const Navbar = ({ onCartClick, minimalist = false, fltrarProductos, filtrarProdu
                   aria-haspopup="dialog"
                 >
                   <Badge badgeContent={cantidadNotificaciones} color="primary">
-                    <NotificationsIcon fontSize="large" />
+                    <NotificationsIcon fontSize="medium" />
                   </Badge>
                 </button>
 				<Link

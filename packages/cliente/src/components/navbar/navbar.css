@@ -9,7 +9,7 @@ navbar-bg {
   flex-direction: row;
   justify-content: space-between;
   min-width: 100%;
-  background-color: var(--primary-color);
+   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
   color: var(--text-color);
 }
 
@@ -17,6 +17,10 @@ navbar-bg {
   display: flex;
   align-items: center;
   padding: 0.3rem 1rem;
+}
+
+.navbar-section button, .navbar-section .carrito-button, .navbar-section .login-button, .navbar-section .logout-button, .navbar-section .notification-icon, .navbar-section .search-toggle-button {
+  background:transparent;
 }
 
 .nombre-marca {
@@ -59,7 +63,7 @@ navbar-bg {
   background-color: var(--primary-color);
   color: var(--text-color);
   border: none;
-  font-size: 2rem;
+  font-size: 1.8rem;
   cursor: pointer;
   position: relative;
   margin-right: 2.8rem;
@@ -100,7 +104,7 @@ navbar-bg {
 .search-dropdown {
   max-height: 0;
   overflow: hidden;
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
   transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
   padding: 0;
 }

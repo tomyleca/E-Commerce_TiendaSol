@@ -1,8 +1,8 @@
 /* ===== Botón de filtros (solo visible en móvil) ===== */
 .btn-filtros {
   display: none;
-  background-color: #333;
-  color: #fff;
+  background-color: var(--gray-900);
+  color: var(--white);
   padding: 10px 15px;
   border: none;
   border-radius: 6px;
@@ -29,7 +29,7 @@
   flex: 0 0 auto;
   min-width: 220px;
   max-width: 300px;
-  background-color: #f6f6f6;
+  background-color: var(--gray-50);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -50,9 +50,9 @@
 
 /* ===== Tarjetas individuales ===== */
 .card {
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   flex: 1 1 100%; /* 1 por fila aprox */
   min-width: 220px;
   height: 150px;
