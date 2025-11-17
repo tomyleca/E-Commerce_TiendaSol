@@ -34,7 +34,6 @@ export class UsuariosService {
       nuevoUsuarioJson.nombre,
       emailUsuario,
       nuevoUsuarioJson.telefono,
-      nuevoUsuarioJson.tipo,
 	  passwordHash
     );
     return await this.usuariosRepository.crear(nuevoUsuario);

@@ -29,12 +29,8 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       case "Buscar Producto":
         return "/productos";
       case "Mi Tienda":
-<<<<<<< HEAD
         // usuario puede ser null si no está autenticado; prevenir acceso a _id
         return usuario ? `/tienda/${usuario._id}` : "/";
-=======
-        return `/tienda/${usuario?._id ?? ''}`;
->>>>>>> a7434e66681d2903aae43004e96cd1b2f9249a0e
       default:
         return "/";
     }
@@ -69,7 +65,6 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         ))}
       </List>
       <Divider />
-<<<<<<< HEAD
       {(isAuthenticated && isVendedor) && (
         <List>
           {["Mi Tienda"].map((text) => (
@@ -82,20 +77,6 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
           ))}
         </List>
       )}
-=======
-	  {isAuthenticated && ( 
-      <List>
-        {["Mi Tienda"].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={renderLink(text)}>
-              <ListItemIcon>{renderIcon(text)}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-	  )}
->>>>>>> a7434e66681d2903aae43004e96cd1b2f9249a0e
     </div>
   );
 
