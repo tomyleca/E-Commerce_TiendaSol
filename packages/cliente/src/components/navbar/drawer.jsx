@@ -17,9 +17,9 @@ import { useAuth } from "../../context/AuthContext";
 const drawerWidth = 240;
 
 //Drawer CONTROLADO por props: open y onClose.
-export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
-	
-	const { usuario, isAuthenticated, isVendedor } = useAuth();
+export default function ResponsiveDrawer({ open = false, onClose = () => { } }) {
+
+  const { usuario, isAuthenticated, isVendedor } = useAuth();
 
 
   const renderLink = (text) => {
@@ -29,7 +29,8 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
       case "Buscar Producto":
         return "/productos";
       case "Mi Tienda":
-        return `/tienda/${usuario._id}`;
+        // usuario puede ser null si no está autenticado; prevenir acceso a _id
+        return usuario ? `/tienda/${usuario._id}` : "/";
       default:
         return "/";
     }
@@ -64,18 +65,18 @@ export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
         ))}
       </List>
       <Divider />
-	  {true && ( 
-      <List>
-        {["Mi Tienda"].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={renderLink(text)}>
-              <ListItemIcon>{renderIcon(text)}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-	  )}
+      {(isAuthenticated && isVendedor) && (
+        <List>
+          {["Mi Tienda"].map((text) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton component={Link} to={renderLink(text)}>
+                <ListItemIcon>{renderIcon(text)}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
     </div>
   );
 

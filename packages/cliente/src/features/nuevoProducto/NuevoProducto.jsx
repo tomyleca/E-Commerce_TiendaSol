@@ -16,26 +16,27 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import { getCategorias } from "../../services/productService";
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+import { getCategorias, createProducto } from "../../services/productService";
 
 export default function NuevoProducto({ onCreated }) {
     const [categorias, setCategorias] = useState([]);
     const [carga, setCarga] = useState(false);
     const [errores, setErrores] = useState({});
 
-    const [formulario, setFormulario] = useState({
-        vendedorId: "69129b802aafccbbe4ab9987", // Ejemplo de vendedor
+    const initialFormulario = {
+        vendedorId: "691a367d75b649ccc4ef4b14", // Ejemplo de vendedor
         titulo: "",
         descripcion: "",
         categoriasId: [],
         precio: "",
-        moneda: "",
+        moneda: "PESO_ARG",
         stock: 0,
         fotos: [],
         activo: true,
-    });
+    };
+    const [formulario, setFormulario] = useState(() => ({ ...initialFormulario }));
+
+    const resetFormulario = () => setFormulario({ ...initialFormulario });
 
     useEffect(() => {
         const cargar = async () => {
@@ -49,7 +50,6 @@ export default function NuevoProducto({ onCreated }) {
         cargar();
     }, []);
 
-    // Opciones de moneda disponibles
     const MONEDAS = ["PESO_ARG", "DOLAR_USA", "REAL"];
 
     const handleChange = (key) => (e) => {
@@ -87,11 +87,9 @@ export default function NuevoProducto({ onCreated }) {
     const validar = () => {
         const err = {};
         if (!formulario.titulo) err.titulo = "Título requerido";
-        if (!formulario.descripcion) err.descripcion = "Descripción requerida";
         if (!formulario.precio || isNaN(Number(formulario.precio))) err.precio = "Precio inválido";
-        if (!formulario.moneda) err.moneda = "Moneda requerida";
-        const stockNum = Number(formulario.stock);
-        if (!Number.isInteger(stockNum) || stockNum < 0) err.stock = "El stock debe ser un entero positivo";
+        if (isNaN(Number(formulario.precio)) || Number(formulario.precio) <= 0 || Number(formulario.precio) <= 0) err.precio = "Precio inválido";
+        if (!Number.isInteger(Number(formulario.stock)) || Number(formulario.stock) < 0) err.stock = "El stock debe ser un entero positivo";
         if (!formulario.vendedorId) err.vendedorId = "VendedorId requerido";
         setErrores(err);
         return Object.keys(err).length === 0;
@@ -119,23 +117,11 @@ export default function NuevoProducto({ onCreated }) {
 
         setCarga(true);
         try {
-            const res = await axios.post(`${API_BASE_URL}/productos`, payload, {
-                headers: { "Content-Type": "application/json" },
-            });
+            const res = await createProducto(payload);
             if (onCreated) onCreated(res.data);
             else {
                 alert("Producto creado");
-                setFormulario({
-                    vendedorId: "69129b802aafccbbe4ab9987",
-                    titulo: "",
-                    descripcion: "",
-                    categoriasId: [],
-                    precio: "",
-                    moneda: "PESO_ARG",
-                    stock: 0,
-                    fotos: [],
-                    activo: true,
-                });
+                resetFormulario();
             }
         } catch (err) {
             console.error("Error creando producto", err);
@@ -149,7 +135,7 @@ export default function NuevoProducto({ onCreated }) {
     return (
         <>
             <Navbar />
-            <div className="form" onSubmit={handleSubmit}>
+            <form component="formulario" className="form" onSubmit={handleSubmit}>
                 <Typography variant="h5" className="titulo-nuevo-producto">
                     Nuevo producto
                 </Typography>
@@ -250,28 +236,12 @@ export default function NuevoProducto({ onCreated }) {
                         <Button type="submit" variant="contained" disabled={carga}>
                             {carga ? "Creando..." : "Crear producto"}
                         </Button>
-                        <Button
-                            type="button"
-                            variant="outlined"
-                            onClick={() =>
-                                setFormulario({
-                                    vendedorId: "69129b802aafccbbe4ab9987",
-                                    titulo: "",
-                                    descripcion: "",
-                                    categoriasId: [],
-                                    precio: "",
-                                    moneda: "PESO_ARG",
-                                    stock: 0,
-                                    fotos: [],
-                                    activo: true,
-                                })
-                            }
-                        >
+                        <Button type="button" variant="outlined" onClick={resetFormulario}>
                             Limpiar
                         </Button>
                     </div>
                 </Stack>
-            </div>
+            </form>
         </>
     );
 }

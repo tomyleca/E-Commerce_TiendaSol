@@ -105,3 +105,17 @@ export const getCategorias = async () => {
     throw error;
   }
 };
+
+export const createProducto = async (payload) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/productos`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creando el producto", error);
+    throw error;
+  }
+}; 
