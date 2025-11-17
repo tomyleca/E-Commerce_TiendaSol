@@ -4,9 +4,9 @@
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
   background: white;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--gray-200);
   border-radius: 8px;
-  color: #1e293b;
+  color: var(--text-dark);
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -15,8 +15,8 @@
 }
 
 .boton-volver:hover {
-  background: #f8fafc;
-  border-color: #cbd5e1;
+  background: var(--gray-50);
+  border-color: var(--gray-300);
   transform: translateX(-4px);
 }
 

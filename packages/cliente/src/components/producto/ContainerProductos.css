@@ -9,10 +9,10 @@
 .filtros {
   flex: 1;
   max-width: 250px;
-  background-color: #f8f8f8;
+  background-color: var(--gray-50);
   border-radius: 10px;
   padding: 15px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   font-family: Arial, sans-serif;
   min-height: 800px;
 }
@@ -40,6 +40,27 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
+  align-content: flex-start;
+  min-width: 800px;
+  min-height: 800px;
+}
+.no-products {
+
+  padding: 25px 35px;
+    min-width: 800px;
+  min-height: 800px;
+
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary-color);
+  font-weight: 500;
+	justify-content: center;
+  align-items: center;
+
+
+
+
+  
 }
 
 @media (max-width: 768px) {

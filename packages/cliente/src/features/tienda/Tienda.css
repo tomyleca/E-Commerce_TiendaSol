@@ -38,18 +38,18 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
-  background-color:rgb(23, 23, 23)
+  background-color: var(--gray-900);
 }
 
 .ver-productos-btn:hover {
-  background-color: #292828;
+  background-color: var(--gray-800);
 }
 
 /* Separador entre upper y lower */
 .tienda-separator {
   width: 60%;
   height: 2px; /* altura del separador */
-  background-color: #585656;
+  background-color: var(--gray-600);
   border: none;
   margin: 24px auto 16px; 
   margin-top:40px;
@@ -112,7 +112,7 @@
 
 .tienda-vacia-icon {
   font-size: 120px !important;
-  color: #d4d4d8;
+  color: var(--gray-300);
 }
 
 .icon-slash {
@@ -122,28 +122,28 @@
   transform: translate(-50%, -50%) rotate(-45deg);
   width: 140px;
   height: 4px;
-  background-color: #c0bbbb;
+  background-color: var(--gray-300);
   border-radius: 2px;
 }
 
 .tienda-vacia h2 {
   font-size: 30px;
   font-weight: 700;
-  color: #59595a;
+  color: var(--text-medium);
   
 }
 
 .tienda-vacia h3 {
   font-size: 28px;
   font-weight: 600;
-  color: #18181b;
+  color: var(--text-dark);
   margin-top: 70px;
   margin-bottom:4px;
 }
 
 .tienda-vacia p {
   font-size: 20px;
-  color: #71717a;
+  color: var(--text-light);
   margin: 0 0 12px;
 }
 
@@ -151,7 +151,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(45deg, #18181b, #27272a);
+  background: linear-gradient(45deg, var(--gray-900), var(--gray-800));
   color: white;
   border: none;
   border-radius: 10px;
@@ -160,11 +160,11 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xl);
 }
 
 .btn-agregar-tienda:hover {
-  background: linear-gradient(45deg, #27272a, #3f3f46);
+  background: linear-gradient(45deg, var(--gray-800), var(--gray-700));
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }

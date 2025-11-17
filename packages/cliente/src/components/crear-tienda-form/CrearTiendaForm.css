@@ -1,0 +1,145 @@
+.crear-tienda-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.crear-tienda-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 40px;
+  border: 1px solid var(--gray-200);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.crear-tienda-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.crear-tienda-header .store-icon {
+  font-size: 48px !important;
+  color: var(--blue-500);
+  margin-bottom: 16px;
+}
+
+.crear-tienda-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 8px;
+}
+
+.crear-tienda-header p {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+.crear-tienda-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: var(--gray-50);
+  border-radius: 8px;
+  border: 1px solid var(--gray-200);
+}
+
+.form-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0 0 8px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.textarea-field {
+  min-height: 100px;
+  resize: vertical;
+  padding: 12px 16px;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.textarea-field:focus {
+  outline: none;
+  border-color: var(--blue-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(45deg, var(--blue-500), var(--blue-600));
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-blue-md);
+  margin-top: 16px;
+}
+
+.form-btn:hover:not(:disabled) {
+  background: linear-gradient(45deg, var(--blue-600), var(--blue-700));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-blue-lg);
+}
+
+.form-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-text {
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .crear-tienda-card {
+    padding: 24px;
+  }
+
+  .crear-tienda-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-section {
+    padding: 16px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .crear-tienda-card {
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .crear-tienda-header .store-icon {
+    font-size: 40px !important;
+  }
+
+  .form-section h3 {
+    font-size: 1rem;
+  }
+}

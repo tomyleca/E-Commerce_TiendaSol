@@ -11,6 +11,8 @@ import { Toaster } from "react-hot-toast";
 import Tienda from "./features/tienda/Tienda.jsx";
 import Carrito from "./features/carrito/Carrito.jsx";
 import NuevoProducto from "./features/nuevoProducto/NuevoProducto.jsx";
+import CrearTienda from "./features/crear-tienda/CrearTienda.jsx";
+import Home from "./features/home/Home.jsx";
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -28,9 +30,11 @@ function App() {
     <BrowserRouter>
       <Toaster position="bottom-center" containerStyle={{ bottom: 70 }} />
       <Routes>
+        {/* Ruta principal - Home */}
+        <Route index element={<Home />} />
+        
         {/*Rutas envueltas por el Layout */}
         <Route element={<Layout />}>
-          <Route index element={<ListadoProductos />} />
           <Route path="productos" element={<ListadoProductos />} />
           <Route path="tienda/:idTienda/productos" element={<ListadoProductos />} />
           <Route
@@ -49,6 +53,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path={`/tienda/:idTienda`} element={<Tienda />} />
+        <Route path="/crear-tienda" element={<CrearTienda />} />
         <Route path="/carrito" element={<Carrito />} />
         <Route path="/nuevoProducto" element={<NuevoProducto />} />
       </Routes>

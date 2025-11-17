@@ -113,7 +113,8 @@ const CardProducto = ({ producto }) => {
               </svg>
               <span className="rcount">245 Reviews</span>
             </div>
-            <div className="stock">In Stock</div>
+        	{producto.stock > 0 && <div className="stock">En Stock</div>}
+		   {producto.stock <= 0 && <div className="sin-stock">Sin Stock</div>}
           </div>
         </div>
       </div>

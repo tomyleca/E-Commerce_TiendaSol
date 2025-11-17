@@ -30,10 +30,10 @@ input {
 }
 
 .btn-filtros {
-  background-color: #808dd7;
+  background-color: var(--accent-color);
   color: white;
 }
 
 .btn-filtros:hover {
-  background-color: #606bbf;
+  background-color: var(--accent-hover);
 }
