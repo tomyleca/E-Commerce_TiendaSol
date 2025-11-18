@@ -57,67 +57,67 @@ export const crearUsuario = async (usuario) => {
 }
 
 export const loginUsuario = async (usuario) => {
-		try {
-			const payload = {
+	try {
+		const payload = {
 			nombre: usuario.username?.trim(),
 			email: usuario.email?.trim(),
 			password: usuario.password,
-			
+
 		};
 
 		console.log("Payload de login:", payload);
 		const response = await axios.post(
-				`${API_BASE_URL}/usuarios/login`,
-				payload,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"Cache-Control": "no-cache",
-					},
-					validateStatus: (s) => s >= 200 && s < 500,
-				}
-			);
+			`${API_BASE_URL}/usuarios/login`,
+			payload,
+			{
+				headers: {
+					"Content-Type": "application/json",
+					"Cache-Control": "no-cache",
+				},
+				validateStatus: (s) => s >= 200 && s < 500,
+			}
+		);
 		if (response.status >= 400) {
 			const detalle = typeof response.data === "string" ? response.data : (response.data?.message || JSON.stringify(response.data));
 			throw new Error(`Error ${response.status} creando usuario: ${detalle}`);
 
-			}
-		
-	
+		}
+
+
 		return response.data;
 
-		}
-		catch (error) {
-			
-			throw error;
-		}
-	
+	}
+	catch (error) {
+
+		throw error;
+	}
+
 }
 
 
 export const actualizarUsuario = async (idUsuario, datosActualizados) => {
-  try {
-    const response = await axios.patch(
-      `${API_BASE_URL}/usuarios/${idUsuario}`,
-      datosActualizados,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        validateStatus: (status) => status < 500,
-      }
-    );
+	try {
+		const response = await axios.patch(
+			`${API_BASE_URL}/usuarios/${idUsuario}`,
+			datosActualizados,
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+				validateStatus: (status) => status < 500,
+			}
+		);
 
-    if (response.status >= 400) {
-      const errorMsg = response.data?.message || response.data?.error || "Error actualizando usuario";
-      throw new Error(errorMsg);
-    }
+		if (response.status >= 400) {
+			const errorMsg = response.data?.message || response.data?.error || "Error actualizando usuario";
+			throw new Error(errorMsg);
+		}
 
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      throw new Error(error.response.data?.message || "Error del servidor");
-    }
-    throw error;
-  }
+		return response.data;
+	} catch (error) {
+		if (error.response) {
+			throw new Error(error.response.data?.message || "Error del servidor");
+		}
+		throw error;
+	}
 };

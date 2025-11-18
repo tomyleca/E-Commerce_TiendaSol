@@ -106,9 +106,9 @@ export const getCategorias = async () => {
   }
 };
 
-export const createProducto = async (payload) => {
+export const createProducto = async (producto) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/productos`, payload, {
+    const response = await axios.post(`${API_BASE_URL}/productos`, producto, {
       headers: {
         "Content-Type": "application/json",
       },
