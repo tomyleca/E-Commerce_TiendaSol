@@ -86,7 +86,7 @@ const NuevoProductoForm = () => {
         e.preventDefault();
         if (enviando) return;
 
-        const producto = {
+        const payload = {
             vendedorId: producto.vendedorId,
             titulo: producto.titulo,
             descripcion: producto.descripcion,
@@ -104,7 +104,7 @@ const NuevoProductoForm = () => {
 
         setEnviando(true);
         try {
-            const res = await createProducto(producto);
+            const res = await createProducto(payload);
             toast.success("¡Producto creado con éxito!");
             resetFormulario();
         } catch (err) {
