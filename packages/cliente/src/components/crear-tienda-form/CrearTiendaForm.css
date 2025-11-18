@@ -80,32 +80,9 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.form-btn {
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(45deg, var(--blue-500), var(--blue-600));
-  color: var(--white);
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-blue-md);
-  margin-top: 16px;
-}
 
-.form-btn:hover:not(:disabled) {
-  background: linear-gradient(45deg, var(--blue-600), var(--blue-700));
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-blue-lg);
-}
 
-.form-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
+
 
 .btn-text {
   display: inline-block;

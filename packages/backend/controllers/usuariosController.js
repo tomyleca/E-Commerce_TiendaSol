@@ -102,7 +102,7 @@ const usuarioSchema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
   email: z.string().min(1, "El email es obligatorio"),
   telefono: z.number().min(1, "El teléfono es incorrecto").optional(),
-  tipo: z.string().min(1, "El tipo de usuario es obligatorio"),
+  tipo: z.string().min(1, "El tipo de usuario es obligatorio").optional(),
   password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
 });
 
