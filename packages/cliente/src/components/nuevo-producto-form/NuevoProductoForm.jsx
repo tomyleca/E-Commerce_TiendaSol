@@ -16,6 +16,7 @@ import {
     ListItemText,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
     getCategorias,
     createProducto,
@@ -249,7 +250,6 @@ const NuevoProductoForm = () => {
                         </FormControl>
 
                         <div className="form-field">
-                            <label htmlFor="fotos-input">Fotos del producto</label>
                             <input
                                 accept="image/*"
                                 id="fotos-input"
@@ -293,7 +293,6 @@ const NuevoProductoForm = () => {
                         </div>
 
                         <div>
-                            <div mb={1}>Stock</div>
                             <ButtonGroup variant="outlined" aria-label="stock controls">
                                 <Button
                                     onClick={() => setProducto((f) => ({ ...f, stock: Math.max(0, Number(f.stock) - 1) }))}
@@ -315,7 +314,7 @@ const NuevoProductoForm = () => {
                             )}
                         </div>
 
-                        <div display="flex" gap={2}>
+                        <div className="buttons-section">
                             <Button type="submit" variant="contained" disabled={enviando}>
                                 {enviando ? "Creando..." : "Crear producto"}
                             </Button>
@@ -325,6 +324,11 @@ const NuevoProductoForm = () => {
                         </div>
                     </div>
                 </form>
+            </div>
+            <div className="back-button-container">
+                <Button type="button" variant="outlined" onClick={() => navegar(`/tienda/${usuario._id}`)} startIcon={<ArrowBackIcon />}>
+                    Ir a mi tienda
+                </Button>
             </div>
         </div>
     );
