@@ -4,28 +4,33 @@ import { InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useFiltro } from "../../context/FiltroContext";
+import { useNavigate } from "react-router-dom";
 
-const BarraBusqueda = ({ fltrarProductos, filtrarProductos }) => {
+const BarraBusqueda = () => {
   const { state, dispatch } = useFiltro();
-  const { busqueda, selectedCategorias, precio, orden } = state;
-  const categorias = selectedCategorias;
-  const onFilter = fltrarProductos ?? filtrarProductos ?? (() => {});
+  const { busqueda } = state;
   const [isFocused, setIsFocused] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onFilter(busqueda, categorias, precio, undefined, orden);
+    
+    // Siempre navegar a /productos (sin vendedor específico)
+    navigate('/productos');
+  };
+
+  const handleSearchClick = () => {
+    // Al hacer clic en el icono de búsqueda, navegar a /productos
+    navigate('/productos');
   };
 
   const handleClear = () => {
     dispatch({ type: "SET_BUSQUEDA", payload: "" });
-    onFilter("", categorias, precio, undefined, orden);
   };
 
   const handleChange = (e) => {
     const val = e.target.value;
     dispatch({ type: "SET_BUSQUEDA", payload: val });
-    onFilter(val, categorias, precio, undefined, orden);
   };
 
   return (
@@ -34,9 +39,14 @@ const BarraBusqueda = ({ fltrarProductos, filtrarProductos }) => {
       onSubmit={handleSubmit}
       aria-label="Barra de búsqueda de productos"
     >
-      <div className="search-icon-wrapper">
+      <IconButton
+        className="search-icon-wrapper"
+        onClick={handleSearchClick}
+        type="button"
+        aria-label="buscar"
+      >
         <SearchIcon fontSize="medium" />
-      </div>
+      </IconButton>
       
       <InputBase
         className="search-input"

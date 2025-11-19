@@ -42,12 +42,7 @@ function App() {
 		<Route path="/direccion" element={<EditarUsuarioForm objetivo="comprar" campos={{ nombre: false, telefono: false, descripcion: false, direccion:true}} />} />
           <Route
             path="productos/:id"
-            element={
-              <ProductoDetailPage
-                carrito={carrito}
-                actualizarCarrito={actualizarCarrito}
-              />
-            }
+            element={<ProductoDetailPage />}
           />
         </Route>
 

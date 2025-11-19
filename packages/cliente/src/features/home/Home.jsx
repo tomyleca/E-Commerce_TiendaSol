@@ -8,9 +8,11 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import PeopleIcon from "@mui/icons-material/People";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { usuario, isAuthenticated } = useAuth();
 
   return (
     <>
@@ -93,6 +95,7 @@ const Home = () => {
 
         {/* CTA Section */}
         <section className="cta-section">
+			{!isAuthenticated &&
           <div className="cta-content">
             <h2>¿Listo para comenzar?</h2>
             <p>Registrate hoy y descubrí todo lo que Tienda Sol tiene para ofrecerte</p>
@@ -105,6 +108,7 @@ const Home = () => {
               </button>
             </div>
           </div>
+}
         </section>
       </div>
     </>
