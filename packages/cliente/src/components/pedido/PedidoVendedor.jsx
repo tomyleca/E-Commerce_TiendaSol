@@ -5,13 +5,14 @@ import {
   getPedidosVendedor,
 } from "../../services/pedidosService";
 import "./PedidoVendedor.css";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import { pedidosMock } from "../../mockData/Pedidos";
 
 const PedidosVendedor = () => {
-  const { idTienda } = useParams();
+  const { id } = useParams();
   const { usuario, isAutenticated } = useAuth();
+  const navigate = useNavigate();
   const [pedidos, setPedidos] = useState([]);
   const [mensaje, setMensaje] = useState({
     texto: "",
@@ -34,7 +35,7 @@ const PedidosVendedor = () => {
   useEffect(() => {
     const cargarVentas = async () => {
       try {
-        const data = await getPedidosVendedor(idTienda);
+        const data = await getPedidosVendedor(id);
         setPedidos(data);
         // setPedidos(pedidosMock);
       } catch (err) {
@@ -43,13 +44,13 @@ const PedidosVendedor = () => {
     };
 
     cargarVentas();
-  }, [idTienda]);
+  }, [id]);
 
-  const enviar = async (id) => {
+  const enviar = async (pedidoId) => {
     try {
-      await enviarPedido(id);
+      await enviarPedido(pedidoId);
       // Recargar pedidos después de enviar
-      const data = await getPedidosVendedor(idTienda);
+      const data = await getPedidosVendedor(id);
       setPedidos(data);
       mostrarMensaje(
         "¡Has realizado el envío del pedido correctamente!",
@@ -61,11 +62,11 @@ const PedidosVendedor = () => {
     }
   };
 
-  const cancelar = async (id) => {
+  const cancelar = async (pedidoId) => {
     try {
-      await cancelarPedido(id);
+      await cancelarPedido(pedidoId);
       // Recargar pedidos después de cancelar
-      const data = await getPedidosVendedor(idTienda);
+      const data = await getPedidosVendedor(id);
       setPedidos(data);
       mostrarMensaje("Pedido cancelado correctamente", "exito");
     } catch (err) {
@@ -119,21 +120,6 @@ const PedidosVendedor = () => {
       <div className="pedido-header">
         <div className="pedido-info">
           <h3>Pedido #{pedido._id.slice(-6)}</h3>
-          <span
-            className={`estado ${pedido.estado.toLowerCase().replace("_", "-")}`}
-          >
-            {pedido.estado.replace("_", " ")}
-          </span>
-        </div>
-
-        <div className="pedido-fecha">
-          <p>
-            <strong>Fecha:</strong>{" "}
-            {new Date(pedido.fechaDeCreacion).toLocaleDateString()}
-          </p>
-          <p>
-            <strong>Cliente:</strong> {pedido.comprador?.nombre}
-          </p>
           <p>
             <strong>Dirección:</strong> {pedido.direccionEntrega}
           </p>
@@ -179,8 +165,9 @@ const PedidosVendedor = () => {
     usuario._id === id &&
     isAutenticated
   ) {
-    if (usuario._id !== id && isAutenticated == false) {
-      return redirect("/login");
+    if (usuario._id !== id && isAutenticated === false) {
+      navigate("/login");
+      return null;
     } else {
       return (
         <div className="sin-pedidos">

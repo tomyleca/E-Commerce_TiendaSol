@@ -22,7 +22,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
   const { toggleNotificaciones, cantidadNotificaciones } = useNotification();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const { usuario, isAuthenticated, logout} = useAuth();
+  const { usuario, isAuthenticated, logout } = useAuth();
 
   return (
     <>
@@ -72,20 +72,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                 >
                   {searchOpen ? <CloseIcon fontSize="medium" /> : <SearchIcon fontSize="medium" />}
                 </button>
-        
-				{!isAuthenticated && (
-                <Link
-                  to="/login"
-                  className="login-button"
-                  aria-label="Ir a login"
-                >
-                  <FiLogIn />
-                </Link>
-				)}
-
-				{isAuthenticated && (
-				<>
-				<button
+                <button
                   type="button"
                   onClick={toggleNotificaciones}
                   className="notification-icon"
@@ -96,28 +83,41 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                     <NotificationsIcon fontSize="medium" />
                   </Badge>
                 </button>
-				<Link
-                  to="/"
-                  className="logout-button"
-                  aria-label="Ir a logout"
-				  onClick={logout}
-                >
-                  <FiLogOut />
-                </Link>
-				</>
-				)}
+
+                {!isAuthenticated && (
+                  <Link
+                    to="/login"
+                    className="login-button"
+                    aria-label="Ir a login"
+                  >
+                    <FiLogIn />
+                  </Link>
+                )}
+
+                {isAuthenticated && (
+                  <>
+                    <Link
+                      to="/"
+                      className="logout-button"
+                      aria-label="Ir a logout"
+                      onClick={logout}
+                    >
+                      <FiLogOut />
+                    </Link>
+                  </>
+                )}
               </>
             )}
           </div>
         </nav>
-        
+
         {/* Barra de búsqueda desplegable */}
         <div className={`search-dropdown ${searchOpen ? 'search-dropdown-open' : ''}`}>
           {searchOpen && (
             <BarraBusqueda />
           )}
         </div>
-        
+
         <NotificationModal />
         <ModalCarrito />
       </header>

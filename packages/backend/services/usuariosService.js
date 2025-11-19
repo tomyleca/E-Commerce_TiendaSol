@@ -26,7 +26,7 @@ export class UsuariosService {
 
   async crear(nuevoUsuarioJson) {
     const emailUsuario = new Email(nuevoUsuarioJson.email);
-	const saltRounds = 10; // cuántas veces "mezcla" la encriptación
+    const saltRounds = 10; // cuántas veces "mezcla" la encriptación
     const passwordHash = await bcrypt.hash(nuevoUsuarioJson.password, saltRounds);
 
 
@@ -34,7 +34,7 @@ export class UsuariosService {
       nuevoUsuarioJson.nombre,
       emailUsuario,
       nuevoUsuarioJson.telefono,
-	  passwordHash
+      passwordHash
     );
     return await this.usuariosRepository.crear(nuevoUsuario);
   }
@@ -54,21 +54,21 @@ export class UsuariosService {
     );
   }
 
-  buscarHistorialDeVentas(idVendedor){
+  buscarHistorialDeVentas(idVendedor) {
     return this.pedidosService.buscarVentasDeVendedor(idVendedor);
   }
 
   async login(data) {
-	let usuario = null; 
-	data.nombre ?
-	  usuario = await this.usuariosRepository.buscarPorNombre(data.nombre) :
-	  usuario = await this.usuariosRepository.buscarPorEmail(data.email);
+    let usuario = null;
+    data.nombre ?
+      usuario = await this.usuariosRepository.buscarPorNombre(data.nombre) :
+      usuario = await this.usuariosRepository.buscarPorEmail(data.email);
 
-	if (!usuario) {
-		throw new LoginError();
-	}
+    if (!usuario) {
+      throw new LoginError();
+    }
 
-	const ok = await bcrypt.compare(data.password, usuario.passwordHash);
+    const ok = await bcrypt.compare(data.password, usuario.passwordHash);
     if (!ok) {
       throw new LoginError();
     }
@@ -78,23 +78,23 @@ export class UsuariosService {
   }
 
   async editar(id, datosActualizados) {
-	const usuario = await this.usuariosRepository.buscarPorId(id);
-	if (!usuario) {
-	  throw new NotFound("Usuario no encontrado");
-	}
+    const usuario = await this.usuariosRepository.buscarPorId(id);
+    if (!usuario) {
+      throw new NotFound("Usuario no encontrado");
+    }
 
 
-  //Si viene password, la hasheás antes
-  if (datosActualizados.password) {
-    const saltRounds = 10;
-    datosActualizados.passwordHash = await bcrypt.hash(datosActualizados.password, saltRounds);
-    delete datosActualizados.password;
-  }
+    //Si viene password, la hasheás antes
+    if (datosActualizados.password) {
+      const saltRounds = 10;
+      datosActualizados.passwordHash = await bcrypt.hash(datosActualizados.password, saltRounds);
+      delete datosActualizados.password;
+    }
 
-  //Mezcla no-destructiva
-  Object.assign(usuario, datosActualizados);
+    //Mezcla no-destructiva
+    Object.assign(usuario, datosActualizados);
 
-  return await this.usuariosRepository.update(id, usuario);
+    return await this.usuariosRepository.update(id, usuario);
   }
 
 
