@@ -40,8 +40,9 @@ const Card2 = ({ producto }) => {
             className="btn"
             aria-label={`Agregar ${producto.titulo} al carrito`}
             onClick={() => agregarCarrito(producto)}
+            disabled={!producto?.stock || producto.stock <= 0}
           >
-            Agregar al carrito
+            {producto?.stock > 0 ? "Agregar al carrito" : "Sin stock"}
             <svg
               className="icon"
               width="20"

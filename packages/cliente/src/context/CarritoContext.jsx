@@ -103,11 +103,22 @@ export function CarritoProvider({ children }) {
 		precioUnitario: it.price,
 	  }));
 	
+	  //Formatear dirección según espera el backend
+	  const direccionFormateada = {
+		calle: usuario.direccion.calle,
+		altura: parseInt(usuario.direccion.altura),
+		ciudad: usuario.direccion.ciudad,
+		codigoPostal: usuario.direccion.codigoPostal,
+		pais: usuario.direccion.pais,
+		provincia: usuario.direccion.provincia,
+		...(usuario.direccion.piso && { piso: usuario.direccion.piso }),
+		...(usuario.direccion.departamento && { departamento: usuario.direccion.departamento })
+	  };
 
         const pedidoData = {
           compradorId: usuario._id,
           items: itemsParaBackend,
-          direccionEntrega: usuario.direccion         
+          direccionEntrega: direccionFormateada         
         };
         const pedidoCreado = await crearPedido(pedidoData);
         
