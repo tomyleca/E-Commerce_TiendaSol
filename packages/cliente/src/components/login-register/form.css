@@ -83,7 +83,7 @@
 
 .form-btn {
   width: 100%;
-  background: var(--blue-500);
+  background: linear-gradient(45deg, var(--black-50), var(--black-100));
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
@@ -94,10 +94,13 @@
   transition: all 0.2s ease;
   position: relative;
   margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .form-btn:hover {
-  background: var(--blue-600);
+  background: linear-gradient(45deg, var(--black-100), var(--black-200));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .form-btn:active {

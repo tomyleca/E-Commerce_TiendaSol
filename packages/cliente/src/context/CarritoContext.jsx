@@ -1,4 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { crearPedido } from "../services/pedidosService";
+import toast from "react-hot-toast";
+import { useAuth } from "./AuthContext.jsx";
 
 //almacenamiento en el navegador para guardar datos del usuario
 const STORAGE_KEY = "carrito:items";
@@ -6,6 +10,8 @@ const STORAGE_KEY = "carrito:items";
 const CarritoContext = createContext(null);
 
 export function CarritoProvider({ children }) {
+  const { usuario, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [items, setItems] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -20,11 +26,14 @@ export function CarritoProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
+
+
+
   const agregarCarrito = (producto, cantidad = 1) => {
     setItems((prev) => {
       const productId = producto.id || producto._id;
       const i = prev.findIndex((p) => p.id === productId);
-      
+
       if (i > -1) {
         const copy = [...prev];
         copy[i] = { ...copy[i], qty: copy[i].qty + cantidad };
@@ -38,6 +47,7 @@ export function CarritoProvider({ children }) {
         price: Number(producto.precio || producto.price) || 0,
         fotos: producto.fotos || [],
         descripcion: producto.descripcion || '',
+        vendedorId: producto.vendedor || producto.vendedorId || producto.usuario,
         qty: cantidad
       };
 
@@ -58,6 +68,70 @@ export function CarritoProvider({ children }) {
     0,
   );
 
+  const comprarCarrito = async () => {
+    try {
+      if (!isAuthenticated) {
+        toast.error("Debes iniciar sesión para comprar");
+        navigate("/login");
+        return;
+      }
+
+      if (items.length === 0) {
+        toast.error("El carrito está vacío");
+        return;
+      }
+
+      // Verificar que el usuario tenga dirección
+      if (!usuario.direccion) {
+        toast.error("Debes completar tu dirección de entrega");
+        navigate("/direccion");
+        return;
+      }
+
+      //reduce es un fold
+      const totalPedido = items.reduce(
+        (acc, it) => acc + it.qty * (it.price ?? 0),
+        0,
+      );
+
+
+      const itemsParaBackend = items.map((it) => ({
+        productoId: it.id,
+        cantidad: it.qty,
+        precioUnitario: it.price,
+      }));
+
+      //Formatear dirección según espera el backend
+      const direccionFormateada = {
+        calle: usuario.direccion.calle,
+        altura: parseInt(usuario.direccion.altura),
+        ciudad: usuario.direccion.ciudad,
+        codigoPostal: usuario.direccion.codigoPostal,
+        pais: usuario.direccion.pais,
+        provincia: usuario.direccion.provincia,
+        ...(usuario.direccion.piso && { piso: usuario.direccion.piso }),
+        ...(usuario.direccion.departamento && { departamento: usuario.direccion.departamento })
+      };
+
+      const pedidoData = {
+        compradorId: usuario._id,
+        items: itemsParaBackend,
+        direccionEntrega: direccionFormateada
+      };
+      const pedidoCreado = await crearPedido(pedidoData);
+
+
+
+      vaciarCarrito();
+      toast.success(`¡Compra realizada con éxito! `);
+      navigate(`/clientes/${usuario._id}/pedidos`);
+    }
+    catch (error) {
+      console.error("Error al comprar:", error);
+      toast.error(error.message || "Error al procesar la compra");
+    }
+    ;
+  }
   const value = useMemo(
     () => ({
       itemsCarrito: items,
@@ -70,6 +144,7 @@ export function CarritoProvider({ children }) {
       alternarCarrito,
       cantidadTotalCarrito,
       precioTotalCarrito,
+      comprarCarrito,
     }),
     [items, isOpen],
   );
@@ -78,6 +153,7 @@ export function CarritoProvider({ children }) {
     <CarritoContext.Provider value={value}>{children}</CarritoContext.Provider>
   );
 }
+
 
 export function useCarrito() {
   const ctx = useContext(CarritoContext);

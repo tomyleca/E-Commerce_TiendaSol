@@ -28,10 +28,7 @@ const pedidoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  direccionEntrega: {
-    type: String,
-    required: false,
-  },
+  direccion: { type: direccionSchema},
   estado: {
     type: String,
     enum: Object.values(EstadoPedido),

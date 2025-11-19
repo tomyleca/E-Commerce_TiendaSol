@@ -1,8 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext.jsx";
 import "./ListaNotificaciones.css";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import Navbar from "../../components/navbar/navbar.jsx";
+import { getNotificaciones } from "../../services/usuarioService.js";
 
 function iconFor(tipo) {
   switch (tipo) {
@@ -20,94 +22,37 @@ function iconFor(tipo) {
 }
 
 export default function ListaNotificaciones() {
-  //Lista hardcodeada
-  const iniciales = [
-    {
-      id: "n1",
-      tipo: "cancelacion envio",
-      mensaje: "¡Lo sentimos! El envío de tu pedido #1234 ha sido cancelado.",
-      fecha: "2025-10-28T10:00:00Z",
-      leida: false,
-    },
-    {
-      id: "n2",
-      tipo: "envio",
-      mensaje: "¡Enhorabuena! Tu pedido #1234 ha sido enviado.",
-      fecha: "2025-10-27T16:30:00Z",
-      leida: false,
-    },
-    {
-      id: "n3",
-      tipo: "compra",
-      mensaje: "El pedido #1234 ha sido procesado y será enviado pronto.",
-      fecha: "2025-10-26T09:15:00Z",
-      leida: false,
-    },
-    {
-      id: "n4",
-      tipo: "envio",
-      mensaje: "Tu pedido #1229 fue entregado con éxito.",
-      fecha: "2025-10-24T13:05:00Z",
-      leida: true,
-    },
-    {
-      id: "n5",
-      tipo: "compra",
-      mensaje: "Recibimos tu pago del pedido #1228.",
-      fecha: "2025-10-23T18:40:00Z",
-      leida: true,
-    },
-    {
-      id: "n6",
-      tipo: "cancelacion envio",
-      mensaje: "Se reprogramó el envío del pedido #1227.",
-      fecha: "2025-10-22T08:20:00Z",
-      leida: true,
-    },
-    {
-      id: "n7",
-      tipo: "envio",
-      mensaje: "Tu pedido #1236 ya está en camino.",
-      fecha: "2025-10-28T14:22:00Z",
-      leida: true,
-    },
-    {
-      id: "n8",
-      tipo: "compra",
-      mensaje: "Confirmamos tu compra del pedido #1237.",
-      fecha: "2025-10-28T12:10:00Z",
-      leida: true,
-    },
-    {
-      id: "n9",
-      tipo: "cancelacion envio",
-      mensaje: "Se canceló el envío del pedido #1233 por dirección inválida.",
-      fecha: "2025-10-27T19:05:00Z",
-      leida: true,
-    },
-    {
-      id: "n10",
-      tipo: "compra",
-      mensaje: "Tu pedido #1232 fue preparado para envío.",
-      fecha: "2025-10-27T08:45:00Z",
-      leida: true,
-    },
-    {
-      id: "n11",
-      tipo: "envio",
-      mensaje: "Actualización: el pedido #1231 llega hoy.",
-      fecha: "2025-10-26T17:30:00Z",
-      leida: true,
-    },
-    {
-      id: "n12",
-      tipo: "compra",
-      mensaje: "¡Gracias! Registramos tu pedido #1230.",
-      fecha: "2025-10-25T11:55:00Z",
-      leida: true,
-    },
-  ];
-  const [notificaciones, setNotificaciones] = useState(iniciales);
+  const { usuario } = useAuth();
+  const [notificaciones, setNotificaciones] = useState([]);
+  useEffect(() => {
+    const userId = usuario?._id || usuario?.id;
+    if (!userId) {
+      // si no hay usuario, limpiar la lista
+      setNotificaciones([]);
+      return;
+    }
+
+    let mounted = true;
+
+    (async () => {
+      try {
+        const data = await getNotificaciones(userId);
+        // Mapear por si el backend devuelve _id en lugar de id
+        const normalized = (data || []).map((n) => ({
+          ...n,
+          id: n.id || n._id || `${n.tipo}-${n.fecha}`, // fallback para key si hace falta
+          leida: n.leida ?? false,
+        }));
+        if (mounted) setNotificaciones(normalized);
+      } catch (err) {
+        console.error("Error cargando notificaciones:", err);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [usuario]);
 
   const noLeidas = useMemo(
     () => notificaciones.filter((n) => !n.leida).length,

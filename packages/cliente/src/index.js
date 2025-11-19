@@ -7,20 +7,23 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import { CarritoProvider } from "./context/CarritoContext.jsx";
 import { NotificationProvider } from "./context/NotificacionContext.jsx";
 import { FiltroProvider } from "./context/FiltroContext.jsx";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-	  <CarritoProvider>
-      <NotificationProvider>
-        <FiltroProvider>
-          <App />
-        </FiltroProvider>
-      </NotificationProvider>
-    </CarritoProvider>
-  </AuthProvider>
-</React.StrictMode>,
+    <BrowserRouter>
+      <AuthProvider>
+        <CarritoProvider>
+          <NotificationProvider>
+            <FiltroProvider>
+              <App />
+            </FiltroProvider>
+          </NotificationProvider>
+        </CarritoProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

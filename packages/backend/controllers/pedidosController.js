@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { FormatoInvalidoDeId } from "../errors/formatoInvalidoDeId.js";
 import { chequearID } from "./utilsControllers.js";
+import {direccionSchema} from "./utilsControllers.js"
 
 export class PedidosController {
   constructor(pedidosService) {
@@ -47,5 +48,5 @@ const ItemPedidoSchema = z.object({
 const pedidosSchema = z.object({
   compradorId: z.string(),
   items: z.array(ItemPedidoSchema),
-  direccionEntrega: z.string(),
+  direccionEntrega: direccionSchema.optional(),
 });

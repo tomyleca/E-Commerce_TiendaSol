@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { FormatoInvalidoDeId } from "../errors/formatoInvalidoDeId.js";
 import { chequearID } from "./utilsControllers.js";
+import {direccionSchema} from "./utilsControllers.js"
 
 export class UsuariosController {
   constructor(usuariosService) {
@@ -93,17 +94,6 @@ export class UsuariosController {
   }
 }
 
-const direccionSchema = z.object({
-  calle: z.string().min(1, "La calle es obligatoria"),
-  altura: z.number().min(1, "La altura es obligatoria"),
-  ciudad: z.string().min(1, "La ciudad es obligatoria"),
-  codigoPostal: z.string().min(1, "El código postal es obligatorio"),
-  pais: z.string().min(1, "El país es obligatorio"),
-  ciudad: z.string().min(1, "La ciudad es obligatoria"),
-  provincia: z.string().min(1, "La provincia es obligatoria"),
-  piso: z.string().optional(),
-  departamento: z.string().optional()
-});
 
 
 
@@ -111,7 +101,7 @@ const usuarioSchema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
   email: z.string().min(1, "El email es obligatorio"),
   telefono: z.number().min(1, "El teléfono es incorrecto").optional(),
-  tipo: z.string().min(1, "El tipo de usuario es obligatorio"),
+  tipo: z.string().min(1, "El tipo de usuario es obligatorio").optional(),
   password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
 });
 

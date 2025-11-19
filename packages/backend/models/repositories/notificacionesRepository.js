@@ -29,9 +29,15 @@ export class NotificacionesRepository {
       ? { _id: notificacion.id }
       : { _id: new this.model()._id };
 
+    // Convertir usuarioDestino a solo ID si es un objeto
+    const notificacionData = {
+      ...notificacion,
+      usuarioDestino: notificacion.usuarioDestino?._id || notificacion.usuarioDestino
+    };
+
     //Busca una notificacion con ese _id y la actualiza con los datos de notificacion.
     //Si no existe, la crea (por upsert: true).
-    return await this.model.findOneAndUpdate(query, notificacion, {
+    return await this.model.findOneAndUpdate(query, notificacionData, {
       new: true,
       runValidators: true,
       upsert: true,

@@ -23,7 +23,7 @@ const drawerWidth = 240;
 export default function ResponsiveDrawer({ open = false, onClose = () => { } }) {
 
   const { usuario, isAuthenticated, isVendedor } = useAuth();
-  
+
 
   const renderLink = (text) => {
     switch (text) {
@@ -32,11 +32,8 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       case "Buscar Producto":
         return "/productos";
       case "Mi Tienda":
-        return `/tienda/${usuario?._id ?? ''}`;
-      case "Mis Pedidos":
-        return `/clientes/${usuario?._id}/pedidos`;
-      case "Mis Ventas" :
-        return `/ventas/${usuario?._id}`
+        // usuario puede ser null si no está autenticado; prevenir acceso a _id
+        return usuario ? `/tienda/${usuario._id}` : "/";
       default:
         return "/";
     }
@@ -54,6 +51,8 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         return <ShoppingBag fontSize="large"/>;
       case "Mis Ventas":
         return <LocalMall  fontSize="large"/>
+        
+
       default:
         return null;
     }
@@ -66,7 +65,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       <Toolbar />
       <Divider />
       <List>
-        {["Home", "Buscar Producto", "Mis Pedidos","Mis Ventas"].map((text) => (
+        {["Home", "Buscar Producto", "Mis Pedidos"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={renderLink(text)}>
               <ListItemIcon>{renderIcon(text)}</ListItemIcon>
@@ -76,19 +75,20 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         ))}
       </List>
       <Divider />
-	  {isAuthenticated && ( 
-      <List>
-        {["Mi Tienda"].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={renderLink(text)}>
-              <ListItemIcon>{renderIcon(text)}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-	  )}
-    </div>
+      {(isAuthenticated && isVendedor) && (
+        <List>
+          {["Mi Tienda", "Mis Ventas"].map((text) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton component={Link} to={renderLink(text)}>
+                <ListItemIcon>{renderIcon(text)}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      )
+      }
+    </div >
   );
 
   return (

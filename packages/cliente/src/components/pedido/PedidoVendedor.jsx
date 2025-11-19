@@ -13,9 +13,13 @@ const PedidosVendedor = () => {
   const { idTienda } = useParams();
   const { usuario, isAutenticated } = useAuth();
   const [pedidos, setPedidos] = useState([]);
-  const [mensaje, setMensaje] = useState({ texto: "", tipo: "", mostrar: false });
+  const [mensaje, setMensaje] = useState({
+    texto: "",
+    tipo: "",
+    mostrar: false,
+  });
 
-   const mostrarMensaje = (texto, tipo = "exito") => {
+  const mostrarMensaje = (texto, tipo = "exito") => {
     setMensaje({ texto, tipo, mostrar: true });
     setTimeout(() => {
       setMensaje({ texto: "", tipo: "", mostrar: false });
@@ -24,15 +28,15 @@ const PedidosVendedor = () => {
 
   // Función para formatear números
   const formatNumero = (numero) => {
-    return numero.toLocaleString('es-AR');
+    return numero.toLocaleString("es-AR");
   };
 
   useEffect(() => {
     const cargarVentas = async () => {
       try {
-       const data = await getPedidosVendedor(idTienda);
+        const data = await getPedidosVendedor(idTienda);
         setPedidos(data);
-       // setPedidos(pedidosMock);
+        // setPedidos(pedidosMock);
       } catch (err) {
         console.error("Error cargando pedidos", err);
       }
@@ -41,46 +45,51 @@ const PedidosVendedor = () => {
     cargarVentas();
   }, [idTienda]);
 
+  const enviar = async (id) => {
+    try {
+      await enviarPedido(id);
+      // Recargar pedidos después de enviar
+      const data = await getPedidosVendedor(idTienda);
+      setPedidos(data);
+      mostrarMensaje(
+        "¡Has realizado el envío del pedido correctamente!",
+        "exito"
+      );
+    } catch (err) {
+      console.error("Error al enviar pedido", err);
+      mostrarMensaje("Error al enviar el pedido. Intenta nuevamente.", "error");
+    }
+  };
 
-    const enviar = async (id) => {
-        try {
-        await enviarPedido(id);
-        // Recargar pedidos después de enviar
-        const data = await getPedidosVendedor(idTienda);
-        setPedidos(data);
-        mostrarMensaje("¡Has realizado el envío del pedido correctamente!", "exito");
-        } catch (err) {
-        console.error("Error al enviar pedido", err);
-        mostrarMensaje("Error al enviar el pedido. Intenta nuevamente.", "error");
-        }
-    };
+  const cancelar = async (id) => {
+    try {
+      await cancelarPedido(id);
+      // Recargar pedidos después de cancelar
+      const data = await getPedidosVendedor(idTienda);
+      setPedidos(data);
+      mostrarMensaje("Pedido cancelado correctamente", "exito");
+    } catch (err) {
+      console.error("Error al cancelar pedido", err);
+      mostrarMensaje(
+        "Error al cancelar el pedido. Intenta nuevamente.",
+        "error"
+      );
+    }
+  };
 
-    const cancelar = async (id) => {
-        try {
-        await cancelarPedido(id);
-        // Recargar pedidos después de cancelar
-        const data = await getPedidosVendedor(idTienda);
-        setPedidos(data);
-        mostrarMensaje("Pedido cancelado correctamente", "exito");
-        } catch (err) {
-        console.error("Error al cancelar pedido", err);
-        mostrarMensaje("Error al cancelar el pedido. Intenta nuevamente.", "error");
-        }
-    };
-
-    const renderBotones = (pedido) => {
-        if (pedido.estado === "PENDIENTE" || pedido.estado === "EN_PREPARACION") {
-        return (
-            <div className="acciones">
-            <button className="avanzar" onClick={() => enviar(pedido._id)}>
-                Enviar pedido
-            </button>
-            <button className="cancelar" onClick={() => cancelar(pedido._id)}>
-                Cancelar
-            </button>
-            </div>
-        );
-        }
+  const renderBotones = (pedido) => {
+    if (pedido.estado === "PENDIENTE" || pedido.estado === "EN_PREPARACION") {
+      return (
+        <div className="acciones">
+          <button className="avanzar" onClick={() => enviar(pedido._id)}>
+            Enviar pedido
+          </button>
+          <button className="cancelar" onClick={() => cancelar(pedido._id)}>
+            Cancelar
+          </button>
+        </div>
+      );
+    }
 
     if (pedido.estado === "ENVIADO") {
       return <p className="estado enviado">Enviado</p>;
@@ -94,19 +103,26 @@ const PedidosVendedor = () => {
   };
 
   // Filtrar pedidos por estado
-  const pedidosEnCurso = pedidos.filter(pedido => 
-    pedido.estado === "PENDIENTE" || pedido.estado === "EN_PREPARACION"
+  const pedidosEnCurso = pedidos.filter(
+    (pedido) =>
+      pedido.estado === "PENDIENTE" || pedido.estado === "EN_PREPARACION"
   );
-  const pedidosEnviados = pedidos.filter(pedido => pedido.estado === "ENVIADO");
-  const pedidosCancelados = pedidos.filter(pedido => pedido.estado === "CANCELADO");
+  const pedidosEnviados = pedidos.filter(
+    (pedido) => pedido.estado === "ENVIADO"
+  );
+  const pedidosCancelados = pedidos.filter(
+    (pedido) => pedido.estado === "CANCELADO"
+  );
 
   const renderPedidoCard = (pedido) => (
     <div key={pedido._id} className="pedido-card">
       <div className="pedido-header">
         <div className="pedido-info">
           <h3>Pedido #{pedido._id.slice(-6)}</h3>
-          <span className={`estado ${pedido.estado.toLowerCase().replace('_', '-')}`}>
-            {pedido.estado.replace('_', ' ')}
+          <span
+            className={`estado ${pedido.estado.toLowerCase().replace("_", "-")}`}
+          >
+            {pedido.estado.replace("_", " ")}
           </span>
         </div>
 
@@ -158,19 +174,23 @@ const PedidosVendedor = () => {
     </div>
   );
 
-  if (!pedidos || pedidos.length === 0) {
-    return (
-      <div className="sin-pedidos">
-        <p>No tienes solicitudes de compra realizados</p>
-      </div>
-    );
+  if (
+    (!pedidos || pedidos.length === 0) ||
+    usuario._id === id &&
+    isAutenticated
+  ) {
+    if (usuario._id !== id && isAutenticated == false) {
+      return redirect("/login");
+    } else {
+      return (
+        <div className="sin-pedidos">
+          <p>No tienes pedidos realizados</p>
+        </div>
+      );
+    }
   } else {
-
-
-
     return (
       <div className="pedidos-vendedor">
-
         {/* Mensaje de confirmación */}
         {mensaje.mostrar && (
           <div className={`mensaje-confirmacion ${mensaje.tipo}`}>

@@ -81,4 +81,27 @@ export const cancelarPedido= async (id) => {
     
   }
 }
+export const crearPedido = async (pedidoData) => {
+  try {
+    if (!pedidoData) {
+      throw new Error("Datos del pedido no proporcionados");
+    }
 
+    const response = await axios.post(
+      `${API_BASE_URL}/pedido`,
+      pedidoData,
+      {
+        headers: { 
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache" 
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Error creando el pedido", error);
+    const msg = error.response?.message || error.message || "Error al crear el pedido";
+    throw new Error(msg);
+  }
+}

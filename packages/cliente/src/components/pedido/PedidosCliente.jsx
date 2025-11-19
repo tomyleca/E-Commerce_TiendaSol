@@ -34,19 +34,19 @@ const PedidosCliente = () => {
   }, [id]);
 
    if (
-    (!pedidos || pedidos.length === 0) //&&
-   // usuario._id === id &&
-    //isAutenticated
+    (!pedidos || pedidos.length === 0) ||
+    usuario._id === id &&
+    isAutenticated
   ) {
-   /* if (usuario._id !== id && isAutenticated == false) {
+    if (usuario._id !== id && isAutenticated == false) {
       return redirect("/login");
-    } else { */
+    } else { 
       return (
         <div className="sin-pedidos">
           <p>No tienes pedidos realizados</p>
         </div>
       );
-   // }
+    }
   }else{
     
 

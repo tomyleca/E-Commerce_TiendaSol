@@ -36,8 +36,9 @@ const CardProducto = ({ producto }) => {
               onClick={() =>
                 agregarCarrito(producto)
               }
+              disabled={!producto?.stock || producto.stock <= 0}
             >
-              Agregar al carrito
+              {producto?.stock > 0 ? "Agregar al carrito" : "Sin stock"}
               <svg
                 className="icon"
                 width="20"
