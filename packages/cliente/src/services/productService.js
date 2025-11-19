@@ -8,7 +8,7 @@ export const getProductos = async (
   orden,
   precio,
   busqueda,
-  vendedor
+  vendedor,
 ) => {
   try {
     const params = new URLSearchParams();
@@ -68,21 +68,15 @@ export const getProductos = async (
   }
 };
 
-export const getProductoById = async (
-  id
-) => {
+export const getProductoById = async (id) => {
   try {
-
     if (!id.toString()) {
       throw new Error("ID de producto no proporcionado");
     }
 
-    const response = await axios.get(
-      `${API_BASE_URL}/productos/${id}`,
-      {
-        headers: { "Cache-Control": "no-cache" },
-      }
-    );
+    const response = await axios.get(`${API_BASE_URL}/productos/${id}`, {
+      headers: { "Cache-Control": "no-cache" },
+    });
 
     return response.data;
   } catch (error) {
@@ -117,4 +111,4 @@ export const createProducto = async (producto) => {
     console.error("Error creando el producto", error);
     throw error;
   }
-}; 
+};

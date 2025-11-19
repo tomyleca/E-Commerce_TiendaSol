@@ -10,7 +10,7 @@
       "request": "launch",
       "type": "node-terminal"
     },
-	{
+    {
       "command": "npm start --workspace=cliente",
       "name": "Run npm start --workspace=cliente",
       "request": "launch",

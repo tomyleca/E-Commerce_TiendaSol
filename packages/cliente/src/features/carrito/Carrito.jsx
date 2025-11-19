@@ -1,14 +1,13 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../../components/navbar/navbar.jsx';
-import CarritoItem from '../../components/carrito-item/CarritoItem.jsx';
-import BotonVaciarCarrito from '../../components/boton-vaciar-carrito/BotonVaciarCarrito.jsx';
-import BotonVolver from '../../components/boton-volver/BotonVolver.jsx';
-import { useCarrito } from '../../context/CarritoContext.jsx';
-import { useAuth } from '../../context/AuthContext.jsx';
-import './Carrito.css';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/navbar/navbar.jsx";
+import CarritoItem from "../../components/carrito-item/CarritoItem.jsx";
+import BotonVaciarCarrito from "../../components/boton-vaciar-carrito/BotonVaciarCarrito.jsx";
+import BotonVolver from "../../components/boton-volver/BotonVolver.jsx";
+import { useCarrito } from "../../context/CarritoContext.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
+import "./Carrito.css";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 const Carrito = () => {
   const navigate = useNavigate();
@@ -29,7 +28,9 @@ const Carrito = () => {
             <ShoppingCartOutlinedIcon className="carrito-vacio-icon" />
             <h2>Tu carrito está vacío</h2>
             <p>¡Agrega productos para comenzar tu compra!</p>
-            <BotonVolver className="btn-continuar-comprando">Continuar comprando</BotonVolver>
+            <BotonVolver className="btn-continuar-comprando">
+              Continuar comprando
+            </BotonVolver>
           </div>
         </div>
       </>
@@ -42,10 +43,10 @@ const Carrito = () => {
       <div className="carrito-container">
         <div className="carrito-header">
           <BotonVolver className="btn-volver">Volver</BotonVolver>
-		  <div className='titulo-carrito'>
-        	<ShoppingCartOutlinedIcon className="carrito-header-icon" />
-          <h1>Carrito</h1>
-		  </div>
+          <div className="titulo-carrito">
+            <ShoppingCartOutlinedIcon className="carrito-header-icon" />
+            <h1>Carrito</h1>
+          </div>
           <BotonVaciarCarrito />
         </div>
 
@@ -61,7 +62,7 @@ const Carrito = () => {
               <h2>Resumen de compra</h2>
               <div className="resumen-linea">
                 <span>Productos ({cantidadTotalCarrito})</span>
-                <span>${precioTotalCarrito.toLocaleString('es-AR')}</span>
+                <span>${precioTotalCarrito.toLocaleString("es-AR")}</span>
               </div>
               <div className="resumen-linea">
                 <span>Envío</span>
@@ -71,13 +72,19 @@ const Carrito = () => {
               <div className="resumen-total">
                 <span>Total</span>
                 <span className="total-precio">
-                  ${precioTotalCarrito.toLocaleString('es-AR')}
+                  ${precioTotalCarrito.toLocaleString("es-AR")}
                 </span>
               </div>
-              <button className="btn-proceder-compra" onClick={() => comprarCarrito()}>
+              <button
+                className="btn-proceder-compra"
+                onClick={() => comprarCarrito()}
+              >
                 Proceder con la compra
               </button>
-              <button className="btn-continuar-comprando-secondary" onClick={() => navigate(-1)}>
+              <button
+                className="btn-continuar-comprando-secondary"
+                onClick={() => navigate(-1)}
+              >
                 Continuar comprando
               </button>
               <div className="resumen-info">

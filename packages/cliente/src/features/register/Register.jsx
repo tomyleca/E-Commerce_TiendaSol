@@ -4,8 +4,6 @@ import RegisterForm from "../../components/login-register/register-form.jsx";
 import "../../index.css";
 
 const Register = () => {
-	
-
   return (
     <>
       <Navbar minimalist />

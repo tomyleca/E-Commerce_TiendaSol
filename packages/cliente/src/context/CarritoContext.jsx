@@ -26,9 +26,6 @@ export function CarritoProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
-
-
-
   const agregarCarrito = (producto, cantidad = 1) => {
     setItems((prev) => {
       const productId = producto.id || producto._id;
@@ -46,9 +43,10 @@ export function CarritoProvider({ children }) {
         title: producto.titulo || producto.nombre || producto.title,
         price: Number(producto.precio || producto.price) || 0,
         fotos: producto.fotos || [],
-        descripcion: producto.descripcion || '',
-        vendedorId: producto.vendedor || producto.vendedorId || producto.usuario,
-        qty: cantidad
+        descripcion: producto.descripcion || "",
+        vendedorId:
+          producto.vendedor || producto.vendedorId || producto.usuario,
+        qty: cantidad,
       };
 
       return [...prev, itemCarrito];
@@ -94,7 +92,6 @@ export function CarritoProvider({ children }) {
         0,
       );
 
-
       const itemsParaBackend = items.map((it) => ({
         productoId: it.id,
         cantidad: it.qty,
@@ -110,28 +107,26 @@ export function CarritoProvider({ children }) {
         pais: usuario.direccion.pais,
         provincia: usuario.direccion.provincia,
         ...(usuario.direccion.piso && { piso: usuario.direccion.piso }),
-        ...(usuario.direccion.departamento && { departamento: usuario.direccion.departamento })
+        ...(usuario.direccion.departamento && {
+          departamento: usuario.direccion.departamento,
+        }),
       };
 
       const pedidoData = {
         compradorId: usuario._id,
         items: itemsParaBackend,
-        direccionEntrega: direccionFormateada
+        direccionEntrega: direccionFormateada,
       };
       const pedidoCreado = await crearPedido(pedidoData);
-
-
 
       vaciarCarrito();
       toast.success(`¡Compra realizada con éxito! `);
       navigate(`/clientes/${usuario._id}/pedidos`);
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error al comprar:", error);
       toast.error(error.message || "Error al procesar la compra");
     }
-    ;
-  }
+  };
   const value = useMemo(
     () => ({
       itemsCarrito: items,
@@ -153,7 +148,6 @@ export function CarritoProvider({ children }) {
     <CarritoContext.Provider value={value}>{children}</CarritoContext.Provider>
   );
 }
-
 
 export function useCarrito() {
   const ctx = useContext(CarritoContext);

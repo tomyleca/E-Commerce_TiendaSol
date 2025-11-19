@@ -10,32 +10,31 @@ const CardProducto = ({ producto }) => {
       <div className="tilt">
         <div className="img">
           <img
-            src={producto?.fotos?.[0] || "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"}
+            src={producto?.fotos?.[0] || ""}
             alt={producto?.titulo || "Premium Laptop"}
           />
         </div>
         <div className="info">
-
-		<h2 className="title">{producto?.titulo || "UltraBook Pro X"}</h2>
+          <h2 className="title">{producto?.titulo || "UltraBook Pro X"}</h2>
           <p className="desc">
-            {producto?.descripcion || "Cutting-edge performance with Intel Core i9, 32GB RAM, and a 1TB SSD in a sleek, lightweight design."}
+            {producto?.descripcion ||
+              "Cutting-edge performance with Intel Core i9, 32GB RAM, and a 1TB SSD in a sleek, lightweight design."}
           </p>
           <div className="feats">
             {producto?.categorias.map((cat) => (
-              <span key={cat.id} className="feat">{cat.nombre}</span>
+              <span key={cat.id} className="feat">
+                {cat.nombre}
+              </span>
             ))}
           </div>
           <div className="bottom">
             <div className="price">
-              <span className="old">${producto?.precioAnterior || producto?.precio}</span>
-              <span className="new">${producto?.precio || "1,999"}</span>
+              <span className="new">${producto?.precio || "0"}</span>
             </div>
             <button
               className="btn"
               aria-label={`Agregar ${producto?.nombre || "producto"} al carrito`}
-              onClick={() =>
-                agregarCarrito(producto)
-              }
+              onClick={() => agregarCarrito(producto)}
               disabled={!producto?.stock || producto.stock <= 0}
             >
               {producto?.stock > 0 ? "Agregar al carrito" : "Sin stock"}
@@ -114,8 +113,8 @@ const CardProducto = ({ producto }) => {
               </svg>
               <span className="rcount">245 Reviews</span>
             </div>
-        	{producto.stock > 0 && <div className="stock">En Stock</div>}
-		   {producto.stock <= 0 && <div className="sin-stock">Sin Stock</div>}
+            {producto.stock > 0 && <div className="stock">En Stock</div>}
+            {producto.stock <= 0 && <div className="sin-stock">Sin Stock</div>}
           </div>
         </div>
       </div>

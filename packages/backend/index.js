@@ -32,8 +32,8 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 //TODO PASARLO A SERVER CUANDO YA NO NECESITE POSTMAN
 app.use(cors());
 

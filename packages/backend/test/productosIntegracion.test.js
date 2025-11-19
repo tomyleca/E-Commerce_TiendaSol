@@ -65,8 +65,8 @@ categoria.id = "cat1";
 
 const producto = new Producto(
   vendedor,
-  "Caramelito",
-  "Un dulce",
+  "Caramelo",
+  "Un caramelo",
   [categoria],
   2000,
   Moneda.PESO_ARG,
@@ -81,17 +81,23 @@ describe("ProductosController", () => {
     jest.clearAllMocks();
   });
 
-  test("POST /producto - crea producto correctamente", async () => {
+  afterAll(() => {
+    if (server && server.app) {
+      server.app.removeAllListeners();
+    }
+  });
+
+  test("POST /productos - crea producto correctamente", async () => {
     mockRepoUsuarios.buscarPorId.mockResolvedValue(vendedor);
     mockRepoCategorias.buscarPorId.mockResolvedValue(categoria);
     mockRepoProductos.crear.mockResolvedValue(producto);
 
     const res = await request(server.app)
-      .post("/producto")
+      .post("/productos")
       .send({
         vendedorId: "1",
-        titulo: "Caramelito",
-        descripcion: "Un dulce",
+        titulo: "Caramelo",
+        descripcion: "Un caramelo",
         categoriasId: ["cat1"],
         precio: 2000,
         moneda: Moneda.PESO_ARG,
@@ -104,21 +110,21 @@ describe("ProductosController", () => {
     expect(res.status).toBe(201);
     expect(mockRepoProductos.crear).toHaveBeenCalled();
     expect(res.body).toMatchObject({
-      titulo: "Caramelito",
+      titulo: "Caramelo",
       precio: 2000,
       stock: 10,
     });
   });
 
-  test("POST /producto - error vendedor no encontrado", async () => {
+  test("POST /productos - error vendedor no encontrado", async () => {
     mockRepoUsuarios.buscarPorId.mockResolvedValue(null);
 
     const res = await request(server.app)
-      .post("/producto")
+      .post("/productos")
       .send({
         vendedorId: "999",
-        titulo: "Caramelito",
-        descripcion: "Un dulce",
+        titulo: "Caramelo",
+        descripcion: "Un caramelo",
         categoriasId: ["cat1"],
         precio: 2000,
         moneda: Moneda.PESO_ARG,
@@ -130,16 +136,16 @@ describe("ProductosController", () => {
     expect(mockRepoProductos.crear).not.toHaveBeenCalled();
   });
 
-  test("POST /producto - error categoría no encontrada", async () => {
+  test("POST /productos - error categoría no encontrada", async () => {
     mockRepoUsuarios.buscarPorId.mockResolvedValue(vendedor);
     mockRepoCategorias.buscarPorId.mockResolvedValue(null);
 
     const res = await request(server.app)
-      .post("/producto")
+      .post("/productos")
       .send({
         vendedorId: "1",
-        titulo: "Caramelito",
-        descripcion: "Un dulce",
+        titulo: "Caramelo",
+        descripcion: "Un caramelo",
         categoriasId: ["noExiste"],
         precio: 2000,
         moneda: Moneda.PESO_ARG,
@@ -151,12 +157,12 @@ describe("ProductosController", () => {
     expect(mockRepoProductos.crear).not.toHaveBeenCalled();
   });
 
-  test("GET /producto - devuelve lista de productos", async () => {
+  test("GET /productos - devuelve lista de productos", async () => {
     mockRepoProductos.buscarTodos.mockResolvedValue([producto]);
     mockRepoProductos.count.mockResolvedValue(1);
 
     const res = await request(server.app)
-      .get("/producto?pagina=1&limite=1")
+      .get("/productos?pagina=1&limite=1")
       .set("Content-Type", "application/json");
 
     //Tambien deberiamos evaluar los datos de paginacion
@@ -166,30 +172,30 @@ describe("ProductosController", () => {
     expect(mockRepoProductos.buscarTodos).toHaveBeenCalled();
   });
 
-  test("GET /producto - sin productos devuelve array vacío", async () => {
+  test("GET /productos - sin productos devuelve array vacío", async () => {
     mockRepoProductos.buscarTodos.mockResolvedValue([]);
     mockRepoProductos.count.mockResolvedValue(0);
 
-    const res = await request(server.app).get("/producto?page=1&limit=10");
+    const res = await request(server.app).get("/productos?page=1&limit=10");
 
     expect(res.status).toBe(200);
     expect(res.body.data).toEqual([]);
   });
 
-  test("GET /producto/:id - producto encontrado", async () => {
+  test("GET /productos/:id - producto encontrado", async () => {
     mockRepoProductos.buscarPorId.mockResolvedValue(producto);
 
-    const res = await request(server.app).get("/producto/p1");
+    const res = await request(server.app).get("/productos/p1");
 
     expect(res.status).toBe(200);
-    expect(res.body.titulo).toBe("Caramelito");
+    expect(res.body.titulo).toBe("Caramelo");
     expect(mockRepoProductos.buscarPorId).toHaveBeenCalledWith("p1");
   });
 
-  test("GET /producto/:id - producto no encontrado", async () => {
+  test("GET /productos/:id - producto no encontrado", async () => {
     mockRepoProductos.buscarPorId.mockResolvedValue(null);
 
-    const res = await request(server.app).get("/producto/999");
+    const res = await request(server.app).get("/productos/999");
 
     expect(res.status).toBe(404);
   });

@@ -14,12 +14,12 @@ const ModalCarrito = () => {
     precioTotalCarrito,
     quitarCarrito,
   } = useCarrito();
-  
+
   const irACarrito = () => {
     cerrarCarrito();
-    navigate('/carrito');
+    navigate("/carrito");
   };
-  
+
   if (!isOpenCarrito) return null;
   return (
     <div className="modal-overlay" onClick={cerrarCarrito}>
@@ -53,10 +53,7 @@ const ModalCarrito = () => {
           Total: ${precioTotalCarrito}
           <BotonVaciarCarrito className="boton-vaciar-modal" />
         </div>
-        <button
-          className="boton-ver-carrito"
-          onClick={irACarrito}
-        >
+        <button className="boton-ver-carrito" onClick={irACarrito}>
           Ver carrito completo
         </button>
       </div>

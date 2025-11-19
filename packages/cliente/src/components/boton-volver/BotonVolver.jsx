@@ -15,8 +15,8 @@ const BotonVolver = ({ to, className = "" }) => {
   };
 
   return (
-    <button 
-      onClick={handleClick} 
+    <button
+      onClick={handleClick}
       className={`boton-volver ${className}`}
       aria-label="Volver"
     >

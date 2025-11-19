@@ -6,20 +6,18 @@ import { ValorNoCumpleConEnum } from "../../errors/valorNoCumpleConEnum.js";
 import { ClaseIncorrectaError } from "../../errors/claseIncorrectaError.js";
 
 export class Usuario {
-  constructor(nombre, email, telefono,passwordHash) {
+  constructor(nombre, email, telefono, passwordHash) {
     z.object({
       nombre: z.string(),
       email: z.string(),
       telefono: z.string(),
       fechaAlta: z.string().date(),
-	  passwordHash: z.string()
+      passwordHash: z.string(),
     });
 
     if (email instanceof Email === false)
       //valido que sea de la clase mail
       throw new ClaseIncorrectaError("email", Email);
-
-
 
     this.id = null;
     this.nombre = nombre;
@@ -27,6 +25,6 @@ export class Usuario {
     this.telefono = telefono;
     this.tipo = "USUARIO";
     this.fechaAlta = dayjs().toDate(); // le pongo la fecha de hoy
-	this.passwordHash = passwordHash;
-}
+    this.passwordHash = passwordHash;
+  }
 }

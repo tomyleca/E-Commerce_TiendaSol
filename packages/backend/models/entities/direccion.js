@@ -9,7 +9,7 @@ export class Direccion {
     codigoPostal,
     ciudad,
     provincia,
-    pais
+    pais,
   ) {
     z.object({
       calle: z.string(),
@@ -19,7 +19,7 @@ export class Direccion {
       codigoPostal: z.string(),
       ciudad: z.string(),
       provincia: z.string(),
-      pais: z.string()
+      pais: z.string(),
     });
 
     this.calle = calle;

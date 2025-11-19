@@ -56,9 +56,9 @@ export class PedidosRepository {
     );
   }
 
-  async buscarPorVendedor(idVendedor){
+  async buscarPorVendedor(idVendedor) {
     if (!mongoose.Types.ObjectId.isValid(idVendedor)) return [];
-    return PedidoModel.find({ vendedor: idVendedor}).populate(
+    return PedidoModel.find({ vendedor: idVendedor }).populate(
       "vendedor comprador itemsPedido.producto direccion estado historialDeEstados",
     );
   }

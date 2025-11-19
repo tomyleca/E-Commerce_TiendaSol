@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import { NotFound } from "../errors/notFound.js";
 import { LoginError } from "../errors/loginError.js";
 
-
 export class UsuariosService {
   constructor(usuariosRepository, notificacionesService) {
     this.usuariosRepository = usuariosRepository;
@@ -27,14 +26,16 @@ export class UsuariosService {
   async crear(nuevoUsuarioJson) {
     const emailUsuario = new Email(nuevoUsuarioJson.email);
     const saltRounds = 10; // cuántas veces "mezcla" la encriptación
-    const passwordHash = await bcrypt.hash(nuevoUsuarioJson.password, saltRounds);
-
+    const passwordHash = await bcrypt.hash(
+      nuevoUsuarioJson.password,
+      saltRounds,
+    );
 
     const nuevoUsuario = new Usuario(
       nuevoUsuarioJson.nombre,
       emailUsuario,
       nuevoUsuarioJson.telefono,
-      passwordHash
+      passwordHash,
     );
     return await this.usuariosRepository.crear(nuevoUsuario);
   }
@@ -60,9 +61,9 @@ export class UsuariosService {
 
   async login(data) {
     let usuario = null;
-    data.nombre ?
-      usuario = await this.usuariosRepository.buscarPorNombre(data.nombre) :
-      usuario = await this.usuariosRepository.buscarPorEmail(data.email);
+    data.nombre
+      ? (usuario = await this.usuariosRepository.buscarPorNombre(data.nombre))
+      : (usuario = await this.usuariosRepository.buscarPorEmail(data.email));
 
     if (!usuario) {
       throw new LoginError();
@@ -83,11 +84,13 @@ export class UsuariosService {
       throw new NotFound("Usuario no encontrado");
     }
 
-
     //Si viene password, la hasheás antes
     if (datosActualizados.password) {
       const saltRounds = 10;
-      datosActualizados.passwordHash = await bcrypt.hash(datosActualizados.password, saltRounds);
+      datosActualizados.passwordHash = await bcrypt.hash(
+        datosActualizados.password,
+        saltRounds,
+      );
       delete datosActualizados.password;
     }
 
@@ -96,6 +99,4 @@ export class UsuariosService {
 
     return await this.usuariosRepository.update(id, usuario);
   }
-
-
 }

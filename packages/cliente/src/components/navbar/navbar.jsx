@@ -16,7 +16,6 @@ import { useNotification } from "../../context/NotificacionContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import BarraBusqueda from "../producto/BarraBusqueda.jsx";
 
-
 const Navbar = ({ onCartClick, minimalist = false }) => {
   const { abrirCarrito, cantidadTotalCarrito } = useCarrito();
   const { toggleNotificaciones, cantidadNotificaciones } = useNotification();
@@ -70,7 +69,11 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                   onClick={() => setSearchOpen(!searchOpen)}
                   aria-label={searchOpen ? "Cerrar búsqueda" : "Abrir búsqueda"}
                 >
-                  {searchOpen ? <CloseIcon fontSize="medium" /> : <SearchIcon fontSize="medium" />}
+                  {searchOpen ? (
+                    <CloseIcon fontSize="medium" />
+                  ) : (
+                    <SearchIcon fontSize="medium" />
+                  )}
                 </button>
                 <button
                   type="button"
@@ -112,10 +115,10 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
         </nav>
 
         {/* Barra de búsqueda desplegable */}
-        <div className={`search-dropdown ${searchOpen ? 'search-dropdown-open' : ''}`}>
-          {searchOpen && (
-            <BarraBusqueda />
-          )}
+        <div
+          className={`search-dropdown ${searchOpen ? "search-dropdown-open" : ""}`}
+        >
+          {searchOpen && <BarraBusqueda />}
         </div>
 
         <NotificationModal />

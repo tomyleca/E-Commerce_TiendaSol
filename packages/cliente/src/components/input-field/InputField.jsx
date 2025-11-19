@@ -15,14 +15,18 @@ const InputField = ({
   showPasswordToggle = false,
 }) => {
   const [mostrarPassword, setMostrarPassword] = useState(false);
-  
-  const inputType = showPasswordToggle 
-    ? (mostrarPassword ? "text" : "password")
+
+  const inputType = showPasswordToggle
+    ? mostrarPassword
+      ? "text"
+      : "password"
     : type;
 
   return (
     <div className="form-group">
-      <div className={`input-wrapper ${showPasswordToggle ? "password-wrapper" : ""}`}>
+      <div
+        className={`input-wrapper ${showPasswordToggle ? "password-wrapper" : ""}`}
+      >
         <input
           type={inputType}
           id={id}
@@ -36,14 +40,16 @@ const InputField = ({
           className={value ? "has-value" : ""}
         />
         <label htmlFor={id}>{label}</label>
-        
+
         {showPasswordToggle && (
           <button
             type="button"
             className="password-toggle"
             aria-label="Mostrar/ocultar contraseña"
             aria-pressed={mostrarPassword}
-            title={mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            title={
+              mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+            }
             onClick={() => setMostrarPassword((v) => !v)}
           >
             <span

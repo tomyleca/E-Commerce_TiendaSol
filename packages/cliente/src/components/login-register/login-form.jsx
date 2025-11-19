@@ -7,14 +7,11 @@ import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext.jsx";
 import InputField from "../../components/input-field/InputField.jsx";
 
-
 const LoginForm = () => {
   const [usuario, setUsuario] = useState({ email: "", password: "" });
   const [enviando, setEnviando] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +29,7 @@ const LoginForm = () => {
 
     try {
       setEnviando(true);
-      
+
       const data = await loginUsuario(usuario);
       if (!data) {
         toast.error("Respuesta vacía del servidor");
@@ -58,7 +55,12 @@ const LoginForm = () => {
           <p>Ingresa tus credenciales para acceder a tu cuenta</p>
         </div>
 
-        <form className="login-form" id="loginForm" noValidate onSubmit={handleSubmit}>
+        <form
+          className="login-form"
+          id="loginForm"
+          noValidate
+          onSubmit={handleSubmit}
+        >
           <InputField
             id="emailOrUsername"
             name="emailOrUsername"
@@ -68,9 +70,17 @@ const LoginForm = () => {
             value={usuario.email || usuario.username || ""}
             onChange={(e) => {
               if (e.target.value.includes("@")) {
-                setUsuario((u) => ({ ...u, email: e.target.value, username: null }));
+                setUsuario((u) => ({
+                  ...u,
+                  email: e.target.value,
+                  username: null,
+                }));
               } else {
-                setUsuario((u) => ({ ...u, username: e.target.value, email: null }));
+                setUsuario((u) => ({
+                  ...u,
+                  username: e.target.value,
+                  email: null,
+                }));
               }
             }}
             autoComplete="username"
@@ -84,7 +94,9 @@ const LoginForm = () => {
             label="Contraseña"
             placeholder="Contraseña"
             value={usuario.password}
-            onChange={(e) => setUsuario((u) => ({ ...u, password: e.target.value }))}
+            onChange={(e) =>
+              setUsuario((u) => ({ ...u, password: e.target.value }))
+            }
             autoComplete="current-password"
             required
             errorId="passwordError"
@@ -94,7 +106,9 @@ const LoginForm = () => {
           <div className="form-options" style={{ display: "none" }}></div>
 
           <button type="submit" className="form-btn" disabled={enviando}>
-            <span className="btn-text">{enviando ? "Ingresando..." : "Iniciar Sesión"}</span>
+            <span className="btn-text">
+              {enviando ? "Ingresando..." : "Iniciar Sesión"}
+            </span>
             {enviando && <span className="btn-loader"></span>}
           </button>
         </form>
@@ -104,7 +118,6 @@ const LoginForm = () => {
             ¿No tienes una cuenta? <Link to="/register">Crea una</Link>
           </p>
         </div>
-
       </div>
     </div>
   );

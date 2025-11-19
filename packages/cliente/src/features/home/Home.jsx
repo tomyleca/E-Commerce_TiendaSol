@@ -16,7 +16,6 @@ const Home = () => {
 
   return (
     <>
-  
       <div className="home-container">
         {/* Hero Section */}
         <section className="hero-section">
@@ -26,10 +25,16 @@ const Home = () => {
               Tu marketplace de confianza para comprar y vender
             </p>
             <div className="hero-buttons">
-              <button className="btn-primary" onClick={() => navigate("/productos")}>
+              <button
+                className="btn-primary"
+                onClick={() => navigate("/productos")}
+              >
                 <SearchIcon /> Explorar Productos
               </button>
-              <button className="btn-secondary" onClick={() => navigate("/crear-tienda")}>
+              <button
+                className="btn-secondary"
+                onClick={() => navigate("/crear-tienda")}
+              >
                 <StorefrontIcon /> Crear Mi Tienda
               </button>
             </div>
@@ -48,7 +53,10 @@ const Home = () => {
                 <SearchIcon fontSize="large" />
               </div>
               <h3>Búsqueda Fácil</h3>
-              <p>Encuentra lo que buscás con nuestro sistema de búsqueda y filtros avanzados</p>
+              <p>
+                Encuentra lo que buscás con nuestro sistema de búsqueda y
+                filtros avanzados
+              </p>
             </div>
 
             <div className="feature-card">
@@ -56,7 +64,9 @@ const Home = () => {
                 <LocalShippingIcon fontSize="large" />
               </div>
               <h3>Envíos Seguros</h3>
-              <p>Seguimiento de pedidos en tiempo real y envíos a todo el país</p>
+              <p>
+                Seguimiento de pedidos en tiempo real y envíos a todo el país
+              </p>
             </div>
 
             <div className="feature-card">
@@ -95,20 +105,29 @@ const Home = () => {
 
         {/* CTA Section */}
         <section className="cta-section">
-			{!isAuthenticated &&
-          <div className="cta-content">
-            <h2>¿Listo para comenzar?</h2>
-            <p>Registrate hoy y descubrí todo lo que Tienda Sol tiene para ofrecerte</p>
-            <div className="cta-buttons">
-              <button className="btn-cta-primary" onClick={() => navigate("/register")}>
-                Crear Cuenta
-              </button>
-              <button className="btn-cta-secondary" onClick={() => navigate("/login")}>
-                Iniciar Sesión
-              </button>
+          {!isAuthenticated && (
+            <div className="cta-content">
+              <h2>¿Listo para comenzar?</h2>
+              <p>
+                Registrate hoy y descubrí todo lo que Tienda Sol tiene para
+                ofrecerte
+              </p>
+              <div className="cta-buttons">
+                <button
+                  className="btn-cta-primary"
+                  onClick={() => navigate("/register")}
+                >
+                  Crear Cuenta
+                </button>
+                <button
+                  className="btn-cta-secondary"
+                  onClick={() => navigate("/login")}
+                >
+                  Iniciar Sesión
+                </button>
+              </div>
             </div>
-          </div>
-}
+          )}
         </section>
       </div>
     </>

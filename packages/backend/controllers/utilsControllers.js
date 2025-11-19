@@ -29,5 +29,5 @@ export const direccionSchema = z.object({
   ciudad: z.string().min(1, "La ciudad es obligatoria"),
   provincia: z.string().min(1, "La provincia es obligatoria"),
   piso: z.string().optional(),
-  departamento: z.string().optional()
+  departamento: z.string().optional(),
 });

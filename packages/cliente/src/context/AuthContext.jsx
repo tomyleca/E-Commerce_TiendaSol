@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
       localStorage.removeItem(STORAGE_KEY);
     }
 
-	console.log(usuario);
+    console.log(usuario);
   }, [usuario]);
 
   const login = (usuarioData) => {
@@ -39,7 +39,8 @@ export function AuthProvider({ children }) {
     });
   };
 
-  const isVendedor = (usuario?.tipo || "").toString().toUpperCase() === "VENDEDOR";
+  const isVendedor =
+    (usuario?.tipo || "").toString().toUpperCase() === "VENDEDOR";
 
   const isAuthenticated = Boolean(usuario);
 
@@ -49,7 +50,7 @@ export function AuthProvider({ children }) {
     logout,
     actualizarDatosUsuario,
     isAuthenticated,
-	isVendedor
+    isVendedor,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

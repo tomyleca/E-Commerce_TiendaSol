@@ -3,7 +3,7 @@ import { EstadoPedido } from "./estadoPedido.js";
 import { Notificacion } from "./notificacion.js";
 
 export class FactoryNotificacion {
-  constructor() { }
+  constructor() {}
 
   crearSegunEstadoPedido(pedido) {
     let usuarioDestino;

@@ -13,7 +13,6 @@ describe("Validar usuario", () => {
           "Juan Perez",
           "emailFalso", // email inválido
           "1112341234",
-          TipoUsuario.COMPRADOR,
         ),
     ).toThrow(ClaseIncorrectaError);
   });
@@ -22,24 +21,12 @@ describe("Validar usuario", () => {
     expect(() => new Email("mailTrucho.com").toThrow(FormatoDeEmailInvalido));
   });
 
-  test("No me deja crear un usuario con tipo de usuario invalido", () => {
-    expect(
-      () =>
-        new Usuario(
-          "Juan Perez",
-          new Email("mail@gmail.com"), // email válido
-          "1112341234",
-          "TipoUsuarioIncorrecto",
-        ),
-    ).toThrow(ValorNoCumpleConEnum);
-  });
   test("Creo un usuario valido", () => {
     const email = new Email("mail@gmail.com");
     const usuario = new Usuario(
       "Juan Perez",
       email,
-      "1112341234",
-      TipoUsuario.COMPRADOR,
+      "1112341234"
     );
 
     expect(usuario).toBeInstanceOf(Usuario);

@@ -1,5 +1,5 @@
 import { FormatoDeEmailInvalido } from "../errors/formatoDeEmailInvalido.js";
-import {LoginError} from "../errors/loginError.js";
+import { LoginError } from "../errors/loginError.js";
 
 export function usuarioErrorHandler(err, req, res, next) {
   if (err instanceof FormatoDeEmailInvalido) {

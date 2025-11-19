@@ -22,8 +22,6 @@ function App() {
     setCarrito([...carrito, producto]);
   };
 
-
-
   const [productos, setProductos] = useState([]);
   const [productosFiltrados, setProductosFiltrados] = useState([]);
 
@@ -33,19 +31,45 @@ function App() {
       <Routes>
         {/* Ruta principal - Home */}
         <Route index element={<Home />} />
-        
+
         {/*Rutas envueltas por el Layout */}
         <Route element={<Layout />}>
           <Route path="productos" element={<ListadoProductos />} />
-          <Route path="tienda/:idTienda/productos" element={<ListadoProductos />} />
-          <Route path="clientes/:id/pedidos" element={<PedidosCliente />}/>
-          <Route path="ventas/:idTienda" element={<PedidoVendedor/>}/>
-		<Route path="/crear-tienda" element={<EditarUsuarioForm objetivo="crear-tienda" campos={{ nombre: false, telefono: true, descripcion: true, direccion:true }} />} />
-		<Route path="/direccion" element={<EditarUsuarioForm objetivo="comprar" campos={{ nombre: false, telefono: false, descripcion: false, direccion:true}} />} />
           <Route
-            path="productos/:id"
-            element={<ProductoDetailPage />}
+            path="tienda/:idTienda/productos"
+            element={<ListadoProductos />}
           />
+          <Route path="clientes/:id/pedidos" element={<PedidosCliente />} />
+          <Route path="ventas/:idTienda" element={<PedidoVendedor />} />
+          <Route
+            path="/crear-tienda"
+            element={
+              <EditarUsuarioForm
+                objetivo="crear-tienda"
+                campos={{
+                  nombre: false,
+                  telefono: true,
+                  descripcion: true,
+                  direccion: true,
+                }}
+              />
+            }
+          />
+          <Route
+            path="/direccion"
+            element={
+              <EditarUsuarioForm
+                objetivo="comprar"
+                campos={{
+                  nombre: false,
+                  telefono: false,
+                  descripcion: false,
+                  direccion: true,
+                }}
+              />
+            }
+          />
+          <Route path="productos/:id" element={<ProductoDetailPage />} />
         </Route>
 
         {/* Rutas sin Layout para evitar contenido extra arriba*/}
@@ -58,6 +82,7 @@ function App() {
         <Route path="/nuevoProducto" element={<NuevoProducto />} />
       </Routes>
     </>
-  );}
+  );
+}
 
 export default App;

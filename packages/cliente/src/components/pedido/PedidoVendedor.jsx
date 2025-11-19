@@ -9,7 +9,6 @@ import { useParams, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import { pedidosMock } from "../../mockData/Pedidos";
 
-
 const PedidosVendedor = () => {
   const { idTienda } = useParams();
   const { usuario, isAutenticated } = useAuth();
@@ -55,7 +54,7 @@ const PedidosVendedor = () => {
       setPedidos(data);
       mostrarMensaje(
         "¡Has realizado el envío del pedido correctamente!",
-        "exito"
+        "exito",
       );
     } catch (err) {
       console.error("Error al enviar pedido", err);
@@ -74,7 +73,7 @@ const PedidosVendedor = () => {
       console.error("Error al cancelar pedido", err);
       mostrarMensaje(
         "Error al cancelar el pedido. Intenta nuevamente.",
-        "error"
+        "error",
       );
     }
   };
@@ -107,13 +106,13 @@ const PedidosVendedor = () => {
   // Filtrar pedidos por estado
   const pedidosEnCurso = pedidos.filter(
     (pedido) =>
-      pedido.estado === "PENDIENTE" || pedido.estado === "EN_PREPARACION"
+      pedido.estado === "PENDIENTE" || pedido.estado === "EN_PREPARACION",
   );
   const pedidosEnviados = pedidos.filter(
-    (pedido) => pedido.estado === "ENVIADO"
+    (pedido) => pedido.estado === "ENVIADO",
   );
   const pedidosCancelados = pedidos.filter(
-    (pedido) => pedido.estado === "CANCELADO"
+    (pedido) => pedido.estado === "CANCELADO",
   );
 
   const renderPedidoCard = (pedido) => (
@@ -151,8 +150,8 @@ const PedidosVendedor = () => {
           {formatNumero(
             pedido.itemsPedido.reduce(
               (total, item) => total + item.precioUnitario * item.cantidad,
-              0
-            )
+              0,
+            ),
           )}
         </strong>
       </div>

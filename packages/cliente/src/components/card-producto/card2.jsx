@@ -11,9 +11,17 @@ const Card2 = ({ producto }) => {
   };
 
   return (
-    <div className="product-card-horizontal" onClick={verDetalle} style={{ cursor: "pointer" }}>
+    <div
+      className="product-card-horizontal"
+      onClick={verDetalle}
+      style={{ cursor: "pointer" }}
+    >
       <img
-        src={producto.fotos && producto.fotos[0] ? producto.fotos[0] : "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"}
+        src={
+          producto.fotos && producto.fotos[0]
+            ? producto.fotos[0]
+            : "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"
+        }
         alt={producto.titulo}
         className="product-img"
       />
@@ -22,7 +30,7 @@ const Card2 = ({ producto }) => {
         <div className="product-header">
           <div className="product-title">{producto.titulo}</div>
           {producto.stock > 0 && <div className="stock">En Stock</div>}
-		   {producto.stock <= 0 && <div className="sin-stock">Sin Stock</div>}
+          {producto.stock <= 0 && <div className="sin-stock">Sin Stock</div>}
         </div>
         {Array.isArray(producto.categorias) &&
           producto.categorias.length > 0 && (
