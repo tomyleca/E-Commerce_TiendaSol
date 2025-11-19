@@ -83,14 +83,14 @@ const Tienda = () => {
 					<div className="avatar-container">
 						<Avatar
 							alt="Remy Sharp"
-							src="/images/sony.jpg"
+							src=""
 							sx={{ width: 200, height: 200 }}
 						/>
 					</div>
 					<div className="tienda-info">
 						<h1>{vendedor?.nombre || 'Cargando...'}</h1>
 						<p>{vendedor?.descripcion || 'Electrónica y tecnología de vanguardia'}</p>
-						<p>Ubicación: {vendedor?.ubicacion || 'Buenos Aires, Argentina'}</p>
+						<p>Ubicación: {vendedor?.direccion?.ciudad + ", " + vendedor?.direccion?.pais || 'Buenos Aires, Argentina'}</p>
 						<p>Calificación: ★★★★☆ (4.5/5)</p>
 					</div>
 					<Link to={`/tienda/${idTienda}/productos`}>

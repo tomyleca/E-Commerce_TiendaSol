@@ -92,7 +92,7 @@ export const crearPedido = async (pedidoData) => {
     }
 
     const response = await axios.post(
-      `${API_BASE_URL}/pedido`,
+      `${API_BASE_URL}/pedidos`,
       pedidoData,
       {
         headers: { 
