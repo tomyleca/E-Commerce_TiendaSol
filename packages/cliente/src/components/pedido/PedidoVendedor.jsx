@@ -8,10 +8,6 @@ import "./PedidoVendedor.css";
 import { useParams, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import { pedidosMock } from "../../mockData/Pedidos";
-<<<<<<< HEAD
-=======
-
->>>>>>> e6173a790e4170c7df9a6e59f774bd22939a87c3
 
 const PedidosVendedor = () => {
   const { idTienda } = useParams();
@@ -23,7 +19,6 @@ const PedidosVendedor = () => {
     tipo: "",
     mostrar: false,
   });
-  const navegar = useNavigate();
   const mostrarMensaje = (texto, tipo = "exito") => {
     setMensaje({ texto, tipo, mostrar: true });
     setTimeout(() => {
@@ -167,9 +162,9 @@ const PedidosVendedor = () => {
   if (
     !pedidos ||
     pedidos.length === 0 ||
-    (usuario._id === id && isAutenticated)
+    (usuario._id === idTienda && isAutenticated)
   ) {
-    if (usuario._id !== id && isAutenticated === false) {
+    if (usuario._id !== idTienda && isAutenticated === false) {
       navigate(`/login`);
       return null;
     } else {

@@ -46,7 +46,6 @@ export function NotificationProvider({ children }) {
     return () => clearInterval(interval);
   }, [isAuthenticated, usuario]);
 
-<<<<<<< HEAD
   /**
    * Marca una notificación como leída
    * @param {string} notificacionId - ID de la notificación
@@ -75,9 +74,6 @@ export function NotificationProvider({ children }) {
   /**
    * Alterna la visibilidad del panel de notificaciones
    */
-=======
-  const cerrarNotificaciones = () => setIsOpen(false);
->>>>>>> e6173a790e4170c7df9a6e59f774bd22939a87c3
   const toggleNotificaciones = () => {
     setIsOpen((v) => !v);
   };
