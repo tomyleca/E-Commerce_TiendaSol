@@ -29,6 +29,10 @@ export class FactoryNotificacion {
         usuarioDestino = pedido.comprador;
         mensaje = `Tu pedido ${pedido.id} ha sido cancelado.\n Productos: ${pedido.itemsPedido.map((p) => p.producto.titulo).join(", ")}.`;
         break;
+      case EstadoPedido.CANCELADO:
+        usuarioDestino = pedido.vendedor;
+        mensaje = `Tu pedido ${pedido.id} ha sido cancelado.\n Productos: ${pedido.itemsPedido.map((p) => p.producto.titulo).join(", ")}.`;
+        break;
 
       default:
         throw new Error(
