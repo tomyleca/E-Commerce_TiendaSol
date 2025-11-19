@@ -30,11 +30,13 @@ export const getPedidosVendedor = async (id) => {
     }
     
     const response = await axios.get(
-      `${API_BASE_URL}/pedidos`,
+      `${API_BASE_URL}/usuarios/${id}/ventas`,
       {
         headers: { "Cache-Control": "no-cache" },
       }
     );
+
+	console.log("Respuesta de getPedidosVendedor:", response);
 
     return response.data;
   } catch (error) {

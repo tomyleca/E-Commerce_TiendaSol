@@ -8,10 +8,10 @@ import "./PedidoVendedor.css";
 import { useParams, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import { pedidosMock } from "../../mockData/Pedidos";
-import { useNavigate } from "react-router-dom";
+
 
 const PedidosVendedor = () => {
-  const { id } = useParams();
+  const { idTienda } = useParams();
   const { usuario, isAutenticated } = useAuth();
   const navigate = useNavigate();
   const [pedidos, setPedidos] = useState([]);
@@ -36,7 +36,7 @@ const PedidosVendedor = () => {
   useEffect(() => {
     const cargarVentas = async () => {
       try {
-        const data = await getPedidosVendedor(id);
+        const data = await getPedidosVendedor(idTienda);
         setPedidos(data);
         // setPedidos(pedidosMock);
       } catch (err) {
@@ -45,13 +45,13 @@ const PedidosVendedor = () => {
     };
 
     cargarVentas();
-  }, [id]);
+  }, [idTienda]);
 
   const enviar = async (pedidoId) => {
     try {
       await enviarPedido(pedidoId);
       // Recargar pedidos después de enviar
-      const data = await getPedidosVendedor(id);
+      const data = await getPedidosVendedor(idTienda);
       setPedidos(data);
       mostrarMensaje(
         "¡Has realizado el envío del pedido correctamente!",
@@ -67,7 +67,7 @@ const PedidosVendedor = () => {
     try {
       await cancelarPedido(pedidoId);
       // Recargar pedidos después de cancelar
-      const data = await getPedidosVendedor(id);
+      const data = await getPedidosVendedor(idTienda);
       setPedidos(data);
       mostrarMensaje("Pedido cancelado correctamente", "exito");
     } catch (err) {
