@@ -79,7 +79,7 @@ const PedidosCliente = () => {
             {new Date(pedido.fechaDeCreacion).toLocaleDateString()}
           </p>
           <p>
-            <strong>Dirección:</strong> {pedido.direccionEntrega}
+          
           </p>
         </div>
       </div>

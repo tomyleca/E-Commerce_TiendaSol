@@ -35,7 +35,7 @@ const Tienda = () => {
 		const cargarProductosDestacados = async () => {
 			try {
 				const response = await getProductos(1, null, 'masVendido', null, null, idTienda);
-				setProductosDestacados(response?.data || []);
+				setProductosDestacados(response?.data.slice(0,4)|| []);
 			} catch (error) {
 				console.error('Error cargando productos destacados:', error);
 			}
