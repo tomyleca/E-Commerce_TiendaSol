@@ -20,10 +20,12 @@ import { getCategorias, createProducto } from "../../services/productService.js"
 import { useAuth } from "../../context/AuthContext.jsx";
 
 const NuevoProductoForm = () => {
-	const { usuario, isAuthenticated } = useAuth();
+    const { usuario, isAuthenticated } = useAuth();
+    const navegar = useNavigate();
 
+    // Definir estado inicial con valor por defecto
     const formularioInicial = {
-        vendedorId: usuario._id, // Ejemplo de vendedor
+        vendedorId: usuario?._id || "",
         titulo: "",
         descripcion: "",
         categoriasId: [],
@@ -33,13 +35,23 @@ const NuevoProductoForm = () => {
         fotos: [],
         activo: true,
     };
+
+    // Todos los hooks deben estar antes de cualquier return condicional
     const [producto, setProducto] = useState(() => ({ ...formularioInicial }));
-    const resetFormulario = () => setProducto({ ...formularioInicial });
     const [errores, setErrores] = useState({});
     const [enviando, setEnviando] = useState(false);
-    const navegar = useNavigate();
-
     const [categorias, setCategorias] = useState([]);
+
+    const resetFormulario = () => setProducto({ ...formularioInicial });
+
+    // Redirigir si no está autenticado
+    useEffect(() => {
+        if (!isAuthenticated || !usuario) {
+            toast.error("Debes iniciar sesión para crear un producto");
+            navegar("/login");
+        }
+    }, [isAuthenticated, usuario, navegar]);
+
     useEffect(() => {
         const cargar = async () => {
             try {
@@ -51,6 +63,11 @@ const NuevoProductoForm = () => {
         };
         cargar();
     }, []);
+
+    // Return condicional DESPUÉS de todos los hooks
+    if (!usuario) {
+        return null;
+    }
 
     const MONEDAS = ["PESO_ARG", "DOLAR_USA", "REAL"];
 
@@ -67,12 +84,12 @@ const NuevoProductoForm = () => {
     const handleFotosChange = async (e) => {
         const files = Array.from(e.target.files || []);
         console.log("Archivos seleccionados:", files);
-        
+
         if (files.length === 0) {
             setProducto((f) => ({ ...f, fotos: [], fotosPreviews: [] }));
             return;
         }
-        
+
         const convertirABase64 = async (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -95,13 +112,13 @@ const NuevoProductoForm = () => {
         try {
             const imagenesBase64 = await Promise.all(files.map(convertirABase64));
             console.log("Imágenes convertidas:", imagenesBase64.length);
-            
-            setProducto((f) => ({ 
-                ...f, 
+
+            setProducto((f) => ({
+                ...f,
                 fotos: imagenesBase64,
                 fotosPreviews: imagenesBase64 // Usar las mismas para preview
             }));
-            
+
             toast.success(`${imagenesBase64.length} imagen(es) cargada(s)`);
         } catch (err) {
             console.error("Error procesando archivos de fotos", err);
@@ -261,19 +278,19 @@ const NuevoProductoForm = () => {
                                 <div style={{ marginTop: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                                     {producto.fotosPreviews.map((preview, idx) => (
                                         <div key={idx} style={{ position: 'relative' }}>
-                                            <img 
-                                                src={preview} 
-                                                alt={`foto-${idx}`} 
-                                                style={{ 
-                                                    width: 100, 
-                                                    height: 100, 
-                                                    objectFit: 'cover', 
+                                            <img
+                                                src={preview}
+                                                alt={`foto-${idx}`}
+                                                style={{
+                                                    width: 100,
+                                                    height: 100,
+                                                    objectFit: 'cover',
                                                     borderRadius: 8,
                                                     border: '2px solid var(--gray-300)'
-                                                }} 
+                                                }}
                                             />
-                                            <div style={{ 
-                                                fontSize: '10px', 
+                                            <div style={{
+                                                fontSize: '10px',
                                                 marginTop: '4px',
                                                 color: 'var(--gray-600)',
                                                 textAlign: 'center'
