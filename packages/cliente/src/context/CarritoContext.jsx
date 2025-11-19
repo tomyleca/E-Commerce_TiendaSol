@@ -96,18 +96,17 @@ export function CarritoProvider({ children }) {
 		0,
 	  );
       
-	  const itemsPedido = items.map((it) => ({
-		producto: it.id,
+	  
+	  const itemsParaBackend = items.map((it) => ({
+		productoId: it.id,
 		cantidad: it.qty,
 		precioUnitario: it.price,
 	  }));
 	
 
         const pedidoData = {
-          comprador: usuario._id,
-          itemsPedido,
-          total: totalPedido,
-          moneda: "ARS",
+          compradorId: usuario._id,
+          items: itemsParaBackend,
           direccionEntrega: usuario.direccion         
         };
         const pedidoCreado = await crearPedido(pedidoData);
