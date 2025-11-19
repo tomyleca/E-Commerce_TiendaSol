@@ -10,13 +10,22 @@
   top: 90px;
   right: 25px;
   z-index: 1000;
-  width: 270px;
+  width: 350px;
+  max-height: 500px;
   min-height: 300px;
 }
 
 .notification-title {
   margin-bottom: 10px;
   text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.notification-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
 }
 
 .notification-list {
@@ -28,9 +37,9 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
   margin-top: 0px;
-  padding: 8px;
+  padding: 12px 8px;
   border-bottom: 1px solid var(--gray-400);
   transition: background-color 0.2s;
 }
@@ -61,9 +70,17 @@
   color: var(--primary-light);
   cursor: pointer;
   font-weight: 500;
-  padding-top: 8px;
+  padding: 12px 8px;
+  border: none;
+  background: none;
   border-top: 1px solid var(--gray-200);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
+  width: 100%;
+  transition: color 0.2s;
+}
+
+.notification-footer:hover {
+  color: var(--primary-dark);
 }
 
 .modal-overlay {
@@ -78,9 +95,10 @@
   align-items: center;
   z-index: 1000;
 }
+
 @media (max-width: 600px) {
   .notification-modal {
     right: 10px;
-    width: 180px;
+    width: 280px;
   }
 }

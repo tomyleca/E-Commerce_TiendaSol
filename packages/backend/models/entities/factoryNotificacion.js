@@ -3,7 +3,7 @@ import { EstadoPedido } from "./estadoPedido.js";
 import { Notificacion } from "./notificacion.js";
 
 export class FactoryNotificacion {
-  constructor() {}
+  constructor() { }
 
   crearSegunEstadoPedido(pedido) {
     let usuarioDestino;
@@ -13,7 +13,14 @@ export class FactoryNotificacion {
         usuarioDestino = pedido.vendedor;
         mensaje = `Nuevo pedido de ${pedido.comprador.nombre}.\n Total: $${pedido.itemsPedido.reduce((acc, p) => acc + p.cantidad * p.precioUnitario, 0)}.\n Entrega en: ${pedido.direccionEntrega.calle + pedido.direccionEntrega.altura}.`;
         break;
-
+      case EstadoPedido.CONFIRMADO:
+        usuarioDestino = pedido.comprador;
+        mensaje = `Tu pedido ha sido confirmado por ${pedido.vendedor.nombre}. Productos: ${pedido.itemsPedido.map((p) => p.nombre).join(", ")}. Total: $${pedido.total}.`;
+        break;
+      case EstadoPedido.EN_PREPARACION:
+        usuarioDestino = pedido.comprador;
+        mensaje = `Tu pedido está en preparación.`;
+        break;
       case EstadoPedido.ENVIADO:
         usuarioDestino = pedido.comprador;
         mensaje = `Tu pedido ha sido enviado por ${pedido.vendedor.nombre}.\n Productos: ${pedido.itemsPedido.map((p) => p.producto.titulo).join(", ")}.\n Total: $${pedido.itemsPedido.reduce((acc, p) => acc + p.cantidad * p.precioUnitario, 0)}.`;

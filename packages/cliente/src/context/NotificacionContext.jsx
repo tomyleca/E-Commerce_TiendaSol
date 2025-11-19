@@ -22,14 +22,14 @@ export function NotificationProvider({ children }) {
       try {
         setLoading(true);
         const userId = usuario._id || usuario.id;
-        const data = await getNotificaciones(userId,false);
-        
+        const data = await getNotificaciones(userId, false);
+
         const normalized = (data || []).map((n) => ({
           ...n,
           id: n.id || n._id || `${n.tipo}-${n.fecha}`,
           leida: n.leida ?? false,
         }));
-        
+
         setNotifications(normalized);
       } catch (error) {
         console.error("Error cargando notificaciones:", error);
@@ -40,13 +40,94 @@ export function NotificationProvider({ children }) {
     };
 
     cargarNotificaciones();
-    
+
     // Recargar cada 30 segundos
     const interval = setInterval(cargarNotificaciones, 30000);
     return () => clearInterval(interval);
   }, [isAuthenticated, usuario]);
 
-  const cerrarNotificaciones = () => setIsOpen(false);
+  // Cargar notificaciones cuando el usuario está autenticado
+  useEffect(() => {
+    if (isAuthenticated && usuario?._id) {
+      cargarNotificaciones();
+    } else {
+      setNotificaciones([]);
+    }
+  }, [isAuthenticated, usuario?._id]);
+
+  /**
+   * Carga las notificaciones del usuario desde el backend
+   * @param {boolean} leidas - Filtrar por leídas/no leídas (opcional)
+   */
+  const cargarNotificaciones = async (leidas = null) => {
+    if (!usuario?._id) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await getNotificaciones(usuario._id, leidas);
+      setNotificaciones(data);
+    } catch (err) {
+      console.error("Error cargando notificaciones:", err);
+      setError(err.message || "Error al cargar notificaciones");
+      mostrarSnackbar("Error al cargar notificaciones", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Marca una notificación como leída
+   * @param {string} notificacionId - ID de la notificación
+   */
+  const marcarComoLeida = async (notificacionId) => {
+    if (!usuario?._id || !notificacionId) return;
+
+    try {
+      const notificacionActualizada = await leerNotificacion(
+        usuario._id,
+        notificacionId
+      );
+
+      // Actualizar el estado local
+      setNotificaciones((prev) =>
+        prev.map((n) =>
+          n._id === notificacionId ? { ...n, leida: true } : n
+        )
+      );
+
+      mostrarSnackbar("Notificación marcada como leída", "success");
+    } catch (err) {
+      console.error("Error al marcar notificación como leída:", err);
+      mostrarSnackbar("Error al marcar notificación", "error");
+    }
+  };
+
+  /**
+   * Obtiene solo las notificaciones no leídas
+   */
+  const getNotificacionesNoLeidas = () => {
+    return notificaciones.filter((n) => !n.leida);
+  };
+
+  /**
+   * Abre el panel de notificaciones y marca el total como 0
+   */
+  const abrirNotificaciones = () => {
+    setIsOpen(true);
+  };
+
+  /**
+   * Cierra el panel de notificaciones
+   */
+  const cerrarNotificaciones = () => {
+    setIsOpen(false);
+  };
+
+  /**
+   * Alterna la visibilidad del panel de notificaciones
+   */
   const toggleNotificaciones = () => {
     setIsOpen((v) => !v);
   };
@@ -55,7 +136,7 @@ export function NotificationProvider({ children }) {
     try {
       const userId = usuario._id || usuario.id;
       await marcarNotificacionLeida(userId, id);
-      
+
       setNotifications((prev) =>
         prev.map((n) => (n.id === id ? { ...n, leida: true } : n))
       );
@@ -69,12 +150,12 @@ export function NotificationProvider({ children }) {
     try {
       const userId = usuario._id || usuario.id;
       const notificacionesNoLeidas = notifications.filter(n => !n.leida);
-      
+
       // Marcar todas en el backend
       await Promise.all(
         notificacionesNoLeidas.map(n => marcarNotificacionLeida(userId, n.id))
       );
-      
+
       setNotifications((prev) => prev.map((n) => ({ ...n, leida: true })));
       toast.success("Todas las notificaciones marcadas como leídas");
     } catch (error) {
@@ -87,7 +168,9 @@ export function NotificationProvider({ children }) {
 
   const value = useMemo(
     () => ({
-      notificaciones: notifications,
+      notificaciones,
+      notificacionesNoLeidas: getNotificacionesNoLeidas(),
+      cantidadNotificaciones: cantidadNoLeidas,
       isOpenNotificaciones: isOpen,
       cantidadNotificaciones: cantidadNoLeidas,
       cerrarNotificaciones,
@@ -102,6 +185,23 @@ export function NotificationProvider({ children }) {
   return (
     <NotificationContext.Provider value={value}>
       {children}
+
+      {/* Snackbar para mensajes de feedback */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={cerrarSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={cerrarSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </NotificationContext.Provider>
   );
 }

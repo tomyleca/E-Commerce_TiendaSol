@@ -3,7 +3,11 @@ import React from "react";
 import { useNotification } from "../../context/NotificacionContext.jsx";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import CancelIcon from "@mui/icons-material/Cancel";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import CircleIcon from "@mui/icons-material/Circle";
 import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
 function iconFor(tipo) {
   switch (tipo) {
@@ -23,7 +27,7 @@ function iconFor(tipo) {
 export default function NotificationModal() {
   const { isOpenNotificaciones, toggleNotificaciones, notificaciones, loading } = useNotification();
   const navigate = useNavigate();
-  
+
   if (!isOpenNotificaciones) return null;
 
   const notificacionesRecientes = notificaciones.slice(0, 5);
@@ -43,11 +47,11 @@ export default function NotificationModal() {
 
         <div className="notification-list">
           {loading && <p className="loading-text">Cargando...</p>}
-          
+
           {!loading && notificaciones.length === 0 && (
             <p className="empty-text">No tienes notificaciones por ahora</p>
           )}
-          
+
           {!loading && notificacionesRecientes.map((n) => (
             <div key={n.id} className={`notification ${n.leida ? 'leida' : ''}`}>
               {iconFor(n.tipo)}
@@ -55,6 +59,7 @@ export default function NotificationModal() {
             </div>
           ))}
         </div>
+
         <button
           className="notification-footer"
           type="button"
