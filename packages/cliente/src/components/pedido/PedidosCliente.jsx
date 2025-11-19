@@ -5,13 +5,14 @@ import { Card, CardContent, List, ListItem, ListItemText, Divider } from "@mui/m
 import "./PedidosCliente.css"
 import {pedidosMock} from "../../mockData/Pedidos"
 import { useAuth } from "../../context/AuthContext";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PedidosCliente = () => {
   const { id } = useParams(); 
   const {usuario , isAutenticated} = useAuth();
   const [pedidos, setPedidos] = useState([]);
   const [mostrarFinalizados, setMostrarFinalizados] = useState(false);
+  const navegar = useNavigate();
 
   const formatNumero = (numero) => {
     return numero.toLocaleString('es-AR');
@@ -39,7 +40,7 @@ const PedidosCliente = () => {
     isAutenticated
   ) {
     if (usuario._id !== id && isAutenticated == false) {
-      return redirect("/login");
+      navegar(`/login`)
     } else { 
       return (
         <div className="sin-pedidos">
