@@ -37,7 +37,14 @@ const productoSchema = new mongoose.Schema({
   fotos: [
     {
       type: String,
-      requred: true,
+      required: false,
+      validate: {
+        validator: function(v) {
+          // Validar que sea un string Base64 válido o una URL
+          return !v || v.startsWith('data:image/') || v.startsWith('http://') || v.startsWith('https://');
+        },
+        message: props => `${props.value} no es una imagen Base64 válida o URL`
+      }
     },
   ],
   activo: {

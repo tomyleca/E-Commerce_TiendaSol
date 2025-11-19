@@ -69,58 +69,40 @@ const NuevoProductoForm = () => {
         console.log("Archivos seleccionados:", files);
         
         if (files.length === 0) {
-            setProducto((f) => ({ ...f, fotos: [] }));
+            setProducto((f) => ({ ...f, fotos: [], fotosPreviews: [] }));
             return;
         }
         
-        const guardarImagenLocal = async (file) => {
+        const convertirABase64 = async (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = async () => {
+                reader.onload = () => {
                     try {
-                        // Generar nombre único para el archivo
-                        const timestamp = Date.now();
-                        const random = Math.random().toString(36).substring(7);
-                        const extension = file.name.split('.').pop();
-                        const nombreArchivo = `producto_${timestamp}_${random}.${extension}`;
-                        
-                        // Crear Blob desde el resultado del FileReader
-                        const blob = new Blob([reader.result], { type: file.type });
-                        
-                        // Simular guardado local copiando a la carpeta public/images/productos
-                        // En desarrollo, simplemente usamos el data URL para preview
-                        const dataUrl = URL.createObjectURL(file);
-                        
-                        console.log("Imagen procesada:", nombreArchivo);
-                        resolve({
-                            nombre: nombreArchivo,
-                            preview: dataUrl
-                        });
+                        // Obtener el Base64 completo con el prefijo data:image/...
+                        const base64String = reader.result;
+                        console.log("Imagen convertida a Base64:", file.name);
+                        resolve(base64String);
                     } catch (error) {
                         console.error("Error procesando archivo:", file.name, error);
                         reject(error);
                     }
                 };
                 reader.onerror = reject;
-                reader.readAsArrayBuffer(file);
+                reader.readAsDataURL(file);
             });
         };
 
         try {
-            const imagenesGuardadas = await Promise.all(files.map(guardarImagenLocal));
-            console.log("Imágenes procesadas:", imagenesGuardadas.length);
-            
-            // Guardar nombres y previews por separado
-            const nombresArchivos = imagenesGuardadas.map(img => img.nombre);
-            const previews = imagenesGuardadas.map(img => img.preview);
+            const imagenesBase64 = await Promise.all(files.map(convertirABase64));
+            console.log("Imágenes convertidas:", imagenesBase64.length);
             
             setProducto((f) => ({ 
                 ...f, 
-                fotos: nombresArchivos,
-                fotosPreviews: previews // Para mostrar en el formulario
+                fotos: imagenesBase64,
+                fotosPreviews: imagenesBase64 // Usar las mismas para preview
             }));
             
-            toast.success(`${imagenesGuardadas.length} imagen(es) cargada(s)`);
+            toast.success(`${imagenesBase64.length} imagen(es) cargada(s)`);
         } catch (err) {
             console.error("Error procesando archivos de fotos", err);
             toast.error("Error al cargar las imágenes");
@@ -294,10 +276,9 @@ const NuevoProductoForm = () => {
                                                 fontSize: '10px', 
                                                 marginTop: '4px',
                                                 color: 'var(--gray-600)',
-                                                textAlign: 'center',
-                                                wordBreak: 'break-all'
+                                                textAlign: 'center'
                                             }}>
-                                                {producto.fotos[idx]}
+                                                Imagen {idx + 1}
                                             </div>
                                         </div>
                                     ))}
