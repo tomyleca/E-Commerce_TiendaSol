@@ -73,7 +73,7 @@ function App() {
         </Route>
 
         {/* Rutas sin Layout para evitar contenido extra arriba*/}
-        <Route path="notificaciones" element={<ListaNotificaciones />} />
+        <Route path="/notificaciones" element={<ListaNotificaciones />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path={`/tienda/:idTienda`} element={<Tienda />} />
