@@ -6,8 +6,12 @@ const Card2 = ({ producto }) => {
   const { agregarCarrito } = useCarrito();
   const navegar = useNavigate();
 
+  const verDetalle = () => {
+    navegar(`/productos/${producto._id || producto.id}`);
+  };
+
   return (
-    <div className="product-card-horizontal">
+    <div className="product-card-horizontal" onClick={verDetalle} style={{ cursor: "pointer" }}>
       <img
         src={`/images/${producto.fotos[0]}`}
         alt={producto.titulo}
@@ -39,7 +43,10 @@ const Card2 = ({ producto }) => {
           <button
             className="btn"
             aria-label={`Agregar ${producto.titulo} al carrito`}
-            onClick={() => agregarCarrito(producto)}
+            onClick={(e) => {
+              e.stopPropagation();
+              agregarCarrito(producto);
+            }}
             disabled={!producto?.stock || producto.stock <= 0}
           >
             {producto?.stock > 0 ? "Agregar al carrito" : "Sin stock"}

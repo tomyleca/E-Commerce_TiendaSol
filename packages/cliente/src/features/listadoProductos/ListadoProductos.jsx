@@ -29,9 +29,8 @@ const ListadoProductos = () => {
   const { selectedCategorias, orden, precio, busqueda } = state;
 
   const cargarProductos = async (page) => {
-    if (idTienda) {
-      setVendedor(idTienda);
-    }
+	// Solo usar vendedor si estamos en la ruta de una tienda específica
+	const vendedorActual = idTienda || null;
 
     const numeroPagina = page ?? 1;
     const productosObtenidos = await getProductos(
@@ -40,7 +39,7 @@ const ListadoProductos = () => {
       orden,
       precio,
       busqueda,
-      vendedor
+	  vendedorActual
     );
     setProductos(productosObtenidos.data);
     setTotalPaginas(productosObtenidos.totalPaginas);

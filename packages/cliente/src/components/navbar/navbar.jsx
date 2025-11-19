@@ -17,7 +17,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import BarraBusqueda from "../producto/BarraBusqueda.jsx";
 
 
-const Navbar = ({ onCartClick, minimalist = false, fltrarProductos, filtrarProductos }) => {
+const Navbar = ({ onCartClick, minimalist = false }) => {
   const { abrirCarrito, cantidadTotalCarrito } = useCarrito();
   const { toggleNotificaciones, cantidadNotificaciones } = useNotification();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -114,10 +114,7 @@ const Navbar = ({ onCartClick, minimalist = false, fltrarProductos, filtrarProdu
         {/* Barra de búsqueda desplegable */}
         <div className={`search-dropdown ${searchOpen ? 'search-dropdown-open' : ''}`}>
           {searchOpen && (
-            <BarraBusqueda 
-              fltrarProductos={fltrarProductos} 
-              filtrarProductos={filtrarProductos}
-            />
+            <BarraBusqueda />
           )}
         </div>
         

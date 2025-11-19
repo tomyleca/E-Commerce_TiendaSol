@@ -5,45 +5,79 @@ import { ButtonGroup, Button } from "@mui/material";
 import BotonVolver from "../../components/boton-volver/BotonVolver.jsx";
 import "./ProductoDetailPage.css";
 import { getProductoById } from "../../services/productService";
+import { useCarrito } from "../../context/CarritoContext.jsx";
+import toast from "react-hot-toast";
 
-const conProductos = (cantidadProductos, producto) => ({
-  ...producto,
-  cantidadProductos,
-});
-const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
+const ProductoDetailPage = () => {
   const navegar = useNavigate();
   const { id } = useParams();
+  const { agregarCarrito } = useCarrito();
 
   const [producto, setProducto] = useState(null);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const cargarProducto = async () => {
-      const data = await getProductoById(id);
-      setProducto(data);
+      try {
+        const data = await getProductoById(id);
+        setProducto(data);
+        setError(null);
+      } catch (err) {
+        console.error("Error cargando producto:", err);
+        setError(err.response?.status === 404 ? "Producto no encontrado" : "Error al cargar el producto");
+      }
     };
     cargarProducto();
   }, [id]);
 
-  const [cantProductos, setCantProductos] = useState(0);
+  const [cantProductos, setCantProductos] = useState(1);
   useEffect(() => {
-    setCantProductos(0);
-  }, [id, carrito]);
+    setCantProductos(1);
+  }, [id]);
 
   const incrementarProductos = () => {
-    const nuevosProductos = cantProductos + 1;
-    setCantProductos(nuevosProductos);
-  };
-
-  const decrementarProductos = () => {
-    if (cantProductos > 0) {
-      const nuevosProductos = cantProductos - 1;
-      setCantProductos(nuevosProductos);
+    if (producto && cantProductos < producto.stock) {
+      setCantProductos(cantProductos + 1);
     }
   };
 
-  const comprar = () => {
-    actualizarCarrito(conProductos(cantProductos, producto));
-    navegar("/productos");
+  const decrementarProductos = () => {
+    if (cantProductos > 1) {
+      setCantProductos(cantProductos - 1);
+    }
   };
+
+  const agregarAlCarrito = () => {
+    if (!producto) return;
+    
+    if (cantProductos <= 0) {
+      toast.error("Selecciona una cantidad válida");
+      return;
+    }
+
+    if (cantProductos > producto.stock) {
+      toast.error("No hay suficiente stock disponible");
+      return;
+    }
+
+    agregarCarrito(producto, cantProductos);
+    toast.success(`${cantProductos} ${producto.titulo} añadido${cantProductos > 1 ? 's' : ''} al carrito`);
+    setCantProductos(1);
+  };
+
+  if (error) {
+    return (
+      <div className="producto-detail-container">
+        <BotonVolver />
+        <div style={{ padding: "20px", textAlign: "center" }}>
+          <h2>{error}</h2>
+          <p>El producto que buscas no existe o fue eliminado.</p>
+          <button className="btn" onClick={() => navegar("/productos")}>
+            Volver a productos
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (!producto) {
     return (
@@ -82,15 +116,24 @@ const ProductoDetailPage = ({ carrito, actualizarCarrito }) => {
             <ButtonGroup variant="outlined" aria-label="outlined button group">
               <Button
                 onClick={decrementarProductos}
-                disabled={cantProductos === 0}
+                disabled={cantProductos === 1}
               >
                 -
               </Button>
               <Button disabled>{cantProductos}</Button>
-              <Button onClick={incrementarProductos}>+</Button>
+              <Button 
+                onClick={incrementarProductos}
+                disabled={!producto.stock || cantProductos >= producto.stock}
+              >
+                +
+              </Button>
             </ButtonGroup>
           </div>
-          <button className="comprar" onClick={comprar}>
+          <button 
+            className="comprar" 
+            onClick={agregarAlCarrito}
+            disabled={!producto.stock || producto.stock <= 0}
+          >
             Añadir al carrito
           </button>
         </div>

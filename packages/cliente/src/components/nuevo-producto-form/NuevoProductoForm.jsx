@@ -17,9 +17,13 @@ import {
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { getCategorias, createProducto } from "../../services/productService.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+
 const NuevoProductoForm = () => {
+	const { usuario, isAuthenticated } = useAuth();
+
     const formularioInicial = {
-        vendedorId: "691a367d75b649ccc4ef4b14", // Ejemplo de vendedor
+        vendedorId: usuario._id, // Ejemplo de vendedor
         titulo: "",
         descripcion: "",
         categoriasId: [],
@@ -62,23 +66,64 @@ const NuevoProductoForm = () => {
 
     const handleFotosChange = async (e) => {
         const files = Array.from(e.target.files || []);
+        console.log("Archivos seleccionados:", files);
+        
         if (files.length === 0) {
             setProducto((f) => ({ ...f, fotos: [] }));
             return;
         }
-        const readFileAsDataUrl = (file) =>
-            new Promise((resolve, reject) => {
+        
+        const guardarImagenLocal = async (file) => {
+            return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
+                reader.onload = async () => {
+                    try {
+                        // Generar nombre único para el archivo
+                        const timestamp = Date.now();
+                        const random = Math.random().toString(36).substring(7);
+                        const extension = file.name.split('.').pop();
+                        const nombreArchivo = `producto_${timestamp}_${random}.${extension}`;
+                        
+                        // Crear Blob desde el resultado del FileReader
+                        const blob = new Blob([reader.result], { type: file.type });
+                        
+                        // Simular guardado local copiando a la carpeta public/images/productos
+                        // En desarrollo, simplemente usamos el data URL para preview
+                        const dataUrl = URL.createObjectURL(file);
+                        
+                        console.log("Imagen procesada:", nombreArchivo);
+                        resolve({
+                            nombre: nombreArchivo,
+                            preview: dataUrl
+                        });
+                    } catch (error) {
+                        console.error("Error procesando archivo:", file.name, error);
+                        reject(error);
+                    }
+                };
                 reader.onerror = reject;
-                reader.readAsDataURL(file);
+                reader.readAsArrayBuffer(file);
             });
+        };
 
         try {
-            const dataUrls = await Promise.all(files.map(readFileAsDataUrl));
-            setProducto((f) => ({ ...f, fotos: dataUrls }));
+            const imagenesGuardadas = await Promise.all(files.map(guardarImagenLocal));
+            console.log("Imágenes procesadas:", imagenesGuardadas.length);
+            
+            // Guardar nombres y previews por separado
+            const nombresArchivos = imagenesGuardadas.map(img => img.nombre);
+            const previews = imagenesGuardadas.map(img => img.preview);
+            
+            setProducto((f) => ({ 
+                ...f, 
+                fotos: nombresArchivos,
+                fotosPreviews: previews // Para mostrar en el formulario
+            }));
+            
+            toast.success(`${imagenesGuardadas.length} imagen(es) cargada(s)`);
         } catch (err) {
-            console.error("Error leyendo archivos de fotos", err);
+            console.error("Error procesando archivos de fotos", err);
+            toast.error("Error al cargar las imágenes");
         }
     };
 
@@ -94,23 +139,23 @@ const NuevoProductoForm = () => {
             precio: Number(producto.precio),
             moneda: producto.moneda,
             stock: Number(producto.stock),
-            fotos: Array.isArray(producto.fotos)
-                ? producto.fotos
-                : producto.fotos
-                    ? producto.fotos.split(",").map((s) => s.trim()).filter(Boolean)
-                    : [],
+            fotos: Array.isArray(producto.fotos) ? producto.fotos : [],
             activo: !!producto.activo,
         };
+
+        console.log("Payload a enviar:", payload);
 
         setEnviando(true);
         try {
             const res = await createProducto(payload);
+            console.log("Respuesta del servidor:", res);
             toast.success("¡Producto creado con éxito!");
             resetFormulario();
         } catch (err) {
-            console.error("Error creando producto", err);
+            console.error("Error creando producto:", err);
+            console.error("Respuesta del error:", err.response?.data);
             const msg = err.response?.data?.message || err.message || "Error desconocido";
-            alert("Error creando producto: " + msg);
+            toast.error("Error creando producto: " + msg);
         } finally {
             setEnviando(false);
         }
@@ -215,8 +260,8 @@ const NuevoProductoForm = () => {
                             </Select>
                         </FormControl>
 
-                        <div mt={2}>
-                            <div mb={1}>Fotos</div>
+                        <div className="form-field">
+                            <label htmlFor="fotos-input">Fotos del producto</label>
                             <input
                                 accept="image/*"
                                 id="fotos-input"
@@ -226,12 +271,35 @@ const NuevoProductoForm = () => {
                                 onChange={handleFotosChange}
                             />
                             <label htmlFor="fotos-input">
-                                <Button variant="outlined" component="span">Seleccionar fotos</Button>
+                                <Button variant="outlined" component="span">
+                                    Seleccionar fotos
+                                </Button>
                             </label>
-                            {Array.isArray(producto.fotos) && producto.fotos.length > 0 && (
-                                <div mt={1} display="flex" gap={1} flexWrap="wrap">
-                                    {producto.fotos.map((src, idx) => (
-                                        <img key={idx} src={src} alt={`foto-${idx}`} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4 }} />
+                            {producto.fotosPreviews && producto.fotosPreviews.length > 0 && (
+                                <div style={{ marginTop: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                    {producto.fotosPreviews.map((preview, idx) => (
+                                        <div key={idx} style={{ position: 'relative' }}>
+                                            <img 
+                                                src={preview} 
+                                                alt={`foto-${idx}`} 
+                                                style={{ 
+                                                    width: 100, 
+                                                    height: 100, 
+                                                    objectFit: 'cover', 
+                                                    borderRadius: 8,
+                                                    border: '2px solid var(--gray-300)'
+                                                }} 
+                                            />
+                                            <div style={{ 
+                                                fontSize: '10px', 
+                                                marginTop: '4px',
+                                                color: 'var(--gray-600)',
+                                                textAlign: 'center',
+                                                wordBreak: 'break-all'
+                                            }}>
+                                                {producto.fotos[idx]}
+                                            </div>
+                                        </div>
                                     ))}
                                 </div>
                             )}
