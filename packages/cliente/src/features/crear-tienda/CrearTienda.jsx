@@ -1,14 +1,14 @@
 import React from "react";
 import "./CrearTienda.css";
 import Navbar from "../../components/navbar/navbar.jsx";
-import CrearTiendaForm from "../../components/crear-tienda-form/CrearTiendaForm.jsx";
+import EditarUsuarioForm from "../../components/editar-usuario-form/EditarUsuarioForm.jsx";
 
 const CrearTienda = () => {
   return (
     <>
       <Navbar minimalist />
       <div className="crear-tienda-page">
-        <CrearTiendaForm />
+        <EditarUsuarioForm />
       </div>
     </>
   );

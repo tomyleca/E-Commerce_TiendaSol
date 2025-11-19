@@ -32,6 +32,13 @@ export function AuthProvider({ children }) {
     setUsuario(null);
   };
 
+  const actualizarDatosUsuario = (datosActualizados) => {
+    setUsuario((prev) => {
+      if (!prev) return prev;
+      return { ...prev, ...datosActualizados };
+    });
+  };
+
   const isVendedor = (usuario?.tipo || "").toString().toUpperCase() === "VENDEDOR";
 
   const isAuthenticated = Boolean(usuario);
@@ -40,6 +47,7 @@ export function AuthProvider({ children }) {
     usuario,
     login,
     logout,
+    actualizarDatosUsuario,
     isAuthenticated,
 	isVendedor
   };

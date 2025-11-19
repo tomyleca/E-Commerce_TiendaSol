@@ -5,16 +5,19 @@ import CarritoItem from '../../components/carrito-item/CarritoItem.jsx';
 import BotonVaciarCarrito from '../../components/boton-vaciar-carrito/BotonVaciarCarrito.jsx';
 import BotonVolver from '../../components/boton-volver/BotonVolver.jsx';
 import { useCarrito } from '../../context/CarritoContext.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
 import './Carrito.css';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 
 const Carrito = () => {
   const navigate = useNavigate();
+  const { usuario } = useAuth();
   const {
     itemsCarrito,
     precioTotalCarrito,
     cantidadTotalCarrito,
+    comprarCarrito,
   } = useCarrito();
 
   if (itemsCarrito.length === 0) {
@@ -71,7 +74,7 @@ const Carrito = () => {
                   ${precioTotalCarrito.toLocaleString('es-AR')}
                 </span>
               </div>
-              <button className="btn-proceder-compra" onClick={() => console.log('Procediendo a la compra...')}>
+              <button className="btn-proceder-compra" onClick={() => comprarCarrito()}>
                 Proceder con la compra
               </button>
               <button className="btn-continuar-comprando-secondary" onClick={() => navigate(-1)}>
