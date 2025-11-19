@@ -49,11 +49,10 @@ export function NotificationProvider({ children }) {
     return () => clearInterval(interval);
   }, [isAuthenticated, usuario]);
 
-  const cerrarNotificaciones = () => setIsOpen(false);
-  const toggleNotificaciones = () => {
-    setIsOpen((v) => !v);
-  };
-
+  /**
+   * Marca una notificación como leída
+   * @param {string} notificacionId - ID de la notificación
+   */
   const marcarComoLeida = async (id) => {
     try {
       const userId = usuario._id || usuario.id;
@@ -66,6 +65,20 @@ export function NotificationProvider({ children }) {
       console.error("Error marcando notificación como leída:", error);
       toast.error("Error al marcar la notificación como leída");
     }
+  };
+
+  /**
+   * Cierra el panel de notificaciones
+   */
+  const cerrarNotificaciones = () => {
+    setIsOpen(false);
+  };
+
+  /**
+   * Alterna la visibilidad del panel de notificaciones
+   */
+  const toggleNotificaciones = () => {
+    setIsOpen((v) => !v);
   };
 
   const marcarTodasLeidas = async () => {

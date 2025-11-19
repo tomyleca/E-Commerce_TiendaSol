@@ -19,7 +19,6 @@ const PedidosVendedor = () => {
     tipo: "",
     mostrar: false,
   });
-  const navegar = useNavigate();
   const mostrarMensaje = (texto, tipo = "exito") => {
     setMensaje({ texto, tipo, mostrar: true });
     setTimeout(() => {
@@ -165,8 +164,9 @@ const PedidosVendedor = () => {
     pedidos.length === 0 ||
     (usuario._id === idTienda && isAutenticated)
   ) {
-    if (usuario._id !== idTienda && isAutenticated == false) {
-      navegar(`/login`);
+    if (usuario._id !== idTienda && isAutenticated === false) {
+      navigate(`/login`);
+      return null;
     } else {
       return (
         <div className="sin-pedidos">

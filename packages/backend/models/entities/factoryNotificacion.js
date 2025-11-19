@@ -25,8 +25,20 @@ export class FactoryNotificacion {
         usuarioDestino = pedido.comprador;
         mensaje = `Tu pedido ha sido enviado por ${pedido.vendedor.nombre}.\n Productos: ${pedido.itemsPedido.map((p) => p.producto.titulo).join(", ")}.\n Total: $${pedido.itemsPedido.reduce((acc, p) => acc + p.cantidad * p.precioUnitario, 0)}.`;
         break;
+      case EstadoPedido.ENTREGADO:
+        usuarioDestino = pedido.vendedor;
+        mensaje = `El pedido ${pedido.id} ha sido entregado al comprador ${pedido.comprador.nombre}.`;
+        break;
+      case EstadoPedido.ENTREGADO:
+        usuarioDestino = pedido.comprador;
+        mensaje = `El pedido ${pedido.id} ha sido entregado por ${pedido.vendedor.nombre}.`;
+        break;
       case EstadoPedido.CANCELADO:
         usuarioDestino = pedido.comprador;
+        mensaje = `Tu pedido ${pedido.id} ha sido cancelado.\n Productos: ${pedido.itemsPedido.map((p) => p.producto.titulo).join(", ")}.`;
+        break;
+      case EstadoPedido.CANCELADO:
+        usuarioDestino = pedido.vendedor;
         mensaje = `Tu pedido ${pedido.id} ha sido cancelado.\n Productos: ${pedido.itemsPedido.map((p) => p.producto.titulo).join(", ")}.`;
         break;
 
