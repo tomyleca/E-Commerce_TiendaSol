@@ -8,7 +8,6 @@ import "./PedidoVendedor.css";
 import { useParams, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import { pedidosMock } from "../../mockData/Pedidos";
-import { useNavigate } from "react-router-dom";
 
 const PedidosVendedor = () => {
   const { id } = useParams();
@@ -164,10 +163,11 @@ const PedidosVendedor = () => {
   if (
     !pedidos ||
     pedidos.length === 0 ||
-    (usuario._id === idTienda && isAutenticated)
+    (usuario._id === id && isAutenticated)
   ) {
-    if (usuario._id !== idTienda && isAutenticated == false) {
-      navegar(`/login`);
+    if (usuario._id !== id && isAutenticated === false) {
+      navigate(`/login`);
+      return null;
     } else {
       return (
         <div className="sin-pedidos">
