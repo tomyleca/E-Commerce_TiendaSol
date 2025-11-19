@@ -15,7 +15,9 @@ import "./drawer.css";
 import { useAuth } from "../../context/AuthContext";
 import PedidosCliente from "../pedido/PedidosCliente";
 import { ShoppingBag } from "@mui/icons-material";
+import { LocalMall } from "@mui/icons-material";
 const drawerWidth = 240;
+
 
 //Drawer CONTROLADO por props: open y onClose.
 export default function ResponsiveDrawer({ open = false, onClose = () => { } }) {
@@ -33,6 +35,8 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         return `/tienda/${usuario?._id ?? ''}`;
       case "Mis Pedidos":
         return `/clientes/${usuario?._id}/pedidos`;
+      case "Mis Ventas" :
+        return `/ventas/${usuario?._id}`
       default:
         return "/";
     }
@@ -48,19 +52,21 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         return <StoreIcon fontSize="large" />;
       case "Mis Pedidos":
         return <ShoppingBag fontSize="large"/>;
-      
+      case "Mis Ventas":
+        return <LocalMall  fontSize="large"/>
       default:
         return null;
     }
   };
 
+  
   const drawerContent = (
     // hace lo que le pase como onClose desde el navbar
     <div role="presentation" onClick={onClose} onKeyDown={onClose}>
       <Toolbar />
       <Divider />
       <List>
-        {["Home", "Buscar Producto", "Mis Pedidos"].map((text) => (
+        {["Home", "Buscar Producto", "Mis Pedidos","Mis Ventas"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={renderLink(text)}>
               <ListItemIcon>{renderIcon(text)}</ListItemIcon>

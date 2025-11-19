@@ -69,7 +69,7 @@ export const pedidosMock = [
         ],
         moneda: "ARS",
         direccionEntrega: "Calle Falsa 123, Buenos Aires",
-        estado: "COMPLETADO",
+        estado: "ENVIADO",
         fechaDeCreacion: "2025-11-17T15:32:32.054Z",
         historialDeEstados: [
             "PENDIENTE",

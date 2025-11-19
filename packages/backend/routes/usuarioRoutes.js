@@ -36,6 +36,17 @@ export default function pedidoRoutes(getController) {
     }
   });
 
+   router.get(pathUsuario + "/:id/ventas", async (req, res, next) => {
+    try {
+      await getController(UsuariosController).buscarVentas(
+        req,
+        res,
+      );
+    } catch (error) {
+      next(error);
+    }
+  });
+
   //Obtener las notificaciones de un usuario
   //Query param: ?leidas=true/false
   router.get(pathUsuario + "/:id/notificaciones", async (req, res, next) => {

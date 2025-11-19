@@ -3,7 +3,7 @@ import express from "express";
 import { generalErrorHandler } from "../middlewares/generalErrorHandler.js";
 import { pedidoErrorHandler } from "../middlewares/pedidoErrorHandler.js";
 
-const pathPedido = "/pedido";
+const pathPedido = "/pedidos";
 
 export default function pedidoRoutes(getController) {
   const router = express.Router();

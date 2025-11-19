@@ -4,11 +4,14 @@ import { getPedidosCliente } from "../../services/pedidosService";
 import { Card, CardContent, List, ListItem, ListItemText, Divider } from "@mui/material";
 import "./PedidosCliente.css"
 import {pedidosMock} from "../../mockData/Pedidos"
+import { useAuth } from "../../context/AuthContext";
+import { redirect } from "react-router-dom";
 
 const PedidosCliente = () => {
   const { id } = useParams(); 
+  const {usuario , isAutenticated} = useAuth();
   const [pedidos, setPedidos] = useState([]);
-   const [mostrarFinalizados, setMostrarFinalizados] = useState(false);
+  const [mostrarFinalizados, setMostrarFinalizados] = useState(false);
 
   const formatNumero = (numero) => {
     return numero.toLocaleString('es-AR');
@@ -17,10 +20,10 @@ const PedidosCliente = () => {
   useEffect(() => {
     const cargarPedidos = async () => {
       try {
-        //const data = await getPedidosCliente(id);
-        //setPedidos(data);
-
-        setPedidos(pedidosMock);
+        const data = await getPedidosCliente(id);
+        setPedidos(data);
+      
+        //setPedidos(pedidosMock);
      
       } catch (error) {
         console.error("Error cargando pedidos", error);
@@ -30,15 +33,23 @@ const PedidosCliente = () => {
     cargarPedidos();
   }, [id]);
 
-  if (!pedidos || pedidos.length === 0) {
+   if (
+    (!pedidos || pedidos.length === 0) //&&
+   // usuario._id === id &&
+    //isAutenticated
+  ) {
+   /* if (usuario._id !== id && isAutenticated == false) {
+      return redirect("/login");
+    } else { */
       return (
         <div className="sin-pedidos">
           <p>No tienes pedidos realizados</p>
         </div>
-      );}
-  else{
+      );
+   // }
+  }else{
     
-  // 👇 SEPARO POR CATEGORÍA
+
   const pedidosEnCurso = pedidos.filter(
     (p) => p.estado === "PENDIENTE" || p.estado === "EN_PREPARACION"
   );

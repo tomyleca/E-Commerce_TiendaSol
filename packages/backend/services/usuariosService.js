@@ -55,6 +55,10 @@ export class UsuariosService {
     );
   }
 
+  buscarHistorialDeVentas(idVendedor){
+    return this.pedidosService.buscarVentasDeVendedor(idVendedor);
+  }
+
   async login(data) {
 	let usuario = null; 
 	data.nombre ?

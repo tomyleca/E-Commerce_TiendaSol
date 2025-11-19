@@ -47,6 +47,15 @@ export class UsuariosController {
     res.status(200).json(historialPedidos);
   }
 
+  async buscarVentas(req,res){
+    const id = req.params.id;
+    const idVendedor = chequearID(id);
+
+    const historialDeVentas=await this.usuariosService.buscarHistorialDeVentas(idVendedor);
+    
+    res.status(200).json(historialDeVentas);
+  }
+
   async getNotificaciones(req, res) {
     const id = req.params.id;
     const idUsuario = chequearID(id);

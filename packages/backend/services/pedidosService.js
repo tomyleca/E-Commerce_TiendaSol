@@ -101,6 +101,9 @@ export class PedidosService {
     return this.pedidosRepository.buscarPorUsuario(idUsuario);
   }
 
+  buscarVentasDeVendedor(idVendedor){
+    return this.pedidosRepository.buscarPorVendedor(idVendedor);
+  }
   // Marcado de un pedido como enviado por parte del vendedor
   async enviar(idPedido) {
     const pedido = await this.pedidosRepository.buscarPorId(idPedido);

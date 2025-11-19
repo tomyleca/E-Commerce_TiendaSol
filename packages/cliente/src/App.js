@@ -14,6 +14,7 @@ import NuevoProducto from "./features/nuevoProducto/NuevoProducto.jsx";
 import CrearTienda from "./features/crear-tienda/CrearTienda.jsx";
 import Home from "./features/home/Home.jsx";
 import PedidosCliente from "./components/pedido/PedidosCliente.jsx";
+import PedidoVendedor from "./components/pedido/PedidoVendedor.jsx";
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -39,6 +40,7 @@ function App() {
           <Route path="productos" element={<ListadoProductos />} />
           <Route path="tienda/:idTienda/productos" element={<ListadoProductos />} />
           <Route path="clientes/:id/pedidos" element={<PedidosCliente />}/>
+          <Route path="ventas/:idTienda" element={<PedidoVendedor/>}/>
           <Route
             path="productos/:id"
             element={
