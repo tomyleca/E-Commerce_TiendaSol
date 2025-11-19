@@ -7,12 +7,10 @@ import { useAuth } from "./AuthContext.jsx";
 //almacenamiento en el navegador para guardar datos del usuario
 const STORAGE_KEY = "carrito:items";
 
-
-
 const CarritoContext = createContext(null);
 
 export function CarritoProvider({ children }) {
-	const {usuario, isAuthenticated} = useAuth();
+  const { usuario, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [items, setItems] = useState(() => {
     try {
@@ -35,7 +33,7 @@ export function CarritoProvider({ children }) {
     setItems((prev) => {
       const productId = producto.id || producto._id;
       const i = prev.findIndex((p) => p.id === productId);
-      
+
       if (i > -1) {
         const copy = [...prev];
         copy[i] = { ...copy[i], qty: copy[i].qty + cantidad };
@@ -90,49 +88,49 @@ export function CarritoProvider({ children }) {
         return;
       }
 
-	  //reduce es un fold
+      //reduce es un fold
       const totalPedido = items.reduce(
-		(acc, it) => acc + it.qty * (it.price ?? 0),
-		0,
-	  );
-      
-	  
-	  const itemsParaBackend = items.map((it) => ({
-		productoId: it.id,
-		cantidad: it.qty,
-		precioUnitario: it.price,
-	  }));
-	
-	  //Formatear dirección según espera el backend
-	  const direccionFormateada = {
-		calle: usuario.direccion.calle,
-		altura: parseInt(usuario.direccion.altura),
-		ciudad: usuario.direccion.ciudad,
-		codigoPostal: usuario.direccion.codigoPostal,
-		pais: usuario.direccion.pais,
-		provincia: usuario.direccion.provincia,
-		...(usuario.direccion.piso && { piso: usuario.direccion.piso }),
-		...(usuario.direccion.departamento && { departamento: usuario.direccion.departamento })
-	  };
+        (acc, it) => acc + it.qty * (it.price ?? 0),
+        0,
+      );
 
-        const pedidoData = {
-          compradorId: usuario._id,
-          items: itemsParaBackend,
-          direccionEntrega: direccionFormateada         
-        };
-        const pedidoCreado = await crearPedido(pedidoData);
-        
-      
+
+      const itemsParaBackend = items.map((it) => ({
+        productoId: it.id,
+        cantidad: it.qty,
+        precioUnitario: it.price,
+      }));
+
+      //Formatear dirección según espera el backend
+      const direccionFormateada = {
+        calle: usuario.direccion.calle,
+        altura: parseInt(usuario.direccion.altura),
+        ciudad: usuario.direccion.ciudad,
+        codigoPostal: usuario.direccion.codigoPostal,
+        pais: usuario.direccion.pais,
+        provincia: usuario.direccion.provincia,
+        ...(usuario.direccion.piso && { piso: usuario.direccion.piso }),
+        ...(usuario.direccion.departamento && { departamento: usuario.direccion.departamento })
+      };
+
+      const pedidoData = {
+        compradorId: usuario._id,
+        items: itemsParaBackend,
+        direccionEntrega: direccionFormateada
+      };
+      const pedidoCreado = await crearPedido(pedidoData);
+
+
 
       vaciarCarrito();
       toast.success(`¡Compra realizada con éxito! `);
       navigate(`/clientes/${usuario._id}/pedidos`);
-	}
-     catch (error) {
+    }
+    catch (error) {
       console.error("Error al comprar:", error);
       toast.error(error.message || "Error al procesar la compra");
     }
-  ;
+    ;
   }
   const value = useMemo(
     () => ({

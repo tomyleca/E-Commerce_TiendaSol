@@ -91,7 +91,6 @@ export const getProductoById = async (
   }
 };
 
-
 export const getCategorias = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/categorias`, {
@@ -119,4 +118,3 @@ export const createProducto = async (producto) => {
     throw error;
   }
 }; 
-

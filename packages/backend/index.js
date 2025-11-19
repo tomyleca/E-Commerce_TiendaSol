@@ -85,6 +85,8 @@ server.setController(PedidosController, pedidosController);
 const usuariosController = new UsuariosController(usuariosService);
 server.setController(UsuariosController, usuariosController);
 
+// notificaciones controller was removed (temporary endpoint reverted)
+
 const categoriaController = new CategoriaController(categoriaService);
 server.setController(CategoriaController, categoriaController);
 
