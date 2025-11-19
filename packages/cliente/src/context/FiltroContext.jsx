@@ -24,7 +24,7 @@ export const FiltroProvider = ({ children, initialCategorias = [] }) => {
     switch (action.type) {
       case "SET_PRECIO": {
         const { min, max } = action.payload || {};
-		//los ... hacen que copie el objeto anterior y, luego, solo modifico el precio
+        //los ... hacen que copie el objeto anterior y, luego, solo modifico el precio
         return { ...state, precio: { min, max } };
       }
       case "SET_ORDEN": {

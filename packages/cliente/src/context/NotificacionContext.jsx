@@ -1,5 +1,8 @@
 import { createContext, useContext, useMemo, useState, useEffect } from "react";
-import { getNotificaciones, marcarNotificacionLeida } from "../services/usuarioService";
+import {
+  getNotificaciones,
+  marcarNotificacionLeida,
+} from "../services/usuarioService";
 import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
 
@@ -56,7 +59,7 @@ export function NotificationProvider({ children }) {
       await marcarNotificacionLeida(userId, id);
 
       setNotifications((prev) =>
-        prev.map((n) => (n.id === id ? { ...n, leida: true } : n))
+        prev.map((n) => (n.id === id ? { ...n, leida: true } : n)),
       );
     } catch (error) {
       console.error("Error marcando notificación como leída:", error);
@@ -81,11 +84,13 @@ export function NotificationProvider({ children }) {
   const marcarTodasLeidas = async () => {
     try {
       const userId = usuario._id || usuario.id;
-      const notificacionesNoLeidas = notifications.filter(n => !n.leida);
+      const notificacionesNoLeidas = notifications.filter((n) => !n.leida);
 
       // Marcar todas en el backend
       await Promise.all(
-        notificacionesNoLeidas.map(n => marcarNotificacionLeida(userId, n.id))
+        notificacionesNoLeidas.map((n) =>
+          marcarNotificacionLeida(userId, n.id),
+        ),
       );
 
       setNotifications((prev) => prev.map((n) => ({ ...n, leida: true })));

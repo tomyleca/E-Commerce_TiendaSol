@@ -17,11 +17,11 @@ export default function pedidoRoutes(getController) {
   });
 
   router.get(pathUsuario + "/:id", async (req, res, next) => {
-	try {
-	  await getController(UsuariosController).buscarPorId(req, res);
-	} catch (error) {
-	  next(error);
-	}
+    try {
+      await getController(UsuariosController).buscarPorId(req, res);
+    } catch (error) {
+      next(error);
+    }
   });
 
   //Obtener el historial de pedidos de un usuario
@@ -36,12 +36,9 @@ export default function pedidoRoutes(getController) {
     }
   });
 
-   router.get(pathUsuario + "/:id/ventas", async (req, res, next) => {
+  router.get(pathUsuario + "/:id/ventas", async (req, res, next) => {
     try {
-      await getController(UsuariosController).buscarVentas(
-        req,
-        res,
-      );
+      await getController(UsuariosController).buscarVentas(req, res);
     } catch (error) {
       next(error);
     }
@@ -76,12 +73,10 @@ export default function pedidoRoutes(getController) {
     } catch (error) {
       next(error);
     }
-	
-  }
-);
+  });
 
-  	//Login de un usuario
-  router.post(pathUsuario + '/login', async (req, res, next) => {
+  //Login de un usuario
+  router.post(pathUsuario + "/login", async (req, res, next) => {
     try {
       await getController(UsuariosController).login(req, res);
     } catch (error) {
@@ -89,17 +84,13 @@ export default function pedidoRoutes(getController) {
     }
   });
 
-  router.patch(pathUsuario + '/:id', async (req, res, next) => {
-	try {
-	  await getController(UsuariosController).editar(req, res);
-	} catch (error) {
+  router.patch(pathUsuario + "/:id", async (req, res, next) => {
+    try {
+      await getController(UsuariosController).editar(req, res);
+    } catch (error) {
       next(error);
     }
   });
-
-
-
-
 
   router.use(usuarioErrorHandler);
   router.use(generalErrorHandler);

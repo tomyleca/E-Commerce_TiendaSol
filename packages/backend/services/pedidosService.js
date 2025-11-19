@@ -101,7 +101,7 @@ export class PedidosService {
     return this.pedidosRepository.buscarPorUsuario(idUsuario);
   }
 
-  buscarVentasDeVendedor(idVendedor){
+  buscarVentasDeVendedor(idVendedor) {
     return this.pedidosRepository.buscarPorVendedor(idVendedor);
   }
   // Marcado de un pedido como enviado por parte del vendedor
@@ -118,7 +118,7 @@ export class PedidosService {
     const notificacion = this.factoryNotificacion.crearSegunPedido(pedido);
     this.notificacionesService.enviar(notificacion);
 
-	this.pedidosRepository.actualizarEstado(pedido, EstadoPedido.ENVIADO);
+    this.pedidosRepository.actualizarEstado(pedido, EstadoPedido.ENVIADO);
 
     return pedido;
   }

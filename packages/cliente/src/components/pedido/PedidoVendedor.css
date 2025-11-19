@@ -61,7 +61,7 @@
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Encabezado */
@@ -184,7 +184,8 @@
   flex-wrap: wrap;
 }
 
-.avanzar, .cancelar {
+.avanzar,
+.cancelar {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -202,7 +203,7 @@
 .avanzar:hover {
   background-color: #218838;
   transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .cancelar {
@@ -213,7 +214,7 @@
 .cancelar:hover {
   background-color: #c82333;
   transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive */
@@ -221,35 +222,36 @@
   .pedidos-vendedor {
     padding: 10px;
   }
-  
+
   .pedido-header {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .pedido-fecha {
     text-align: left;
   }
-  
+
   .producto-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .producto-subtotal {
     align-self: flex-end;
   }
-  
+
   .acciones {
     flex-direction: column;
   }
-  
-  .avanzar, .cancelar {
+
+  .avanzar,
+  .cancelar {
     width: 100%;
     text-align: center;
   }
-  
+
   .pedidos-vendedor h2 {
     font-size: 24px;
   }
@@ -322,16 +324,17 @@
   .pedido-card {
     padding: 15px;
   }
-  
+
   .producto-item {
     padding: 10px;
   }
-  
+
   .pedidos-vendedor h2 {
     font-size: 22px;
   }
-  
-  .avanzar, .cancelar {
+
+  .avanzar,
+  .cancelar {
     padding: 12px 15px;
     font-size: 13px;
   }

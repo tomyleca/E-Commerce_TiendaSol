@@ -21,12 +21,8 @@ function iconFor(tipo) {
 }
 
 export default function ListaNotificaciones() {
-  const { 
-    notificaciones, 
-    loading, 
-    marcarComoLeida, 
-    marcarTodasLeidas 
-  } = useNotification();
+  const { notificaciones, loading, marcarComoLeida, marcarTodasLeidas } =
+    useNotification();
 
   const noLeidas = notificaciones.filter((n) => !n.leida).length;
 
@@ -52,9 +48,7 @@ export default function ListaNotificaciones() {
           <div className="estado">No tenés notificaciones por ahora</div>
         )}
 
-        {loading && (
-          <div className="estado">Cargando notificaciones...</div>
-        )}
+        {loading && <div className="estado">Cargando notificaciones...</div>}
 
         <ul className="lista-notificaciones">
           {notificaciones?.map((n) => (

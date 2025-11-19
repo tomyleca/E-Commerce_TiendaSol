@@ -9,8 +9,8 @@ export class Server {
     this.#app = app;
     this.port = port;
     this.#routes = [];
-    this.#app.use(express.json({ limit: '50mb' }));
-    this.#app.use(express.urlencoded({ limit: '50mb', extended: true }));
+    this.#app.use(express.json({ limit: "50mb" }));
+    this.#app.use(express.urlencoded({ limit: "50mb", extended: true }));
   }
 
   get app() {
@@ -49,7 +49,7 @@ export class Server {
   }
 
   launch() {
-    this.app.listen(this.port, '0.0.0.0', () => {
+    this.app.listen(this.port, "0.0.0.0", () => {
       console.log("Server running on port " + this.port);
     });
   }

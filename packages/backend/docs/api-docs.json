@@ -727,9 +727,9 @@
           "precio": { "type": "number" },
           "moneda": { "type": "string" },
           "stock": { "type": "integer" },
-          "fotos": { 
-            "type": "array", 
-            "items": { 
+          "fotos": {
+            "type": "array",
+            "items": {
               "type": "string",
               "description": "Base64 encoded image string (data:image/...)"
             },

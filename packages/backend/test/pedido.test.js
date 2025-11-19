@@ -6,7 +6,7 @@ import { TipoUsuario } from "../models/entities/tipoUsuario.js";
 import { Moneda } from "../models/entities/moneda.js";
 import { Pedido } from "../models/entities/pedido.js";
 import { ItemPedido } from "../models/entities/itemPedido.js";
-import { DireccionEntrega } from "../models/entities/direccionEntrega.js";
+import { Direccion } from "../models/entities/direccion.js";
 import { MonedaInconsistenteItems } from "../errors/monedaInconsistenteItems.js";
 import { NoHayStock } from "../errors/noHayStock.js";
 import { PedidosService } from "../services/pedidosService.js";
@@ -97,7 +97,7 @@ describe("Validar usuario", () => {
 
     usuariosRepository.crear(comprador);
 
-    direccion = new DireccionEntrega("calle falsa", 123);
+    direccion = new Direccion("calle falsa", 123);
 
     const notificacionesRepository = new NotificacionesRepository();
     const _notificaciones = [];
@@ -178,7 +178,7 @@ describe("Validar usuario", () => {
           cantidad: 1000000000,
         },
       ],
-      direccionEntrega: direccion,
+      direccion: direccion,
     };
 
     await expect(pedidosService.crear(nuevoPedidoJson)).rejects.toThrow(
@@ -190,7 +190,7 @@ describe("Validar usuario", () => {
     const nuevoPedidoJson = {
       compradorId: 0,
       items: [],
-      direccionEntrega: direccion,
+      direccion: direccion,
     };
 
     await expect(pedidosService.crear(nuevoPedidoJson)).rejects.toThrow(Error);

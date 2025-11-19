@@ -9,26 +9,26 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
  * @returns {Promise<Array>} Array de notificaciones
  */
 export const getNotificaciones = async (usuarioId, leidas = null) => {
-    try {
-        if (!usuarioId) {
-            throw new Error("ID de usuario no proporcionado");
-        }
-
-        let url = `${API_BASE_URL}/usuarios/${usuarioId}/notificaciones`;
-
-        if (leidas !== null) {
-            url += `?leidas=${leidas}`;
-        }
-
-        const response = await axios.get(url, {
-            headers: { "Cache-Control": "no-cache" },
-        });
-
-        return response.data;
-    } catch (error) {
-        console.error("Error obteniendo notificaciones:", error);
-        throw error;
+  try {
+    if (!usuarioId) {
+      throw new Error("ID de usuario no proporcionado");
     }
+
+    let url = `${API_BASE_URL}/usuarios/${usuarioId}/notificaciones`;
+
+    if (leidas !== null) {
+      url += `?leidas=${leidas}`;
+    }
+
+    const response = await axios.get(url, {
+      headers: { "Cache-Control": "no-cache" },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error obteniendo notificaciones:", error);
+    throw error;
+  }
 };
 
 /**
@@ -38,23 +38,23 @@ export const getNotificaciones = async (usuarioId, leidas = null) => {
  * @returns {Promise<Object>} Notificación actualizada
  */
 export const leerNotificacion = async (usuarioId, notificacionId) => {
-    try {
-        if (!usuarioId || !notificacionId) {
-            throw new Error("IDs no proporcionados");
-        }
-
-        const response = await axios.get(
-            `${API_BASE_URL}/usuarios/${usuarioId}/notificaciones/${notificacionId}`,
-            {
-                headers: { "Cache-Control": "no-cache" },
-            }
-        );
-
-        return response.data;
-    } catch (error) {
-        console.error("Error al marcar notificación como leída:", error);
-        throw error;
+  try {
+    if (!usuarioId || !notificacionId) {
+      throw new Error("IDs no proporcionados");
     }
+
+    const response = await axios.get(
+      `${API_BASE_URL}/usuarios/${usuarioId}/notificaciones/${notificacionId}`,
+      {
+        headers: { "Cache-Control": "no-cache" },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error al marcar notificación como leída:", error);
+    throw error;
+  }
 };
 
 /**
@@ -63,5 +63,5 @@ export const leerNotificacion = async (usuarioId, notificacionId) => {
  * @returns {number} Cantidad de notificaciones no leídas
  */
 export const contarNoLeidas = (notificaciones) => {
-    return notificaciones.filter((n) => !n.leida).length;
+  return notificaciones.filter((n) => !n.leida).length;
 };

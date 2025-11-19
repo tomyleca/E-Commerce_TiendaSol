@@ -23,7 +23,11 @@ const ProductoDetailPage = () => {
         setError(null);
       } catch (err) {
         console.error("Error cargando producto:", err);
-        setError(err.response?.status === 404 ? "Producto no encontrado" : "Error al cargar el producto");
+        setError(
+          err.response?.status === 404
+            ? "Producto no encontrado"
+            : "Error al cargar el producto",
+        );
       }
     };
     cargarProducto();
@@ -48,7 +52,7 @@ const ProductoDetailPage = () => {
 
   const agregarAlCarrito = () => {
     if (!producto) return;
-    
+
     if (cantProductos <= 0) {
       toast.error("Selecciona una cantidad válida");
       return;
@@ -60,7 +64,9 @@ const ProductoDetailPage = () => {
     }
 
     agregarCarrito(producto, cantProductos);
-    toast.success(`${cantProductos} ${producto.titulo} añadido${cantProductos > 1 ? 's' : ''} al carrito`);
+    toast.success(
+      `${cantProductos} ${producto.titulo} añadido${cantProductos > 1 ? "s" : ""} al carrito`,
+    );
     setCantProductos(1);
   };
 
@@ -95,7 +101,11 @@ const ProductoDetailPage = () => {
       <BotonVolver>Volver</BotonVolver>
       <div className="producto-image-section">
         <img
-          src={producto.fotos && producto.fotos[0] ? producto.fotos[0] : "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"}
+          src={
+            producto.fotos && producto.fotos[0]
+              ? producto.fotos[0]
+              : "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"
+          }
           alt={producto.titulo}
           className="producto-imagen"
         />
@@ -121,7 +131,7 @@ const ProductoDetailPage = () => {
                 -
               </Button>
               <Button disabled>{cantProductos}</Button>
-              <Button 
+              <Button
                 onClick={incrementarProductos}
                 disabled={!producto.stock || cantProductos >= producto.stock}
               >
@@ -129,8 +139,8 @@ const ProductoDetailPage = () => {
               </Button>
             </ButtonGroup>
           </div>
-          <button 
-            className="comprar" 
+          <button
+            className="comprar"
             onClick={agregarAlCarrito}
             disabled={!producto.stock || producto.stock <= 0}
           >

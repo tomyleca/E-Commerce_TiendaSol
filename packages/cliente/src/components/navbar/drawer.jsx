@@ -16,15 +16,12 @@ import { useAuth } from "../../context/AuthContext";
 import PedidosCliente from "../pedido/PedidosCliente";
 import { ShoppingBag } from "@mui/icons-material";
 import { LocalMall } from "@mui/icons-material";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 const drawerWidth = 240;
 
-
 //Drawer CONTROLADO por props: open y onClose.
-export default function ResponsiveDrawer({ open = false, onClose = () => { } }) {
-
+export default function ResponsiveDrawer({ open = false, onClose = () => {} }) {
   const { usuario, isAuthenticated, isVendedor } = useAuth();
-
 
   const renderLink = (text) => {
     switch (text) {
@@ -35,17 +32,17 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       case "Mi Tienda":
         // usuario puede ser null si no está autenticado; prevenir acceso a _id
         return usuario ? `/tienda/${usuario._id}` : "/login";
-      
-	case "Mis Pedidos":
-			return usuario ? `/clientes/${usuario._id}/pedidos` : "/login";
 
-	case "Mis Ventas":
-			return usuario ? `/ventas/${usuario._id}` : "/login";
+      case "Mis Pedidos":
+        return usuario ? `/clientes/${usuario._id}/pedidos` : "/login";
 
-	case "Agregar Producto":
-			return usuario ? `/nuevoProducto` : "/login";
+      case "Mis Ventas":
+        return usuario ? `/ventas/${usuario._id}` : "/login";
 
-	default:
+      case "Agregar Producto":
+        return usuario ? `/nuevoProducto` : "/login";
+
+      default:
         return "/";
     }
   };
@@ -59,9 +56,9 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       case "Mi Tienda":
         return <StoreIcon fontSize="large" />;
       case "Mis Pedidos":
-        return <ShoppingBag fontSize="large"/>;
+        return <ShoppingBag fontSize="large" />;
       case "Mis Ventas":
-        return <LocalMall  fontSize="large"/>
+        return <LocalMall fontSize="large" />;
       case "Agregar Producto":
         return <AddCircleIcon fontSize="large" />;
 
@@ -70,14 +67,13 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
     }
   };
 
-  
   const drawerContent = (
     // hace lo que le pase como onClose desde el navbar
     <div role="presentation" onClick={onClose} onKeyDown={onClose}>
       <Toolbar />
       <Divider />
       <List>
-        {["Home", "Buscar Producto", "Mis Pedidos","Mi Tienda"].map((text) => (
+        {["Home", "Buscar Producto", "Mis Pedidos", "Mi Tienda"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={renderLink(text)}>
               <ListItemIcon>{renderIcon(text)}</ListItemIcon>
@@ -87,7 +83,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         ))}
       </List>
       <Divider />
-      {(isAuthenticated && isVendedor) && (
+      {isAuthenticated && isVendedor && (
         <List>
           {["Mis Ventas", "Agregar Producto"].map((text) => (
             <ListItem key={text} disablePadding>
@@ -98,9 +94,8 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
             </ListItem>
           ))}
         </List>
-      )
-      }
-    </div >
+      )}
+    </div>
   );
 
   return (

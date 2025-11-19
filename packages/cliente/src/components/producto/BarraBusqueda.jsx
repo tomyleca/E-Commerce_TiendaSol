@@ -14,14 +14,14 @@ const BarraBusqueda = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Siempre navegar a /productos (sin vendedor específico)
-    navigate('/productos');
+    navigate("/productos");
   };
 
   const handleSearchClick = () => {
     // Al hacer clic en el icono de búsqueda, navegar a /productos
-    navigate('/productos');
+    navigate("/productos");
   };
 
   const handleClear = () => {
@@ -47,7 +47,7 @@ const BarraBusqueda = () => {
       >
         <SearchIcon fontSize="medium" />
       </IconButton>
-      
+
       <InputBase
         className="search-input"
         placeholder="Buscar productos..."
@@ -55,9 +55,9 @@ const BarraBusqueda = () => {
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        inputProps={{ 
+        inputProps={{
           "aria-label": "buscar productos",
-          autoComplete: "off"
+          autoComplete: "off",
         }}
       />
 

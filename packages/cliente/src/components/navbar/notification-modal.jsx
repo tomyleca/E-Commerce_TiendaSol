@@ -25,7 +25,12 @@ function iconFor(tipo) {
 }
 
 export default function NotificationModal() {
-  const { isOpenNotificaciones, toggleNotificaciones, notificaciones, loading } = useNotification();
+  const {
+    isOpenNotificaciones,
+    toggleNotificaciones,
+    notificaciones,
+    loading,
+  } = useNotification();
   const navigate = useNavigate();
 
   if (!isOpenNotificaciones) return null;
@@ -52,12 +57,16 @@ export default function NotificationModal() {
             <p className="empty-text">No tienes notificaciones por ahora</p>
           )}
 
-          {!loading && notificacionesRecientes.map((n) => (
-            <div key={n.id} className={`notification ${n.leida ? 'leida' : ''}`}>
-              {iconFor(n.tipo)}
-              <p>{n.mensaje}</p>
-            </div>
-          ))}
+          {!loading &&
+            notificacionesRecientes.map((n) => (
+              <div
+                key={n.id}
+                className={`notification ${n.leida ? "leida" : ""}`}
+              >
+                {iconFor(n.tipo)}
+                <p>{n.mensaje}</p>
+              </div>
+            ))}
         </div>
 
         <button

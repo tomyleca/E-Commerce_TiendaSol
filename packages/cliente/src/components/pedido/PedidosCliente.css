@@ -36,7 +36,7 @@
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .pedido-header {
@@ -69,9 +69,7 @@
 .pedido-card.en-curso {
   /*transform: scale(0.95);*/
   opacity: 0.92;
-  
 }
-
 
 .estado {
   padding: 5px 15px;
@@ -163,26 +161,26 @@
   .pedidos-cliente {
     padding: 10px;
   }
-  
+
   .pedido-header {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .pedido-fecha {
     text-align: left;
   }
-  
+
   .producto-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .producto-subtotal {
     align-self: flex-end;
   }
-  
+
   .pedidos-titulo {
     font-size: 24px;
   }
@@ -192,11 +190,11 @@
   .pedido-card {
     padding: 15px;
   }
-  
+
   .producto-item {
     padding: 10px;
   }
-  
+
   .pedidos-titulo {
     font-size: 22px;
   }

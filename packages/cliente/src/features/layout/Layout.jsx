@@ -8,8 +8,7 @@ const Layout = ({ filtrarProductos }) => {
   return (
     <>
       <Navbar />
-      
-     
+
       <Outlet />
     </>
   );

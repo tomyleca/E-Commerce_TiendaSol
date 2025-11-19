@@ -32,7 +32,8 @@ export class NotificacionesRepository {
     // Convertir usuarioDestino a solo ID si es un objeto
     const notificacionData = {
       ...notificacion,
-      usuarioDestino: notificacion.usuarioDestino?._id || notificacion.usuarioDestino
+      usuarioDestino:
+        notificacion.usuarioDestino?._id || notificacion.usuarioDestino,
     };
 
     //Busca una notificacion con ese _id y la actualiza con los datos de notificacion.

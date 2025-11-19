@@ -4,7 +4,6 @@ import { itemSchema } from "./itemSchema.js";
 import { EstadoPedido } from "../models/entities/estadoPedido.js";
 import { direccionSchema } from "./direccionSchema.js";
 
-
 const pedidoSchema = new mongoose.Schema({
   comprador: {
     type: mongoose.Schema.Types.ObjectId,
@@ -28,7 +27,7 @@ const pedidoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  direccion: { type: direccionSchema},
+  direccion: { type: direccionSchema },
   estado: {
     type: String,
     enum: Object.values(EstadoPedido),
