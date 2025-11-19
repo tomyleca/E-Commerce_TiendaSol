@@ -33,8 +33,15 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         return "/productos";
       case "Mi Tienda":
         // usuario puede ser null si no está autenticado; prevenir acceso a _id
-        return usuario ? `/tienda/${usuario._id}` : "/";
-      default:
+        return usuario ? `/tienda/${usuario._id}` : "/login";
+      
+	case "Mis Pedidos":
+			return usuario ? `/clientes/${usuario._id}/pedidos` : "/login";
+
+	case "Mis Ventas":
+			return usuario ? `/ventas/${usuario._id}` : "/login";
+
+	default:
         return "/";
     }
   };

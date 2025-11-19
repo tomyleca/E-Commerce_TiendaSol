@@ -1,10 +1,9 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext.jsx";
+import React from "react";
 import "./ListaNotificaciones.css";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import Navbar from "../../components/navbar/navbar.jsx";
-import { getNotificaciones } from "../../services/usuarioService.js";
+import { useNotification } from "../../context/NotificacionContext.jsx";
 
 function iconFor(tipo) {
   switch (tipo) {
@@ -22,52 +21,14 @@ function iconFor(tipo) {
 }
 
 export default function ListaNotificaciones() {
-  const { usuario } = useAuth();
-  const [notificaciones, setNotificaciones] = useState([]);
-  useEffect(() => {
-    const userId = usuario?._id || usuario?.id;
-    if (!userId) {
-      // si no hay usuario, limpiar la lista
-      setNotificaciones([]);
-      return;
-    }
+  const { 
+    notificaciones, 
+    loading, 
+    marcarComoLeida, 
+    marcarTodasLeidas 
+  } = useNotification();
 
-    let mounted = true;
-
-    (async () => {
-      try {
-        const data = await getNotificaciones(userId);
-        // Mapear por si el backend devuelve _id en lugar de id
-        const normalized = (data || []).map((n) => ({
-          ...n,
-          id: n.id || n._id || `${n.tipo}-${n.fecha}`, // fallback para key si hace falta
-          leida: n.leida ?? false,
-        }));
-        if (mounted) setNotificaciones(normalized);
-      } catch (err) {
-        console.error("Error cargando notificaciones:", err);
-      }
-    })();
-
-    return () => {
-      mounted = false;
-    };
-  }, [usuario]);
-
-  const noLeidas = useMemo(
-    () => notificaciones.filter((n) => !n.leida).length,
-    [notificaciones],
-  );
-
-  const marcarTodasLeidas = () => {
-    setNotificaciones((prev) => prev.map((n) => ({ ...n, leida: true })));
-  };
-
-  const onMarcarLeida = (id) => {
-    setNotificaciones((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, leida: true } : n)),
-    );
-  };
+  const noLeidas = notificaciones.filter((n) => !n.leida).length;
 
   return (
     <>
@@ -87,8 +48,12 @@ export default function ListaNotificaciones() {
           </div>
         </div>
 
-        {(!notificaciones || notificaciones.length === 0) && (
+        {(!notificaciones || notificaciones.length === 0) && !loading && (
           <div className="estado">No tenés notificaciones por ahora</div>
+        )}
+
+        {loading && (
+          <div className="estado">Cargando notificaciones...</div>
         )}
 
         <ul className="lista-notificaciones">
@@ -106,7 +71,7 @@ export default function ListaNotificaciones() {
               {!n.leida && (
                 <button
                   className="btn-link"
-                  onClick={() => onMarcarLeida(n.id)}
+                  onClick={() => marcarComoLeida(n.id)}
                 >
                   Marcar leída
                 </button>

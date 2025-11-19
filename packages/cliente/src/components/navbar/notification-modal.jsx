@@ -5,10 +5,28 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { useNavigate } from "react-router-dom";
 
+function iconFor(tipo) {
+  switch (tipo) {
+    case "envio":
+      return <LocalShippingIcon fontSize="medium" />;
+    case "compra":
+      return <ShoppingBagIcon fontSize="medium" />;
+    case "cancelacion envio":
+      return (
+        <LocalShippingIcon fontSize="medium" style={{ color: "#bc280e" }} />
+      );
+    default:
+      return <ShoppingBagIcon fontSize="medium" />;
+  }
+}
+
 export default function NotificationModal() {
-  const { isOpenNotificaciones, toggleNotificaciones } = useNotification();
+  const { isOpenNotificaciones, toggleNotificaciones, notificaciones, loading } = useNotification();
   const navigate = useNavigate();
+  
   if (!isOpenNotificaciones) return null;
+
+  const notificacionesRecientes = notificaciones.slice(0, 5);
 
   return (
     <div className="modal-overlay" onClick={toggleNotificaciones}>
@@ -17,24 +35,25 @@ export default function NotificationModal() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="notification-title"
+        onClick={(e) => e.stopPropagation()}
       >
         <h4 id="notification-title" className="notification-title">
-          ¡Tienes nuevas notificaciones!
+          {notificaciones.length > 0 ? "Notificaciones" : "Sin notificaciones"}
         </h4>
 
         <div className="notification-list">
-          <div className="notification">
-            <LocalShippingIcon fontSize="medium" sx={{ color: "#bc280eff" }} />
-            <p>¡Lo sentimos! El envío de tu pedido #1234 ha sido cancelado.</p>
-          </div>
-          <div className="notification">
-            <LocalShippingIcon fontSize="medium" sx={{ color: "#131412ff" }} />
-            <p>¡Enhorabuena! Tu pedido #1234 ha sido enviado.</p>
-          </div>
-          <div className="notification">
-            <ShoppingBagIcon fontSize="medium" sx={{ color: "#131412ff" }} />
-            <p>El pedido #1234 ha sido procesado y será enviado pronto.</p>
-          </div>
+          {loading && <p className="loading-text">Cargando...</p>}
+          
+          {!loading && notificaciones.length === 0 && (
+            <p className="empty-text">No tienes notificaciones por ahora</p>
+          )}
+          
+          {!loading && notificacionesRecientes.map((n) => (
+            <div key={n.id} className={`notification ${n.leida ? 'leida' : ''}`}>
+              {iconFor(n.tipo)}
+              <p>{n.mensaje}</p>
+            </div>
+          ))}
         </div>
         <button
           className="notification-footer"

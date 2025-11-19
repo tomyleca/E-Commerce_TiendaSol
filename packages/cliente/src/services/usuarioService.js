@@ -122,16 +122,33 @@ export const actualizarUsuario = async (idUsuario, datosActualizados) => {
 	}
 };
 
-export const getNotificaciones = async (id) => {
+export const getNotificaciones = async (id,leidas) => {
 	try {
-		const response = await axios.get(`${API_BASE_URL}/usuarios/${id}/notificaciones`, {
+		const response = await axios.get(`${API_BASE_URL}/usuarios/${id}/notificaciones?leidas=${leidas}`, {
 			headers: {
 				"Cache-Control": "no-cache",
 			},
 		});
 		return response.data;
 	} catch (error) {
-		console.error("Error obteniendo las categorías", error);
+		console.error("Error obteniendo las notificaciones", error);
+		throw error;
+	}
+};
+
+export const marcarNotificacionLeida = async (userId, notificacionId) => {
+	try {
+		const response = await axios.get(
+			`${API_BASE_URL}/usuarios/${userId}/notificaciones/${notificacionId}`,
+			{
+				headers: {
+					"Cache-Control": "no-cache",
+				},
+			}
+		);
+		return response.data;
+	} catch (error) {
+		console.error("Error marcando notificación como leída", error);
 		throw error;
 	}
 };
