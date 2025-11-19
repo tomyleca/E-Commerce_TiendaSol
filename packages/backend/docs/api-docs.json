@@ -576,8 +576,10 @@
           "fotos": {
             "type": "array",
             "items": {
-              "type": "string"
-            }
+              "type": "string",
+              "description": "Base64 encoded image string (data:image/...)"
+            },
+            "description": "Array of Base64 encoded images"
           },
           "activo": {
             "type": "boolean"
@@ -725,7 +727,14 @@
           "precio": { "type": "number" },
           "moneda": { "type": "string" },
           "stock": { "type": "integer" },
-          "fotos": { "type": "array", "items": { "type": "string" } },
+          "fotos": { 
+            "type": "array", 
+            "items": { 
+              "type": "string",
+              "description": "Base64 encoded image string (data:image/...)"
+            },
+            "description": "Array of Base64 encoded images"
+          },
           "activo": { "type": "boolean" }
         },
         "required": [

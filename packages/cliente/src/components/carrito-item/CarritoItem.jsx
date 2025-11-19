@@ -10,7 +10,7 @@ const CarritoItem = ({ item }) => {
     <div className="carrito-item">
       <div className="item-imagen">
         <img
-          src={item.fotos?.[0] ? `/images/${item.fotos[0]}` : "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"}
+          src={item.fotos?.[0] || "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"}
 		 
 		  alt={item.title || item.nombre}
         />

@@ -95,7 +95,7 @@ const ProductoDetailPage = () => {
       <BotonVolver>Volver</BotonVolver>
       <div className="producto-image-section">
         <img
-          src={`/images/${producto.fotos[0]}`}
+          src={producto.fotos && producto.fotos[0] ? producto.fotos[0] : "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"}
           alt={producto.titulo}
           className="producto-imagen"
         />
