@@ -9,36 +9,28 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
+function iconFor(tipo) {
+  switch (tipo) {
+    case "envio":
+      return <LocalShippingIcon fontSize="medium" />;
+    case "compra":
+      return <ShoppingBagIcon fontSize="medium" />;
+    case "cancelacion envio":
+      return (
+        <LocalShippingIcon fontSize="medium" style={{ color: "#bc280e" }} />
+      );
+    default:
+      return <ShoppingBagIcon fontSize="medium" />;
+  }
+}
+
 export default function NotificationModal() {
-  const {
-    isOpenNotificaciones,
-    toggleNotificaciones,
-    notificaciones,
-    marcarComoLeida,
-    loading,
-  } = useNotification();
+  const { isOpenNotificaciones, toggleNotificaciones, notificaciones, loading } = useNotification();
   const navigate = useNavigate();
 
   if (!isOpenNotificaciones) return null;
 
-  const handleNotificationClick = (notificacion) => {
-    if (!notificacion.leida) {
-      marcarComoLeida(notificacion._id);
-    }
-  };
-
-  const getIconByMessage = (mensaje) => {
-    if (mensaje.toLowerCase().includes("enviado")) {
-      return <LocalShippingIcon fontSize="medium" sx={{ color: "#131412ff" }} />;
-    }
-    if (mensaje.toLowerCase().includes("cancelado")) {
-      return <CancelIcon fontSize="medium" sx={{ color: "#bc280eff" }} />;
-    }
-    if (mensaje.toLowerCase().includes("procesado") || mensaje.toLowerCase().includes("nuevo pedido")) {
-      return <ShoppingBagIcon fontSize="medium" sx={{ color: "#131412ff" }} />;
-    }
-    return <NotificationsIcon fontSize="medium" sx={{ color: "#131412ff" }} />;
-  };
+  const notificacionesRecientes = notificaciones.slice(0, 5);
 
   return (
     <div className="modal-overlay" onClick={toggleNotificaciones}>
@@ -50,50 +42,22 @@ export default function NotificationModal() {
         onClick={(e) => e.stopPropagation()}
       >
         <h4 id="notification-title" className="notification-title">
-          Notificaciones
+          {notificaciones.length > 0 ? "Notificaciones" : "Sin notificaciones"}
         </h4>
 
         <div className="notification-list">
-          {loading ? (
-            <div className="notification-loading">
-              <CircularProgress size={30} />
-              <p>Cargando notificaciones...</p>
-            </div>
-          ) : notificaciones.length === 0 ? (
-            <div className="notification-empty">
-              <NotificationsIcon fontSize="large" sx={{ color: "#ccc" }} />
-              <p>No tienes notificaciones</p>
-            </div>
-          ) : (
-            notificaciones.slice(0, 5).map((notificacion) => (
-              <div
-                key={notificacion._id}
-                className={`notification ${!notificacion.leida ? "notification-unread" : ""}`}
-                onClick={() => handleNotificationClick(notificacion)}
-              >
-                <div className="notification-icon">
-                  {getIconByMessage(notificacion.mensaje)}
-                </div>
-                <div className="notification-content">
-                  <p className="notification-message">{notificacion.mensaje}</p>
-                  <span className="notification-date">
-                    {new Date(notificacion.fechaCreacion).toLocaleDateString("es-AR", {
-                      day: "numeric",
-                      month: "short",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
-                </div>
-                {!notificacion.leida && (
-                  <CircleIcon
-                    fontSize="small"
-                    sx={{ color: "#1976d2", width: 10, height: 10 }}
-                  />
-                )}
-              </div>
-            ))
+          {loading && <p className="loading-text">Cargando...</p>}
+
+          {!loading && notificaciones.length === 0 && (
+            <p className="empty-text">No tienes notificaciones por ahora</p>
           )}
+
+          {!loading && notificacionesRecientes.map((n) => (
+            <div key={n.id} className={`notification ${n.leida ? 'leida' : ''}`}>
+              {iconFor(n.tipo)}
+              <p>{n.mensaje}</p>
+            </div>
+          ))}
         </div>
 
         <button

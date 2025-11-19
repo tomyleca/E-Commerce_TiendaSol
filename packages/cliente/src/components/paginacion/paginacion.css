@@ -18,5 +18,5 @@
   background-color: var(--accent-hover);
 }
 .paginacion button.active {
-  background-color: var(--accent-light);
+  background-color: var(--blue-700);
 }

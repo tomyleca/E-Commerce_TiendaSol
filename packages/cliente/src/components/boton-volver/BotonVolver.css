@@ -1,17 +1,21 @@
 .boton-volver {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  gap: 0.4rem; 
+  padding: 0.4rem 0.8rem !important; /* Más pequeño */
   background: white;
   border: 2px solid var(--gray-200);
   border-radius: 8px;
   color: var(--text-dark);
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1rem !important; /* Texto más pequeño */
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0; /* Quita el margen inferior */
+  position: absolute; 
+  top: 20px; /* Posición desde arriba */
+  left: 20px; /* Posición desde la izquierda */
+  z-index: 10; /* Para que esté por encima */
 }
 
 .boton-volver:hover {
@@ -25,5 +29,19 @@
 }
 
 .boton-volver svg {
-  font-size: 1.25rem;
+  font-size: 1rem !important;
+}
+
+/* Para móviles - aún más compacto */
+@media (max-width: 768px) {
+  .boton-volver {
+    padding: 0.3rem 0.6rem !important;
+    font-size: 0.7rem !important;
+    top: 15px;
+    left: 15px;
+  }
+  
+  .boton-volver svg {
+    font-size: 0.9rem !important;
+  }
 }

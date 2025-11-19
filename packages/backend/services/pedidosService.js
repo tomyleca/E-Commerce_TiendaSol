@@ -118,6 +118,8 @@ export class PedidosService {
     const notificacion = this.factoryNotificacion.crearSegunPedido(pedido);
     this.notificacionesService.enviar(notificacion);
 
+	this.pedidosRepository.actualizarEstado(pedido, EstadoPedido.ENVIADO);
+
     return pedido;
   }
 

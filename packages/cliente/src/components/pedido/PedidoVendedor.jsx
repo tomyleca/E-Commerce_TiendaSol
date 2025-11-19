@@ -8,6 +8,7 @@ import "./PedidoVendedor.css";
 import { useParams, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import { pedidosMock } from "../../mockData/Pedidos";
+import { useNavigate } from "react-router-dom";
 
 const PedidosVendedor = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const PedidosVendedor = () => {
     tipo: "",
     mostrar: false,
   });
-
+  const navegar = useNavigate();
   const mostrarMensaje = (texto, tipo = "exito") => {
     setMensaje({ texto, tipo, mostrar: true });
     setTimeout(() => {
@@ -161,13 +162,12 @@ const PedidosVendedor = () => {
   );
 
   if (
-    (!pedidos || pedidos.length === 0) ||
-    usuario._id === id &&
-    isAutenticated
+    !pedidos ||
+    pedidos.length === 0 ||
+    (usuario._id === idTienda && isAutenticated)
   ) {
-    if (usuario._id !== id && isAutenticated === false) {
-      navigate("/login");
-      return null;
+    if (usuario._id !== idTienda && isAutenticated == false) {
+      navegar(`/login`);
     } else {
       return (
         <div className="sin-pedidos">

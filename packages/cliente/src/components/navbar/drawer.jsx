@@ -16,6 +16,7 @@ import { useAuth } from "../../context/AuthContext";
 import PedidosCliente from "../pedido/PedidosCliente";
 import { ShoppingBag } from "@mui/icons-material";
 import { LocalMall } from "@mui/icons-material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 const drawerWidth = 240;
 
 
@@ -33,8 +34,18 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         return "/productos";
       case "Mi Tienda":
         // usuario puede ser null si no está autenticado; prevenir acceso a _id
-        return usuario ? `/tienda/${usuario._id}` : "/";
-      default:
+        return usuario ? `/tienda/${usuario._id}` : "/login";
+      
+	case "Mis Pedidos":
+			return usuario ? `/clientes/${usuario._id}/pedidos` : "/login";
+
+	case "Mis Ventas":
+			return usuario ? `/ventas/${usuario._id}` : "/login";
+
+	case "Agregar Producto":
+			return usuario ? `/nuevoProducto` : "/login";
+
+	default:
         return "/";
     }
   };
@@ -51,7 +62,8 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
         return <ShoppingBag fontSize="large"/>;
       case "Mis Ventas":
         return <LocalMall  fontSize="large"/>
-        
+      case "Agregar Producto":
+        return <AddCircleIcon fontSize="large" />;
 
       default:
         return null;
@@ -65,7 +77,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       <Toolbar />
       <Divider />
       <List>
-        {["Home", "Buscar Producto", "Mis Pedidos"].map((text) => (
+        {["Home", "Buscar Producto", "Mis Pedidos","Mi Tienda"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={renderLink(text)}>
               <ListItemIcon>{renderIcon(text)}</ListItemIcon>
@@ -77,7 +89,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       <Divider />
       {(isAuthenticated && isVendedor) && (
         <List>
-          {["Mi Tienda", "Mis Ventas"].map((text) => (
+          {["Mis Ventas", "Agregar Producto"].map((text) => (
             <ListItem key={text} disablePadding>
               <ListItemButton component={Link} to={renderLink(text)}>
                 <ListItemIcon>{renderIcon(text)}</ListItemIcon>

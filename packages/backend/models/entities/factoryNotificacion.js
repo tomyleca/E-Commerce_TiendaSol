@@ -11,7 +11,7 @@ export class FactoryNotificacion {
     switch (pedido.estado) {
       case EstadoPedido.PENDIENTE: // Cuando se realiza un pedido
         usuarioDestino = pedido.vendedor;
-        mensaje = `Nuevo pedido de ${pedido.comprador.nombre}. Productos: ${pedido.itemsPedido.map((p) => p.nombre).join(", ")}. Total: $${pedido.total}. Entrega en: ${pedido.direccionEntrega.toString()}.`;
+        mensaje = `Nuevo pedido de ${pedido.comprador.nombre}.\n Total: $${pedido.itemsPedido.reduce((acc, p) => acc + p.cantidad * p.precioUnitario, 0)}.\n Entrega en: ${pedido.direccionEntrega.calle + pedido.direccionEntrega.altura}.`;
         break;
       case EstadoPedido.CONFIRMADO:
         usuarioDestino = pedido.comprador;
@@ -23,23 +23,11 @@ export class FactoryNotificacion {
         break;
       case EstadoPedido.ENVIADO:
         usuarioDestino = pedido.comprador;
-        mensaje = `Tu pedido ha sido enviado por ${pedido.vendedor.nombre}.`;
-        break;
-      case EstadoPedido.ENTREGADO:
-        usuarioDestino = pedido.vendedor;
-        mensaje = `Tu pedido ha sido entregado.`;
-        break;
-      case EstadoPedido.ENTREGADO:
-        usuarioDestino = pedido.comprador;
-        mensaje = `Tu pedido ha sido entregado.`;
-        break;
-      case EstadoPedido.CANCELADO:
-        usuarioDestino = pedido.vendedor;
-        mensaje = `El pedido de ${pedido.comprador.nombre} ha sido cancelado.`;
+        mensaje = `Tu pedido ha sido enviado por ${pedido.vendedor.nombre}.\n Productos: ${pedido.itemsPedido.map((p) => p.producto.titulo).join(", ")}.\n Total: $${pedido.itemsPedido.reduce((acc, p) => acc + p.cantidad * p.precioUnitario, 0)}.`;
         break;
       case EstadoPedido.CANCELADO:
         usuarioDestino = pedido.comprador;
-        mensaje = `El pedido de ${pedido.comprador.nombre} ha sido cancelado.`;
+        mensaje = `Tu pedido ${pedido.id} ha sido cancelado.\n Productos: ${pedido.itemsPedido.map((p) => p.producto.titulo).join(", ")}.`;
         break;
 
       default:
