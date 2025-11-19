@@ -121,3 +121,17 @@ export const actualizarUsuario = async (idUsuario, datosActualizados) => {
 		throw error;
 	}
 };
+
+export const getNotificaciones = async (id) => {
+	try {
+		const response = await axios.get(`${API_BASE_URL}/usuarios/${id}/notificaciones`, {
+			headers: {
+				"Cache-Control": "no-cache",
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.error("Error obteniendo las categorías", error);
+		throw error;
+	}
+};

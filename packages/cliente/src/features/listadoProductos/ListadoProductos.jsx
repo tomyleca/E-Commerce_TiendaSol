@@ -29,10 +29,9 @@ const ListadoProductos = () => {
   const { selectedCategorias, orden, precio, busqueda } = state;
 
   const cargarProductos = async (page) => {
-	if(idTienda){
-		setVendedor(idTienda);
-	}
-
+    if (idTienda) {
+      setVendedor(idTienda);
+    }
 
     const numeroPagina = page ?? 1;
     const productosObtenidos = await getProductos(
@@ -41,11 +40,11 @@ const ListadoProductos = () => {
       orden,
       precio,
       busqueda,
-	  vendedor
+      vendedor
     );
     setProductos(productosObtenidos.data);
     setTotalPaginas(productosObtenidos.totalPaginas);
-    
+
     if (typeof productosObtenidos.totalPaginas === "number") {
       setTotalPaginas(productosObtenidos.totalPaginas);
     }
@@ -54,11 +53,11 @@ const ListadoProductos = () => {
 
   const cargarCategorias = async () => {
     const categoriasObtenidas = await getCategorias();
-	const categoriasNormalizadas = categoriasObtenidas.map((c) => ({
-	  id: c._id,
-	  nombre: c.nombre,
-	}));
-	setCategorias(categoriasNormalizadas);
+    const categoriasNormalizadas = categoriasObtenidas.map((c) => ({
+      id: c._id,
+      nombre: c.nombre,
+    }));
+    setCategorias(categoriasNormalizadas);
   };
 
   useEffect(() => {
