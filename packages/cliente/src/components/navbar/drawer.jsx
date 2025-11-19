@@ -77,7 +77,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       <Toolbar />
       <Divider />
       <List>
-        {["Home", "Buscar Producto", "Mis Pedidos"].map((text) => (
+        {["Home", "Buscar Producto", "Mis Pedidos","Mi Tienda"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={renderLink(text)}>
               <ListItemIcon>{renderIcon(text)}</ListItemIcon>
@@ -89,7 +89,7 @@ export default function ResponsiveDrawer({ open = false, onClose = () => { } }) 
       <Divider />
       {(isAuthenticated && isVendedor) && (
         <List>
-          {["Mi Tienda", "Mis Ventas", "Agregar Producto"].map((text) => (
+          {["Mis Ventas", "Agregar Producto"].map((text) => (
             <ListItem key={text} disablePadding>
               <ListItemButton component={Link} to={renderLink(text)}>
                 <ListItemIcon>{renderIcon(text)}</ListItemIcon>
