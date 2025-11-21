@@ -18,6 +18,7 @@ const Tienda = () => {
   const [productosDestacados, setProductosDestacados] = useState([]);
   const { isVendedor } = useAuth();
   const navigate = useNavigate();
+  const [busquedaRealizada, setBusquedaRealizada] = useState(false);
 
   useEffect(() => {
     // Cargar datos del vendedor cuando cambia el idTienda
@@ -47,12 +48,14 @@ const Tienda = () => {
     };
 
     if (idTienda) {
+	  setBusquedaRealizada(false);
       cargarUsuario();
       cargarProductosDestacados();
+	  setBusquedaRealizada(true);
     }
   }, [idTienda]);
 
-  if (vendedor?.tipo !== "VENDEDOR") {
+  if (vendedor?.tipo !== "VENDEDOR"  && busquedaRealizada) {
     return (
       <>
         <Navbar />

@@ -5,6 +5,7 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import Navbar from "../../components/navbar/navbar.jsx";
 import { useNotification } from "../../context/NotificacionContext.jsx";
 
+
 function iconFor(tipo) {
   switch (tipo) {
     case "envio":

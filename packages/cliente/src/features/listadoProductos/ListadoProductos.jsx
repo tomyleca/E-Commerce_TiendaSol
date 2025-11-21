@@ -13,6 +13,7 @@ import BarraBusqueda from "../../components/producto/BarraBusqueda.jsx";
 import Paginacion from "../../components/paginacion/paginacion.jsx";
 import { useFiltro, FiltroProvider } from "../../context/FiltroContext.jsx";
 import { useParams } from "react-router-dom";
+import { set } from "mongoose";
 
 const ListadoProductos = () => {
   const [productos, setProductos] = useState([]);
@@ -27,6 +28,9 @@ const ListadoProductos = () => {
   //Obtener filtros desde el contexto
   const { state } = useFiltro();
   const { selectedCategorias, orden, precio, busqueda } = state;
+
+  const [busquedaRealizada, setBusquedaRealizada] = useState(false);
+
 
   const cargarProductos = async (page) => {
     // Solo usar vendedor si estamos en la ruta de una tienda específica
@@ -48,6 +52,8 @@ const ListadoProductos = () => {
       setTotalPaginas(productosObtenidos.totalPaginas);
     }
     setCurrentPage(productosObtenidos.page ?? numeroPagina);
+
+	setBusquedaRealizada(true);
   };
 
   const cargarCategorias = async () => {
@@ -60,12 +66,14 @@ const ListadoProductos = () => {
   };
 
   useEffect(() => {
+	setBusquedaRealizada(false);
     cargarProductos(1);
     cargarCategorias();
   }, []);
 
   //Cuando cambian las categorías seleccionadas (o el vendedor), re-buscamos desde página 1
   useEffect(() => {
+	setBusquedaRealizada(false);
     cargarProductos(1);
     cargarCategorias();
   }, [selectedCategorias, orden, busqueda, precio]);
@@ -73,7 +81,7 @@ const ListadoProductos = () => {
   return (
     <>
       <div className="contenedor-productos">
-        <Body2 productos={productos} categorias={categorias} />
+        <Body2 productos={productos} categorias={categorias} busquedaRealizada={busquedaRealizada} />
       </div>
       {totalPaginas >= 1 && (
         <Paginacion
