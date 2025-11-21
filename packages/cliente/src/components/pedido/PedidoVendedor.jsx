@@ -8,17 +8,21 @@ import "./PedidoVendedor.css";
 import { useParams, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import { pedidosMock } from "../../mockData/Pedidos";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const PedidosVendedor = () => {
   const { idTienda } = useParams();
   const { usuario, isAutenticated } = useAuth();
   const navigate = useNavigate();
+  const [busquedaRealizada, setBusquedaRealizada] = useState(false);
   const [pedidos, setPedidos] = useState([]);
   const [mensaje, setMensaje] = useState({
     texto: "",
     tipo: "",
     mostrar: false,
   });
+
   const mostrarMensaje = (texto, tipo = "exito") => {
     setMensaje({ texto, tipo, mostrar: true });
     setTimeout(() => {
@@ -32,13 +36,17 @@ const PedidosVendedor = () => {
   };
 
   useEffect(() => {
+	setBusquedaRealizada(false);
     const cargarVentas = async () => {
       try {
         const data = await getPedidosVendedor(idTienda);
         setPedidos(data);
+		setBusquedaRealizada(true);
         // setPedidos(pedidosMock);
       } catch (err) {
+		setBusquedaRealizada(true);
         console.error("Error cargando pedidos", err);
+
       }
     };
 
@@ -167,7 +175,17 @@ const PedidosVendedor = () => {
     if (usuario._id !== idTienda && isAutenticated === false) {
       navigate(`/login`);
       return null;
-    } else {
+    } 
+	else if(!busquedaRealizada){
+	  return (
+		<>
+		<Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '300px' }}>
+			<CircularProgress />
+		</Box>
+		</>
+	  );
+  }
+	else {
       return (
         <div className="sin-pedidos">
           <p>No tienes pedidos realizados</p>

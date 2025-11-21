@@ -11,6 +11,8 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import AddHomeIcon from "@mui/icons-material/AddHome";
 import StoreIcon from "@mui/icons-material/Store";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const Tienda = () => {
   const { idTienda } = useParams(); //Lee el :id de la URL
@@ -26,7 +28,9 @@ const Tienda = () => {
       try {
         const data = await getUsuario(idTienda);
         setVendedor(data);
+		setBusquedaRealizada(true);
       } catch (error) {
+		setBusquedaRealizada(true);
         console.error("Error cargando usuario:", error);
       }
     };
@@ -42,7 +46,9 @@ const Tienda = () => {
           idTienda,
         );
         setProductosDestacados(response?.data.slice(0, 4) || []);
+		setBusquedaRealizada(true);
       } catch (error) {
+		setBusquedaRealizada(true);
         console.error("Error cargando productos destacados:", error);
       }
     };
@@ -51,9 +57,20 @@ const Tienda = () => {
 	  setBusquedaRealizada(false);
       cargarUsuario();
       cargarProductosDestacados();
-	  setBusquedaRealizada(true);
+	  
     }
   }, [idTienda]);
+
+  if(!busquedaRealizada){
+	  return (
+		<>
+		<Navbar />
+		<Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '300px' }}>
+			<CircularProgress />
+		</Box>
+		</>
+	  );
+  }
 
   if (vendedor?.tipo !== "VENDEDOR"  && busquedaRealizada) {
     return (

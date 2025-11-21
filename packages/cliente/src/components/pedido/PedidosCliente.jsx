@@ -13,12 +13,15 @@ import "./PedidosCliente.css";
 import { pedidosMock } from "../../mockData/Pedidos";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const PedidosCliente = () => {
   const { id } = useParams();
   const { usuario, isAutenticated } = useAuth();
   const [pedidos, setPedidos] = useState([]);
   const [mostrarFinalizados, setMostrarFinalizados] = useState(false);
+  const [busquedaRealizada, setBusquedaRealizada] = useState(false);
   const navegar = useNavigate();
 
   const formatNumero = (numero) => {
@@ -26,13 +29,15 @@ const PedidosCliente = () => {
   };
 
   useEffect(() => {
+	 setBusquedaRealizada(false);
     const cargarPedidos = async () => {
       try {
         const data = await getPedidosCliente(id);
         setPedidos(data);
-
+		setBusquedaRealizada(true);
         //setPedidos(pedidosMock);
       } catch (error) {
+		setBusquedaRealizada(true);
         console.error("Error cargando pedidos", error);
       }
     };
@@ -54,7 +59,17 @@ const PedidosCliente = () => {
         </div>
       );
     }
-  } else {
+  } 
+ else if(!busquedaRealizada){
+	  return (
+		<>
+		<Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '300px' }}>
+			<CircularProgress />
+		</Box>
+		</>
+	  );
+  } 
+  else {
     const pedidosEnCurso = pedidos.filter(
       (p) => p.estado === "PENDIENTE" || p.estado === "EN_PREPARACION",
     );
