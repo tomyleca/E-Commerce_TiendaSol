@@ -1,170 +1,215 @@
+/* ─── Página ─── */
 .pedidos-cliente {
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  padding: 2.5rem 1.5rem 5rem;
+  font-family: var(--font-sans);
 }
 
 .pedidos-titulo {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
-  font-size: 28px;
+  margin-bottom: 2.5rem;
 }
 
+/* ─── Sin pedidos ─── */
 .sin-pedidos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
   text-align: center;
-  padding: 40px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  color: #666;
+  gap: 0.75rem;
 }
 
 .sin-pedidos p {
-  margin: 0;
-  font-size: 18px;
+  font-size: 1rem;
+  color: var(--text-light);
 }
 
+/* ─── Subtítulos de sección ─── */
+.subtitulo-curso,
+.subtitulo-finalizados {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 2rem 0 0.875rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid;
+}
+
+.subtitulo-curso {
+  color: var(--warning);
+  border-color: var(--warning-light);
+}
+
+.subtitulo-finalizados {
+  color: var(--success);
+  border-color: var(--success-light);
+}
+
+/* ─── Lista ─── */
 .lista-pedidos {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1rem;
 }
 
+/* ─── Card de pedido ─── */
 .pedido-card {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: var(--surface-card);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-xs);
+  border-left: 4px solid var(--gray-200);
+  transition: box-shadow 0.2s ease;
 }
 
+.pedido-card.en-curso {
+  border-left-color: var(--warning);
+}
+
+.pedido-card:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─── Header ─── */
 .pedido-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gray-100);
+  gap: 1rem;
 }
 
 .pedido-info h3 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 20px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 0.5rem;
 }
 
-.subtitulo-curso {
-  font-size: 22px;
-  color: #5a94d2;
-  margin: 20px 0 10px 5px;
-}
-
-.subtitulo-finalizados {
-  font-size: 22px;
-  color: #14a957;
-  margin: 30px 0 10px 5px;
-}
-
-.pedido-card.en-curso {
-  /*transform: scale(0.95);*/
-  opacity: 0.92;
-}
-
+/* ─── Estado badge ─── */
 .estado {
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .estado.pendiente {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeaa7;
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.estado.en_preparacion {
+  background: var(--info-light);
+  color: var(--info);
 }
 
 .estado.completado {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background: var(--success-light);
+  color: var(--success-dark);
 }
 
 .estado.cancelado {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background: var(--error-light);
+  color: var(--error-dark);
 }
 
+/* ─── Fecha ─── */
 .pedido-fecha {
   text-align: right;
 }
 
 .pedido-fecha p {
-  margin: 5px 0;
-  color: #666;
-  font-size: 14px;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin: 0;
 }
 
+/* ─── Productos ─── */
 .pedido-productos h4 {
-  margin-bottom: 15px;
-  color: #555;
-  font-size: 18px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-lighter);
+  margin-bottom: 0.75rem;
 }
 
 .productos-lista {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .producto-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  border-left: 4px solid #9eacbc;
+  padding: 0.875rem 1rem;
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--gray-200);
 }
 
 .producto-info h5 {
-  margin: 0 0 8px 0;
-  color: #333;
-  font-size: 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 0.375rem;
 }
 
 .producto-info p {
-  margin: 3px 0;
-  color: #666;
-  font-size: 14px;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin: 2px 0;
 }
 
 .producto-subtotal {
-  font-weight: bold;
-  color: #333;
-  font-size: 16px;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark);
 }
 
+/* ─── Total ─── */
 .pedido-total {
   text-align: right;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 2px solid #f0f0f0;
-  font-size: 20px;
-  color: #333;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-100);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
 }
 
-/* Responsive */
+.pedido-total strong {
+  font-family: var(--font-serif);
+}
+
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
   .pedidos-cliente {
-    padding: 10px;
+    padding: 1.5rem 1rem 3rem;
   }
 
   .pedido-header {
     flex-direction: column;
-    gap: 15px;
+    gap: 0.875rem;
   }
 
   .pedido-fecha {
@@ -174,28 +219,10 @@
   .producto-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 0.5rem;
   }
 
   .producto-subtotal {
     align-self: flex-end;
-  }
-
-  .pedidos-titulo {
-    font-size: 24px;
-  }
-}
-
-@media (max-width: 480px) {
-  .pedido-card {
-    padding: 15px;
-  }
-
-  .producto-item {
-    padding: 10px;
-  }
-
-  .pedidos-titulo {
-    font-size: 22px;
   }
 }

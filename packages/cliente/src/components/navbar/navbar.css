@@ -1,163 +1,146 @@
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap");
-
-navbar-bg {
+/* ─── Navbar ─── */
+.navbar-bg {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   min-width: 100%;
+  background: rgba(10, 10, 15, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
 .navbar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  min-width: 100%;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color) 0%,
-    var(--primary-light) 100%
-  );
-  color: var(--text-color);
+  align-items: center;
+  height: var(--navbar-height);
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
+/* ─── Secciones ─── */
 .navbar-section {
   display: flex;
   align-items: center;
-  padding: 0.3rem 1rem;
-}
-
-.navbar-section button,
-.navbar-section .carrito-button,
-.navbar-section .login-button,
-.navbar-section .logout-button,
-.navbar-section .notification-icon,
-.navbar-section .search-toggle-button {
-  background: transparent;
-}
-
-.nombre-marca {
-  margin-left: 0rem;
-  margin-top: 1.5rem;
-  font-size: 1.8rem;
-  font-weight: bold;
-  font-family: "Great Vibes", "Edwardian Script ITC";
-}
-
-.menu-icon {
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  border: none;
-  font-size: 2.1rem;
-  cursor: pointer;
-  margin-right: 1rem;
-}
-
-.logo {
-  width: 70px;
-  height: 70px;
-}
-
-.carrito-button {
-  display: flex;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  border: none;
-  font-size: 1.4rem;
-  cursor: pointer;
-  position: relative;
   gap: 0.5rem;
-  margin-top: 0.4rem;
-  margin-left: 1rem;
+  flex: 1;
 }
 
-.login-button,
-.logout-button {
-  display: flex;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  position: relative;
-  margin-right: 2.8rem;
+.navbar-section.center {
+  justify-content: center;
+  gap: 0.75rem;
+  flex: 0 0 auto;
 }
 
-.notification-icon {
-  display: flex;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  border: none;
-  font-size: 2.4rem;
-  cursor: pointer;
-  position: relative;
-  margin-right: 2.8rem;
-}
+.navbar-section.left  { justify-content: flex-start; }
+.navbar-section.right { justify-content: flex-end; }
 
-.search-toggle-button {
+/* ─── Botones de iconos ─── */
+.navbar-section button,
+.navbar-section .login-button,
+.navbar-section .logout-button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
   display: flex;
   align-items: center;
-  background-color: var(--primary-color);
-  color: var(--text-color);
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
   border: none;
-  font-size: 2rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  position: relative;
-  margin-right: 1.5rem;
-  transition: transform 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  padding: 0;
+  text-decoration: none;
 }
 
-.search-toggle-button:hover {
-  transform: scale(1.1);
+.navbar-section button:hover,
+.navbar-section .login-button:hover,
+.navbar-section .logout-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
-.search-toggle-button:active {
+.navbar-section button:active,
+.navbar-section .login-button:active,
+.navbar-section .logout-button:active {
   transform: scale(0.95);
 }
 
+/* ─── Carrito button badge override ─── */
+.carrito-button {
+  position: relative;
+}
+
+/* ─── Logo e identidad ─── */
+.logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(201, 168, 76, 0.3));
+}
+
+.nombre-marca {
+  font-family: var(--font-script);
+  font-size: 2rem;
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin: 0;
+  text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+}
+
+/* ─── Menú hamburguesa ─── */
+.menu-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* ─── Search dropdown ─── */
 .search-dropdown {
   max-height: 0;
   overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color) 0%,
-    var(--primary-light) 100%
-  );
-  transition:
-    max-height 0.3s ease-in-out,
-    padding 0.3s ease-in-out;
+  background: rgba(10, 10, 15, 0.98);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
 }
 
 .search-dropdown-open {
-  max-height: 150px;
-  padding: 0.5rem 0 1rem 0;
+  max-height: 100px;
+  padding: 0.75rem 0 1.25rem;
 }
 
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+
   .nombre-marca {
-    display: none;
+    font-size: 1.6rem;
   }
 
   .logo {
-    width: 60px;
-    height: 60px;
-  }
-
-  .carrito-button {
-    font-size: 1.2rem;
-    margin-top: 0.2rem;
-    margin-left: 0.2rem;
-  }
-
-  .login-button,
-  .logout-button {
-    font-size: 1.8rem;
-    margin-right: 1.4rem;
-  }
-
-  .search-toggle-button {
-    font-size: 1.6rem;
-    margin-right: 1rem;
+    width: 36px;
+    height: 36px;
   }
 
   .search-dropdown-open {
-    max-height: 120px;
+    max-height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nombre-marca {
+    display: none;
   }
 }

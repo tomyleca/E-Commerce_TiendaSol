@@ -1,12 +1,60 @@
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+/* ─── Drawer header ─── */
+.drawer-header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
+  justify-content: space-between;
+  padding: 1.25rem 1.25rem 1rem;
+}
+
+.drawer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.drawer-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px rgba(201, 168, 76, 0.35));
+}
+
+.drawer-title {
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  color: #ffffff;
+  text-shadow: 0 0 16px rgba(201, 168, 76, 0.35);
+  line-height: 1;
+}
+
+.drawer-close {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.drawer-close:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+/* ─── Etiqueta de sección ─── */
+.drawer-section-label {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 0 1.5rem;
+  margin: 0;
 }

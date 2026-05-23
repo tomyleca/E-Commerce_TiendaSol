@@ -1,341 +1,304 @@
-.pedidos-vendedor {
+/* ─── Página de ventas ─── */
+.ventas-page {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  padding: 2.5rem 1.5rem 5rem;
+  font-family: var(--font-sans);
 }
 
-.pedidos-vendedor h2 {
+.ventas-titulo {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
-  font-size: 28px;
+  margin-bottom: 0.5rem;
 }
 
-/* Subtítulos para las secciones */
-.subtitulo-en-curso {
-  font-size: 22px;
-  color: #d4a017;
-  margin: 30px 0 15px 5px;
-  border-bottom: 2px solid #fff3cd;
-  padding-bottom: 8px;
-}
-
-.subtitulo-enviados {
-  font-size: 22px;
-  color: #17a2b8;
-  margin: 30px 0 15px 5px;
-  border-bottom: 2px solid #bee5eb;
-  padding-bottom: 8px;
-}
-
-.subtitulo-cancelados {
-  font-size: 22px;
-  color: #dc3545;
-  margin: 30px 0 15px 5px;
-  border-bottom: 2px solid #f8d7da;
-  padding-bottom: 8px;
-}
-
-.sin-pedidos {
+.ventas-subtitulo {
+  font-size: 0.875rem;
+  color: var(--text-light);
   text-align: center;
-  padding: 40px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  color: #666;
+  margin-bottom: 2.5rem;
 }
 
-.sin-pedidos p {
-  margin: 0;
-  font-size: 18px;
-}
-
-.lista-pedidos {
+/* ─── Sin ventas ─── */
+.sin-ventas {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+  gap: 0.75rem;
 }
 
-.pedido-card {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.sin-ventas p {
+  font-size: 1rem;
+  color: var(--text-light);
 }
 
-/* Encabezado */
-.pedido-header {
+/* ─── Lista de ventas ─── */
+.lista-ventas {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ─── Card de venta ─── */
+.venta-card {
+  background: var(--surface-card);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-xs);
+  border-left: 4px solid var(--gray-200);
+}
+
+.venta-card.pendiente {
+  border-left-color: var(--warning);
+}
+
+.venta-card.en_preparacion {
+  border-left-color: var(--info);
+}
+
+.venta-card.enviado,
+.venta-card.completado {
+  border-left-color: var(--success);
+}
+
+.venta-card.cancelado {
+  border-left-color: var(--error);
+}
+
+/* ─── Header de la venta ─── */
+.venta-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gray-100);
+  gap: 1rem;
 }
 
-.pedido-info h3 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 20px;
+.venta-header-info h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 0.5rem;
 }
 
-.pedido-fecha {
-  text-align: right;
+.venta-id {
+  font-size: 0.75rem;
+  color: var(--text-lighter);
+  font-family: monospace;
 }
 
-.pedido-fecha p {
-  margin: 5px 0;
-  color: #666;
-  font-size: 14px;
-}
-
-/* Estados */
+/* ─── Estado ─── */
 .estado {
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .estado.pendiente {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeaa7;
+  background: var(--warning-light);
+  color: var(--warning);
 }
 
-.estado.en-preparacion {
-  background-color: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
+.estado.en_preparacion {
+  background: var(--info-light);
+  color: var(--info);
 }
 
-.estado.enviado {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+.estado.enviado,
+.estado.completado {
+  background: var(--success-light);
+  color: var(--success-dark);
 }
 
 .estado.cancelado {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background: var(--error-light);
+  color: var(--error-dark);
 }
 
-/* Productos */
-.pedido-productos h4 {
-  margin-bottom: 15px;
-  color: #555;
-  font-size: 18px;
+/* ─── Productos ─── */
+.venta-productos {
+  margin-bottom: 1.25rem;
 }
 
-.productos-lista {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.venta-productos h4 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-lighter);
+  margin-bottom: 0.75rem;
 }
 
-.producto-item {
+.venta-producto-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  border-left: 4px solid #9eacbc;
+  padding: 0.75rem 0.875rem;
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.375rem;
 }
 
-.producto-info h5 {
-  margin: 0 0 8px 0;
-  color: #333;
-  font-size: 16px;
+.venta-producto-nombre {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-dark);
 }
 
-.producto-info p {
-  margin: 3px 0;
-  color: #666;
-  font-size: 14px;
+.venta-producto-detalle {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 2px;
 }
 
-.producto-subtotal {
-  font-weight: bold;
-  color: #333;
-  font-size: 16px;
+.venta-producto-precio {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
 }
 
-/* Total */
-.pedido-total {
+/* ─── Total ─── */
+.venta-total {
   text-align: right;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 2px solid #f0f0f0;
-  font-size: 20px;
-  color: #333;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-100);
 }
 
-/* Botones de acción */
-.acciones {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 2px solid #f0f0f0;
+.venta-total strong {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+}
+
+/* ─── Acciones ─── */
+.venta-acciones {
   display: flex;
-  gap: 10px;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
   flex-wrap: wrap;
 }
 
-.avanzar,
-.cancelar {
-  padding: 10px 20px;
+.btn-enviar {
+  background: var(--ink-900);
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
-  font-weight: bold;
+  border-radius: var(--radius-sm);
+  padding: 0.625rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 14px;
+  transition: var(--transition-base);
 }
 
-.avanzar {
-  background-color: #28a745;
-  color: white;
+.btn-enviar:hover {
+  background: var(--ink-700);
+  transform: translateY(-1px);
 }
 
-.avanzar:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.btn-cancelar {
+  background: transparent;
+  color: var(--error-dark);
+  border: 1.5px solid var(--error);
+  border-radius: var(--radius-sm);
+  padding: 0.625rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-base);
 }
 
-.cancelar {
-  background-color: #dc3545;
-  color: white;
+.btn-cancelar:hover {
+  background: var(--error-light);
 }
 
-.cancelar:hover {
-  background-color: #c82333;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .pedidos-vendedor {
-    padding: 10px;
-  }
-
-  .pedido-header {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .pedido-fecha {
-    text-align: left;
-  }
-
-  .producto-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .producto-subtotal {
-    align-self: flex-end;
-  }
-
-  .acciones {
-    flex-direction: column;
-  }
-
-  .avanzar,
-  .cancelar {
-    width: 100%;
-    text-align: center;
-  }
-
-  .pedidos-vendedor h2 {
-    font-size: 24px;
-  }
-}
-
-/* Mensajes de confirmación */
-.mensaje-confirmacion {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  animation: slideIn 0.3s ease-out;
-  max-width: 400px;
-}
-
-.mensaje-confirmacion.exito {
-  background-color: #d4edda;
-  border: 2px solid #c3e6cb;
-  color: #155724;
-}
-
-.mensaje-confirmacion.error {
-  background-color: #f8d7da;
-  border: 2px solid #f5c6cb;
-  color: #721c24;
-}
-
-.mensaje-contenido {
+/* ─── Confirmación ─── */
+.confirmacion {
+  background: var(--warning-light);
+  border: 1px solid var(--warning);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--warning);
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.mensaje-icono {
-  font-size: 24px;
-  font-weight: bold;
+.confirmacion-btns {
+  display: flex;
+  gap: 0.625rem;
+  margin-top: 0.625rem;
+  flex: 1;
 }
 
-.mensaje-confirmacion p {
-  margin: 0;
-  font-size: 16px;
+.btn-confirmar-si {
+  background: var(--error);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: var(--transition-fast);
+}
+
+.btn-confirmar-si:hover {
+  background: var(--error-dark);
+}
+
+.btn-confirmar-no {
+  background: transparent;
+  color: var(--text-medium);
+  border: 1.5px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
   font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: var(--transition-fast);
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+.btn-confirmar-no:hover {
+  background: var(--gray-100);
 }
 
-/* Para hacer el mensaje responsive */
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
-  .mensaje-confirmacion {
-    top: 10px;
-    right: 10px;
-    left: 10px;
-    max-width: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .pedido-card {
-    padding: 15px;
+  .ventas-page {
+    padding: 1.5rem 1rem 3rem;
   }
 
-  .producto-item {
-    padding: 10px;
+  .venta-header {
+    flex-direction: column;
   }
 
-  .pedidos-vendedor h2 {
-    font-size: 22px;
-  }
-
-  .avanzar,
-  .cancelar {
-    padding: 12px 15px;
-    font-size: 13px;
+  .venta-producto-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.375rem;
   }
 }

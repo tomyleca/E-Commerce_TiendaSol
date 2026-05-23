@@ -1,52 +1,59 @@
-/* Estilos del item del carrito */
+/* ─── Item del carrito ─── */
 .carrito-item {
   display: grid;
-  grid-template-columns: 200px 1fr auto;
-  gap: 20px;
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 12px;
-  padding: 20px;
-  transition: all 0.3s;
+  grid-template-columns: 100px 1fr auto;
+  gap: 1.25rem;
+  background: var(--surface-card);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .carrito-item:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  border-color: var(--gray-300);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--gray-200);
 }
 
+/* ─── Imagen ─── */
 .item-imagen {
-  width: 200px;
-  height: 112px;
-  border-radius: 8px;
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  background: var(--gray-100);
+  background: var(--gray-50);
+  flex-shrink: 0;
 }
 
 .item-imagen img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  aspect-ratio: 16 / 9;
 }
 
+/* ─── Detalles ─── */
 .item-detalles {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 0;
 }
 
 .item-detalles h3 {
-  font-size: 18px;
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
   color: var(--text-dark);
-  margin: 0 0 8px;
+  margin: 0 0 0.375rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .item-descripcion {
-  font-size: 14px;
+  font-size: 0.8rem;
   color: var(--text-light);
-  margin: 0 0 8px;
+  margin: 0 0 0.5rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -55,125 +62,128 @@
 }
 
 .item-precio-unitario {
-  font-size: 14px;
-  color: var(--text-medium);
-  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-lighter);
 }
 
+/* ─── Controles ─── */
 .item-controles {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
-  min-width: 200px;
+  gap: 0.75rem;
 }
 
+/* ─── Cantidad ─── */
 .cantidad-control {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: var(--gray-100);
-  border-radius: 8px;
-  padding: 8px 12px;
+  gap: 0.5rem;
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
 }
 
 .btn-cantidad {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border: none;
-  background: var(--white);
-  border-radius: 6px;
-  font-size: 18px;
-  font-weight: 600;
+  background: transparent;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
   color: var(--text-dark);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: var(--transition-fast);
+  padding: 0;
 }
 
 .btn-cantidad:hover {
-  background: var(--text-dark);
-  color: var(--white);
-  transform: scale(1.05);
+  background: var(--ink-900);
+  color: #ffffff;
 }
 
 .cantidad {
-  font-size: 16px;
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
   color: var(--text-dark);
-  min-width: 30px;
+  min-width: 24px;
   text-align: center;
 }
 
+/* ─── Precio total ─── */
 .item-precio-total {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  gap: 2px;
 }
 
 .precio-label {
-  font-size: 12px;
-  color: var(--text-light);
+  font-size: 0.68rem;
+  color: var(--text-lighter);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.06em;
 }
 
 .precio-valor {
-  font-size: 20px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-dark);
 }
 
+/* ─── Botón eliminar ─── */
 .btn-eliminar {
   background: transparent;
-  border: 1px solid var(--gray-200);
-  padding: 8px;
-  border-radius: 6px;
+  border: 1.5px solid var(--gray-200);
+  padding: 7px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.3s;
-  color: var(--text-light);
+  color: var(--text-lighter);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: var(--transition-fast);
 }
 
 .btn-eliminar:hover {
-  background: var(--error-bg);
+  background: var(--error-light);
   border-color: var(--error);
   color: var(--error);
 }
 
-/* Responsive */
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
   .carrito-item {
-    grid-template-columns: 1fr;
-    gap: 15px;
+    grid-template-columns: 80px 1fr;
+    grid-template-rows: auto auto;
   }
 
   .item-imagen {
-    width: 100%;
-    height: 200px;
+    width: 80px;
+    height: 80px;
   }
 
   .item-controles {
-    width: 100%;
+    grid-column: 1 / -1;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .item-precio-total {
-    order: -1;
   }
 }
 
 @media (max-width: 480px) {
   .item-controles {
     flex-direction: column;
-    gap: 10px;
+    align-items: flex-start;
+    gap: 0.875rem;
   }
 
   .cantidad-control {

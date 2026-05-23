@@ -3,34 +3,26 @@ import React from "react";
 import { useNotification } from "../../context/NotificacionContext.jsx";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import CancelIcon from "@mui/icons-material/Cancel";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import CircleIcon from "@mui/icons-material/Circle";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
 
 function iconFor(tipo) {
   switch (tipo) {
     case "envio":
-      return <LocalShippingIcon fontSize="medium" />;
+      return <LocalShippingIcon fontSize="small" />;
     case "compra":
-      return <ShoppingBagIcon fontSize="medium" />;
+      return <ShoppingBagIcon fontSize="small" />;
     case "cancelacion envio":
-      return (
-        <LocalShippingIcon fontSize="medium" style={{ color: "#bc280e" }} />
-      );
+      return <LocalShippingIcon fontSize="small" style={{ color: "var(--error)" }} />;
     default:
-      return <ShoppingBagIcon fontSize="medium" />;
+      return <ShoppingBagIcon fontSize="small" />;
   }
 }
 
 export default function NotificationModal() {
-  const {
-    isOpenNotificaciones,
-    toggleNotificaciones,
-    notificaciones,
-    loading,
-  } = useNotification();
+  const { isOpenNotificaciones, toggleNotificaciones, notificaciones, loading } =
+    useNotification();
   const navigate = useNavigate();
 
   if (!isOpenNotificaciones) return null;
@@ -38,39 +30,62 @@ export default function NotificationModal() {
   const notificacionesRecientes = notificaciones.slice(0, 5);
 
   return (
-    <div className="modal-overlay" onClick={toggleNotificaciones}>
+    <div
+      className="notif-overlay"
+      onClick={toggleNotificaciones}
+      role="presentation"
+    >
       <div
-        className="notification-modal"
+        className="notif-panel"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="notification-title"
+        aria-labelledby="notif-title"
         onClick={(e) => e.stopPropagation()}
       >
-        <h4 id="notification-title" className="notification-title">
-          {notificaciones.length > 0 ? "Notificaciones" : "Sin notificaciones"}
-        </h4>
+        {/* Header */}
+        <div className="notif-header">
+          <NotificationsNoneIcon fontSize="small" className="notif-header-icon" />
+          <h4 id="notif-title" className="notif-title">
+            Notificaciones
+          </h4>
+          {notificaciones.length > 0 && (
+            <span className="notif-count">{notificaciones.length}</span>
+          )}
+        </div>
 
-        <div className="notification-list">
-          {loading && <p className="loading-text">Cargando...</p>}
+        {/* Lista */}
+        <div className="notif-list">
+          {loading && (
+            <div className="notif-loading">
+              <CircularProgress size={24} sx={{ color: "var(--brand-color)" }} />
+            </div>
+          )}
 
           {!loading && notificaciones.length === 0 && (
-            <p className="empty-text">No tienes notificaciones por ahora</p>
+            <div className="notif-empty">
+              <NotificationsNoneIcon fontSize="large" className="notif-empty-icon" />
+              <p>Sin notificaciones por ahora</p>
+            </div>
           )}
 
           {!loading &&
             notificacionesRecientes.map((n) => (
               <div
                 key={n.id}
-                className={`notification ${n.leida ? "leida" : ""}`}
+                className={`notif-item ${n.leida ? "notif-item--leida" : ""}`}
               >
-                {iconFor(n.tipo)}
-                <p>{n.mensaje}</p>
+                <span className={`notif-icon-wrap ${n.leida ? "" : "notif-icon-wrap--unread"}`}>
+                  {iconFor(n.tipo)}
+                </span>
+                <p className="notif-message">{n.mensaje}</p>
+                {!n.leida && <span className="notif-dot" aria-hidden="true" />}
               </div>
             ))}
         </div>
 
+        {/* Footer */}
         <button
-          className="notification-footer"
+          className="notif-footer-btn"
           type="button"
           aria-label="Ver todas las notificaciones"
           onClick={() => {

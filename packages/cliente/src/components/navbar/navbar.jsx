@@ -15,8 +15,18 @@ import ModalCarrito from "./modal-carrito.jsx";
 import { useNotification } from "../../context/NotificacionContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import BarraBusqueda from "../producto/BarraBusqueda.jsx";
+import MenuIcon from "@mui/icons-material/Menu";
 
-const Navbar = ({ onCartClick, minimalist = false }) => {
+const brandBadgeSx = {
+  "& .MuiBadge-badge": {
+    background: "var(--brand-color)",
+    color: "#fff",
+    fontWeight: 700,
+    fontSize: "0.65rem",
+  },
+};
+
+const Navbar = ({ minimalist = false }) => {
   const { abrirCarrito, cantidadTotalCarrito } = useCarrito();
   const { toggleNotificaciones, cantidadNotificaciones } = useNotification();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -27,6 +37,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
     <>
       <header className={`navbar-bg${minimalist ? " navbar-minimalist" : ""}`}>
         <nav className="navbar">
+          {/* Izquierda */}
           <div className="navbar-section left">
             {!minimalist && (
               <>
@@ -36,7 +47,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                   aria-expanded={drawerOpen}
                   onClick={() => setDrawerOpen(true)}
                 >
-                  ☰
+                  <MenuIcon fontSize="medium" />
                 </button>
                 <ResponsiveDrawer
                   open={drawerOpen}
@@ -48,7 +59,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                   aria-label="Abrir carrito"
                   aria-haspopup="dialog"
                 >
-                  <Badge badgeContent={cantidadTotalCarrito} color="primary">
+                  <Badge badgeContent={cantidadTotalCarrito} sx={brandBadgeSx}>
                     <ShoppingCartIcon fontSize="medium" />
                   </Badge>
                 </button>
@@ -56,11 +67,15 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
             )}
           </div>
 
+          {/* Centro */}
           <div className="navbar-section center">
-            <img src="/tiendaSolLogo.png" alt="Logo" className="logo" />
-            <h1 className="nombre-marca">Tienda Sol</h1>
+            <Link to="/" style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+              <img src="/tiendaSolLogo.png" alt="Tienda Sol" className="logo" />
+              <span className="nombre-marca">Tienda Sol</span>
+            </Link>
           </div>
 
+          {/* Derecha */}
           <div className="navbar-section right">
             {!minimalist && (
               <>
@@ -75,6 +90,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                     <SearchIcon fontSize="medium" />
                   )}
                 </button>
+
                 <button
                   type="button"
                   onClick={toggleNotificaciones}
@@ -82,7 +98,7 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                   aria-label="Abrir notificaciones"
                   aria-haspopup="dialog"
                 >
-                  <Badge badgeContent={cantidadNotificaciones} color="primary">
+                  <Badge badgeContent={cantidadNotificaciones} sx={brandBadgeSx}>
                     <NotificationsIcon fontSize="medium" />
                   </Badge>
                 </button>
@@ -91,33 +107,29 @@ const Navbar = ({ onCartClick, minimalist = false }) => {
                   <Link
                     to="/login"
                     className="login-button"
-                    aria-label="Ir a login"
+                    aria-label="Iniciar sesión"
                   >
-                    <FiLogIn />
+                    <FiLogIn size={20} />
                   </Link>
                 )}
 
                 {isAuthenticated && (
-                  <>
-                    <Link
-                      to="/"
-                      className="logout-button"
-                      aria-label="Ir a logout"
-                      onClick={logout}
-                    >
-                      <FiLogOut />
-                    </Link>
-                  </>
+                  <Link
+                    to="/"
+                    className="logout-button"
+                    aria-label="Cerrar sesión"
+                    onClick={logout}
+                  >
+                    <FiLogOut size={20} />
+                  </Link>
                 )}
               </>
             )}
           </div>
         </nav>
 
-        {/* Barra de búsqueda desplegable */}
-        <div
-          className={`search-dropdown ${searchOpen ? "search-dropdown-open" : ""}`}
-        >
+        {/* Barra de búsqueda */}
+        <div className={`search-dropdown ${searchOpen ? "search-dropdown-open" : ""}`}>
           {searchOpen && <BarraBusqueda />}
         </div>
 

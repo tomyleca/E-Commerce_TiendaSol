@@ -8,14 +8,14 @@ import { getUsuario } from "../../services/usuarioService.js";
 import { getProductos } from "../../services/productService.js";
 import CardProducto from "../../components/card-producto/card.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
-import AddHomeIcon from "@mui/icons-material/AddHome";
-import StoreIcon from "@mui/icons-material/Store";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import StoreIcon from "@mui/icons-material/Store";
+import CircularProgress from "@mui/material/CircularProgress";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import StarIcon from "@mui/icons-material/Star";
 
 const Tienda = () => {
-  const { idTienda } = useParams(); //Lee el :id de la URL
+  const { idTienda } = useParams();
   const [vendedor, setVendedor] = useState(null);
   const [productosDestacados, setProductosDestacados] = useState([]);
   const { isVendedor } = useAuth();
@@ -23,76 +23,70 @@ const Tienda = () => {
   const [busquedaRealizada, setBusquedaRealizada] = useState(false);
 
   useEffect(() => {
-    // Cargar datos del vendedor cuando cambia el idTienda
     const cargarUsuario = async () => {
       try {
         const data = await getUsuario(idTienda);
         setVendedor(data);
-		setBusquedaRealizada(true);
+        setBusquedaRealizada(true);
       } catch (error) {
-		setBusquedaRealizada(true);
+        setBusquedaRealizada(true);
         console.error("Error cargando usuario:", error);
       }
     };
 
     const cargarProductosDestacados = async () => {
       try {
-        const response = await getProductos(
-          1,
-          null,
-          "masVendido",
-          null,
-          null,
-          idTienda,
-        );
+        const response = await getProductos(1, null, "masVendido", null, null, idTienda);
         setProductosDestacados(response?.data.slice(0, 4) || []);
-		setBusquedaRealizada(true);
+        setBusquedaRealizada(true);
       } catch (error) {
-		setBusquedaRealizada(true);
+        setBusquedaRealizada(true);
         console.error("Error cargando productos destacados:", error);
       }
     };
 
     if (idTienda) {
-	  setBusquedaRealizada(false);
+      setBusquedaRealizada(false);
       cargarUsuario();
       cargarProductosDestacados();
-	  
     }
   }, [idTienda]);
 
-  if(!busquedaRealizada){
-	  return (
-		<>
-		<Navbar />
-		<Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '300px' }}>
-			<CircularProgress />
-		</Box>
-		</>
-	  );
-  }
-
-  if (vendedor?.tipo !== "VENDEDOR"  && busquedaRealizada) {
+  /* ─── Loading ─── */
+  if (!busquedaRealizada) {
     return (
       <>
         <Navbar />
-        <div className="tienda-container">
+        <div className="tienda-loading">
+          <CircularProgress size={36} sx={{ color: "var(--brand-color)" }} />
+        </div>
+      </>
+    );
+  }
+
+  /* ─── Sin tienda ─── */
+  if (vendedor?.tipo !== "VENDEDOR" && busquedaRealizada) {
+    return (
+      <>
+        <Navbar />
+        <div className="tienda-page">
           <div className="tienda-vacia">
-            <div className="tienda-vacia-icon-wrapper">
-              <StoreIcon className="tienda-vacia-icon" />
-              <div className="icon-slash"></div>
+            <div className="tienda-vacia__icon-wrap">
+              <StoreIcon className="tienda-vacia__icon" />
+              <div className="tienda-vacia__slash" />
             </div>
-            <h2>¡No se ha podido encontrar una tienda para este usuario!</h2>
+            <h2 className="tienda-vacia__title">
+              No se encontró una tienda para este usuario
+            </h2>
             {!isVendedor && (
               <>
-                <h3>¿Querés crear tu propia tienda?</h3>
-                <p>¡Estás solo a unos pocos pasos!</p>
+                <p className="tienda-vacia__subtitle">¿Querés crear la tuya?</p>
                 <button
-                  className="btn-agregar-tienda"
+                  className="tienda-btn tienda-btn--brand"
                   onClick={() => navigate("/crear-tienda")}
                 >
-                  <AddBusinessIcon />
-                  Agregar tienda
+                  <AddBusinessIcon fontSize="small" />
+                  Crear mi tienda
                 </button>
               </>
             )}
@@ -102,44 +96,66 @@ const Tienda = () => {
     );
   }
 
+  /* ─── Tienda normal ─── */
+  const ubicacion =
+    vendedor?.direccion
+      ? `${vendedor.direccion.ciudad}, ${vendedor.direccion.pais}`
+      : "Buenos Aires, Argentina";
+
   return (
     <>
       <Navbar />
-      <div className="tienda-container">
-        <div className="tienda-upper-section">
-          <div className="avatar-container">
-            <Avatar alt="Remy Sharp" src="" sx={{ width: 200, height: 200 }} />
-          </div>
-          <div className="tienda-info">
-            <h1>{vendedor?.nombre || "Cargando..."}</h1>
-            <p>
-              {vendedor?.descripcion ||
-                "Electrónica y tecnología de vanguardia"}
+      <div className="tienda-page">
+        {/* Banner de perfil */}
+        <div className="tienda-banner" aria-hidden="true" />
+
+        <div className="tienda-profile">
+          <Avatar
+            alt={vendedor?.nombre}
+            src=""
+            sx={{ width: 100, height: 100 }}
+            className="tienda-avatar"
+          />
+          <div className="tienda-profile__info">
+            <h1 className="tienda-profile__name">{vendedor?.nombre || "Cargando..."}</h1>
+            <p className="tienda-profile__desc">
+              {vendedor?.descripcion || "Bienvenido a nuestra tienda"}
             </p>
-            <p>
-              Ubicación:{" "}
-              {vendedor?.direccion?.ciudad + ", " + vendedor?.direccion?.pais ||
-                "Buenos Aires, Argentina"}
-            </p>
-            <p>Calificación: ★★★★☆ (4.5/5)</p>
+            <div className="tienda-profile__meta">
+              <span className="tienda-profile__meta-item">
+                <LocationOnOutlinedIcon fontSize="small" />
+                {ubicacion}
+              </span>
+              <span className="tienda-profile__meta-item tienda-rating">
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" style={{ opacity: 0.3 }} />
+                <span>4.5</span>
+              </span>
+            </div>
           </div>
-          <Link to={`/tienda/${idTienda}/productos`}>
-            <button className="ver-productos-btn">
-              Ver todos los productos
-            </button>
+          <Link to={`/tienda/${idTienda}/productos`} className="tienda-ver-btn">
+            Ver todos los productos
           </Link>
         </div>
-        <hr className="tienda-separator" />
-        <div className="tienda-lower-section">
-          <h2 className="titulo-productos-destacados">Productos Destacados</h2>
-          <div className="productos-destacados">
+
+        {/* Separador */}
+        <div className="tienda-divider" />
+
+        {/* Productos destacados */}
+        <section className="tienda-destacados">
+          <div className="tienda-destacados__header">
+            <span className="tienda-section-label">Más vendidos</span>
+            <h2 className="tienda-section-title">Productos Destacados</h2>
+          </div>
+          <div className="tienda-destacados__grid">
             {productosDestacados.map((producto) => (
-              <div key={producto._id} className="producto-card">
-                <CardProducto producto={producto} />
-              </div>
+              <CardProducto key={producto._id} producto={producto} />
             ))}
           </div>
-        </div>
+        </section>
       </div>
     </>
   );

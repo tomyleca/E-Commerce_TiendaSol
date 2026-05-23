@@ -8,27 +8,32 @@ import { useCarrito } from "../../context/CarritoContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import "./Carrito.css";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+
+const GARANTIAS = [
+  { icon: <LocalShippingOutlinedIcon fontSize="small" />, text: "Envío gratis en compras superiores a $50.000" },
+  { icon: <AutorenewIcon fontSize="small" />,            text: "Devolución gratis por 30 días" },
+  { icon: <VerifiedUserOutlinedIcon fontSize="small" />, text: "Pago seguro garantizado" },
+];
 
 const Carrito = () => {
   const navigate = useNavigate();
-  const { usuario } = useAuth();
-  const {
-    itemsCarrito,
-    precioTotalCarrito,
-    cantidadTotalCarrito,
-    comprarCarrito,
-  } = useCarrito();
+  const { itemsCarrito, precioTotalCarrito, cantidadTotalCarrito, comprarCarrito } = useCarrito();
 
   if (itemsCarrito.length === 0) {
     return (
       <>
         <Navbar />
-        <div className="carrito-container">
-          <div className="carrito-vacio">
-            <ShoppingCartOutlinedIcon className="carrito-vacio-icon" />
-            <h2>Tu carrito está vacío</h2>
-            <p>¡Agrega productos para comenzar tu compra!</p>
-            <BotonVolver className="btn-continuar-comprando">
+        <div className="carrito-page">
+          <div className="carrito-empty">
+            <ShoppingCartOutlinedIcon className="carrito-empty__icon" />
+            <h2 className="carrito-empty__title">Tu carrito está vacío</h2>
+            <p className="carrito-empty__subtitle">
+              Explorá nuestros productos y agregá los que te gusten.
+            </p>
+            <BotonVolver className="carrito-empty__btn">
               Continuar comprando
             </BotonVolver>
           </div>
@@ -40,60 +45,74 @@ const Carrito = () => {
   return (
     <>
       <Navbar />
-      <div className="carrito-container">
-        <div className="carrito-header">
-          <BotonVolver className="btn-volver">Volver</BotonVolver>
-          <div className="titulo-carrito">
-            <ShoppingCartOutlinedIcon className="carrito-header-icon" />
+      <div className="carrito-page">
+        {/* Encabezado */}
+        <div className="carrito-topbar">
+          <BotonVolver className="carrito-topbar__back" />
+          <div className="carrito-topbar__title">
+            <ShoppingCartOutlinedIcon />
             <h1>Carrito</h1>
+            <span className="carrito-topbar__count">{cantidadTotalCarrito}</span>
           </div>
           <BotonVaciarCarrito />
         </div>
 
-        <div className="carrito-content">
+        {/* Contenido */}
+        <div className="carrito-layout">
+          {/* Columna de items */}
           <div className="carrito-items">
             {itemsCarrito.map((item) => (
               <CarritoItem key={item.id} item={item} />
             ))}
           </div>
 
-          <div className="carrito-resumen">
+          {/* Resumen */}
+          <aside className="carrito-resumen">
             <div className="resumen-card">
-              <h2>Resumen de compra</h2>
+              <h2 className="resumen-card__title">Resumen de compra</h2>
+
               <div className="resumen-linea">
                 <span>Productos ({cantidadTotalCarrito})</span>
                 <span>${precioTotalCarrito.toLocaleString("es-AR")}</span>
               </div>
               <div className="resumen-linea">
                 <span>Envío</span>
-                <span className="gratis">Gratis</span>
+                <span className="resumen-gratis">Gratis</span>
               </div>
-              <hr className="resumen-separador" />
+
+              <div className="resumen-separador" />
+
               <div className="resumen-total">
                 <span>Total</span>
-                <span className="total-precio">
+                <span className="resumen-total__precio">
                   ${precioTotalCarrito.toLocaleString("es-AR")}
                 </span>
               </div>
+
               <button
-                className="btn-proceder-compra"
+                className="resumen-btn-primary"
                 onClick={() => comprarCarrito()}
               >
                 Proceder con la compra
               </button>
               <button
-                className="btn-continuar-comprando-secondary"
+                className="resumen-btn-secondary"
                 onClick={() => navigate(-1)}
               >
                 Continuar comprando
               </button>
-              <div className="resumen-info">
-                <p>✓ Envío gratis en compras superiores a $50,000</p>
-                <p>✓ Garantía de devolución de 30 días</p>
-                <p>✓ Pago seguro</p>
-              </div>
+
+              {/* Garantías */}
+              <ul className="resumen-garantias">
+                {GARANTIAS.map((g) => (
+                  <li key={g.text} className="resumen-garantia-item">
+                    <span className="resumen-garantia-icon">{g.icon}</span>
+                    <span>{g.text}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </>
