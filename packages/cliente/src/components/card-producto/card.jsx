@@ -1,40 +1,62 @@
 import "./card.css";
 import { useCarrito } from "../../context/CarritoContext.jsx";
+import { useNavigate } from "react-router-dom";
+import StarIcon from "@mui/icons-material/Star";
 
 const CardProducto = ({ producto }) => {
   const { agregarCarrito } = useCarrito();
+  const navegar = useNavigate();
+
+  const verDetalle = () => {
+    navegar(`/productos/${producto._id || producto.id}`);
+  };
+
+  const tienePocoStock = producto?.stock > 0 && producto?.stock <= 3;
 
   return (
-    <div className="card">
-      <div className="badge">HOT SALE</div>
+    <div className="card" onClick={verDetalle} style={{ cursor: "pointer" }}>
+      {tienePocoStock && <div className="badge">¡ÚLTIMOS {producto.stock}!</div>}
+      {!producto?.stock || producto.stock <= 0 ? (
+        <div className="badge badge--exhausted">SIN STOCK</div>
+      ) : null}
+      
       <div className="tilt">
         <div className="img">
           <img
-            src={producto?.fotos?.[0] || ""}
-            alt={producto?.titulo || "Premium Laptop"}
+            src={
+              producto?.fotos?.[0] || 
+              "https://images.unsplash.com/photo-1544237526-cae15a57ed1e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDkwNDY5NjB8&ixlib=rb-4.1.0&q=85"
+            }
+            alt={producto?.titulo || "Producto"}
           />
         </div>
         <div className="info">
-          <h2 className="title">{producto?.titulo || "UltraBook Pro X"}</h2>
+          <h2 className="title">{producto?.titulo || "Producto sin título"}</h2>
           <p className="desc">
-            {producto?.descripcion ||
-              "Cutting-edge performance with Intel Core i9, 32GB RAM, and a 1TB SSD in a sleek, lightweight design."}
+            {producto?.descripcion || "Sin descripción detallada por el momento."}
           </p>
-          <div className="feats">
-            {producto?.categorias.map((cat) => (
-              <span key={cat.id} className="feat">
-                {cat.nombre}
-              </span>
-            ))}
-          </div>
+          
+          {Array.isArray(producto?.categorias) && producto.categorias.length > 0 && (
+            <div className="feats">
+              {producto.categorias.map((cat) => (
+                <span key={cat._id || cat.id || cat} className="feat">
+                  {cat.nombre || cat}
+                </span>
+              ))}
+            </div>
+          )}
+          
           <div className="bottom">
             <div className="price">
               <span className="new">${producto?.precio || "0"}</span>
             </div>
             <button
               className="btn"
-              aria-label={`Agregar ${producto?.nombre || "producto"} al carrito`}
-              onClick={() => agregarCarrito(producto)}
+              aria-label={`Agregar ${producto?.titulo || "producto"} al carrito`}
+              onClick={(e) => {
+                e.stopPropagation();
+                agregarCarrito(producto);
+              }}
               disabled={!producto?.stock || producto.stock <= 0}
             >
               {producto?.stock > 0 ? "Agregar al carrito" : "Sin stock"}
@@ -54,67 +76,16 @@ const CardProducto = ({ producto }) => {
               </svg>
             </button>
           </div>
+          
           <div className="meta">
             <div className="rating">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="#FFD700"
-                stroke="#FFD700"
-                strokeWidth="0.5"
-                aria-hidden="true"
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="#FFD700"
-                stroke="#FFD700"
-                strokeWidth="0.5"
-                aria-hidden="true"
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="#FFD700"
-                stroke="#FFD700"
-                strokeWidth="0.5"
-                aria-hidden="true"
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="#FFD700"
-                stroke="#FFD700"
-                strokeWidth="0.5"
-                aria-hidden="true"
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="#FFD700"
-                stroke="#FFD700"
-                strokeWidth="0.5"
-                aria-hidden="true"
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-              <span className="rcount">245 Reviews</span>
+              <StarIcon className="star-icon" />
+              <StarIcon className="star-icon" />
+              <StarIcon className="star-icon" />
+              <StarIcon className="star-icon" />
+              <StarIcon className="star-icon" style={{ opacity: 0.3 }} />
+              <span className="rcount">4.0</span>
             </div>
-            {producto.stock > 0 && <div className="stock">En Stock</div>}
-            {producto.stock <= 0 && <div className="sin-stock">Sin Stock</div>}
           </div>
         </div>
       </div>

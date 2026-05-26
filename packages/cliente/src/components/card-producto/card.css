@@ -38,6 +38,12 @@
   border: 1px solid var(--brand-border);
 }
 
+.badge--exhausted {
+  background: var(--error-light) !important;
+  color: var(--error) !important;
+  border-color: var(--error) !important;
+}
+
 /* ─── Imagen ─── */
 .img {
   height: 200px;
@@ -175,6 +181,11 @@
   display: flex;
   align-items: center;
   gap: 2px;
+}
+
+.star-icon {
+  color: #ffb703;
+  font-size: 0.95rem !important;
 }
 
 .rcount {

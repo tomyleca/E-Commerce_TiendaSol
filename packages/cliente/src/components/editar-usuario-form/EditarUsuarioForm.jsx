@@ -148,6 +148,7 @@ const EditarUsuarioForm = ({
   };
 
   return (
+	<div className="editar-usuario-page">
     <div className="editar-usuario-container">
       <div className="editar-usuario-card">
         <div className="editar-usuario-header">
@@ -212,12 +213,11 @@ const EditarUsuarioForm = ({
 
             {campos.descripcion && (
               <div className="input-wrapper">
-                <label htmlFor="descripcion" className="input-label"></label>
                 <textarea
                   id="descripcion"
                   name="descripcion"
-                  className="input-field textarea-field"
-                  placeholder="Contanos sobre tu tienda, qué productos vendés..."
+                  className={`textarea-field${usuario.descripcion ? " has-value" : ""}`}
+                  placeholder=" "
                   value={usuario.descripcion}
                   onChange={(e) =>
                     setUsuario((u) => ({ ...u, descripcion: e.target.value }))
@@ -225,6 +225,7 @@ const EditarUsuarioForm = ({
                   rows="4"
                   required
                 />
+                <label htmlFor="descripcion">Descripción de tu tienda o negocio</label>
                 <span id="descripcionError" className="input-error"></span>
               </div>
             )}
@@ -371,6 +372,7 @@ const EditarUsuarioForm = ({
         </form>
       </div>
     </div>
+   </div>
   );
 };
 

@@ -41,6 +41,14 @@ export const FiltroProvider = ({ children, initialCategorias = [] }) => {
           : [...state.selectedCategorias, s];
         return { ...state, selectedCategorias: next };
       }
+      case "RESET_FILTROS": {
+        return {
+          precio: { min: "", max: "" },
+          orden: "",
+          busqueda: "",
+          selectedCategorias: [],
+        };
+      }
       default:
         return state;
     }

@@ -1,138 +1,132 @@
 import "./Filtros.css";
 import { useEffect, useState } from "react";
 import { useFiltro } from "../../context/FiltroContext.jsx";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 
 const Filtro = ({ categorias = [] }) => {
   const { state, dispatch } = useFiltro();
-  const { selectedCategorias, precio, orden } = state;
+  const { selectedCategorias, precio } = state;
 
-  //cambio en local
   const [minLocal, setMinLocal] = useState(precio?.min ?? "");
   const [maxLocal, setMaxLocal] = useState(precio?.max ?? "");
 
-  //si el precio global cambia desde afuera, sincronizo
+  // Acordeones colapsables
+  const [categoriasOpen, setCategoriasOpen] = useState(true);
+  const [precioOpen, setPrecioOpen] = useState(true);
+
+  // Sincronizar precio si cambia externamente
   useEffect(() => {
     setMinLocal(precio?.min ?? "");
     setMaxLocal(precio?.max ?? "");
   }, [precio?.min, precio?.max]);
 
+  const limpiarTodosLosFiltros = () => {
+    dispatch({ type: "RESET_FILTROS" });
+    setMinLocal("");
+    setMaxLocal("");
+  };
+
+  const tieneFiltrosActivos = selectedCategorias.length > 0 || precio?.min !== "" || precio?.max !== "";
+
   return (
     <div className="filtro-componente">
-      <aside className="categorias">
-        <h3>Categorías</h3>
-        <div className="filtro-grupo">
-          {categorias.map((c) => (
-            <label key={c.id} className="check-input">
-              <input
-                type="checkbox"
-                value={String(c.id)}
-                checked={selectedCategorias.includes(String(c.id))}
-                onChange={() =>
-                  dispatch({ type: "TOGGLE_CATEGORIA", payload: c.id })
-                }
-              />{" "}
-              {c.nombre}
-            </label>
-          ))}
+      <div className="filtro-header-main">
+        <h3>Filtros</h3>
+        {tieneFiltrosActivos && (
+          <button 
+            className="btn-limpiar-filtros"
+            onClick={limpiarTodosLosFiltros}
+            title="Limpiar todos los filtros"
+          >
+            <FilterAltOffIcon fontSize="inherit" />
+            Limpiar
+          </button>
+        )}
+      </div>
 
-          {/* Rango de Precio */}
-          <div className="filtro-grupo">
-            <h3>Precio</h3>
-            <label>
-              Mínimo:
-              <input
-                type="number"
-                name="precioMin"
-                value={minLocal}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setMinLocal(val);
-                }}
-              />
-            </label>
-            <label>
-              Máximo:
-              <input
-                type="number"
-                name="precioMax"
-                value={maxLocal}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setMaxLocal(val);
-                }}
-              />
-            </label>
-            <button
-              className="btn-filtros"
-              type="button"
-              onClick={() =>
-                dispatch({
-                  type: "SET_PRECIO",
-                  payload: { min: minLocal, max: maxLocal },
-                })
-              }
-              aria-label="Aplicar filtro de precio"
-            >
-              Aplicar rango de precio
-            </button>
+      <aside className="categorias">
+        {/* Acordeón Categorías */}
+        <div className={`filtro-grupo-acordeon ${categoriasOpen ? 'is-open' : ''}`}>
+          <div 
+            className="filtro-grupo-header" 
+            onClick={() => setCategoriasOpen(!categoriasOpen)}
+          >
+            <h4>Categorías</h4>
+            {categoriasOpen ? <KeyboardArrowUpIcon fontSize="small" /> : <KeyboardArrowDownIcon fontSize="small" />}
           </div>
+          
+          {categoriasOpen && (
+            <div className="filtro-grupo-content">
+              {categorias.map((c) => (
+                <label key={c.id} className="check-input">
+                  <input
+                    type="checkbox"
+                    value={String(c.id)}
+                    checked={selectedCategorias.includes(String(c.id))}
+                    onChange={() =>
+                      dispatch({ type: "TOGGLE_CATEGORIA", payload: c.id })
+                    }
+                  />
+                  <span>{c.nombre}</span>
+                </label>
+              ))}
+            </div>
+          )}
         </div>
-        {/* Ordenamiento */}
-        <div className="filtro-grupo">
-          <h3>Ordenar por</h3>
-          <label className="check-input">
-            <input
-              type="radio"
-              name="orden-precio"
-              checked={orden === "masVendido"}
-              onClick={(e) => {
-                // Permitir desmarcar si ya está seleccionado
-                if (orden === "masVendido") {
-                  e.preventDefault();
-                  dispatch({ type: "SET_ORDEN", payload: "" });
-                } else {
-                  dispatch({ type: "SET_ORDEN", payload: "masVendido" });
+
+        {/* Acordeón Precio */}
+        <div className={`filtro-grupo-acordeon ${precioOpen ? 'is-open' : ''}`}>
+          <div 
+            className="filtro-grupo-header" 
+            onClick={() => setPrecioOpen(!precioOpen)}
+          >
+            <h4>Precio</h4>
+            {precioOpen ? <KeyboardArrowUpIcon fontSize="small" /> : <KeyboardArrowDownIcon fontSize="small" />}
+          </div>
+          
+          {precioOpen && (
+            <div className="filtro-grupo-content">
+              <div className="rango-precio-inputs">
+                <div className="precio-input-wrap">
+                  <span className="precio-currency">$</span>
+                  <input
+                    type="number"
+                    placeholder="Mínimo"
+                    value={minLocal}
+                    onChange={(e) => setMinLocal(e.target.value)}
+                  />
+                </div>
+                <div className="precio-input-wrap">
+                  <span className="precio-currency">$</span>
+                  <input
+                    type="number"
+                    placeholder="Máximo"
+                    value={maxLocal}
+                    onChange={(e) => setMaxLocal(e.target.value)}
+                  />
+                </div>
+              </div>
+              <button
+                className="btn-filtros"
+                type="button"
+                onClick={() =>
+                  dispatch({
+                    type: "SET_PRECIO",
+                    payload: { min: minLocal, max: maxLocal },
+                  })
                 }
-              }}
-            />
-            Más Vendido
-          </label>
-          <label className="check-input">
-            <input
-              type="radio"
-              name="orden-precio"
-              checked={orden === "precio_asc"}
-              onClick={(e) => {
-                // Permitir desmarcar si ya está seleccionado
-                if (orden === "precio_asc") {
-                  e.preventDefault();
-                  dispatch({ type: "SET_ORDEN", payload: "" });
-                } else {
-                  dispatch({ type: "SET_ORDEN", payload: "precio_asc" });
-                }
-              }}
-            />
-            Precio ascendente
-          </label>
-          <label className="check-input">
-            <input
-              type="radio"
-              name="orden-precio"
-              checked={orden === "precio_desc"}
-              onClick={(e) => {
-                if (orden === "precio_desc") {
-                  e.preventDefault();
-                  dispatch({ type: "SET_ORDEN", payload: "" });
-                } else {
-                  dispatch({ type: "SET_ORDEN", payload: "precio_desc" });
-                }
-              }}
-            />
-            Precio descendente
-          </label>
+                aria-label="Aplicar filtro de precio"
+              >
+                Aplicar Rango
+              </button>
+            </div>
+          )}
         </div>
       </aside>
     </div>
   );
 };
+
 export default Filtro;

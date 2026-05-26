@@ -9,7 +9,7 @@
   box-shadow: var(--shadow-xs);
   padding: 1rem 1.25rem;
   width: 100%;
-  max-width: 1100px;
+  max-width: 100%;
   cursor: pointer;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   position: relative;

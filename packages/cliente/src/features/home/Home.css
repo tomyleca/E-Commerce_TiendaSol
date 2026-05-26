@@ -429,7 +429,7 @@
   height: 230px;
   border-radius: 50%;
   z-index: 5;
-  background: linear-gradient(135deg, rgba(25, 25, 38, 0.98) 0%, rgba(62, 137, 139, 0.85) 100%);
+  background: linear-gradient(135deg, rgba(39, 71, 104, 0.98) 0%, rgba(3, 32, 50, 0.85) 100%);
   border: 2px solid var(--brand-color);
   box-shadow: 
     0 25px 50px rgba(0, 0, 0, 0.55),
@@ -509,6 +509,7 @@
   padding: 0 10%;
   position: relative;
   z-index: 20;
+  
 }
 
 .home-stats {
