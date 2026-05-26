@@ -90,10 +90,11 @@ code {
   --brand-border:    rgba(30, 64, 175, 0.20);
 
   /* ─── Superficie ─── */
-  --surface-bg:     #fafaf9;
+  --surface-bg:     #e5e6e8;
   --surface-card:   #ffffff;
   --surface-raised: #ffffff;
   --surface-overlay: rgba(10, 10, 15, 0.75);
+  --surface-bg-alt: #cdcfd2;
 
   /* ─── Estado ─── */
   --success:        #16a34a;

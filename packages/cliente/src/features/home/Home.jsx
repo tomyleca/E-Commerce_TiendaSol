@@ -141,6 +141,11 @@ const Home = () => {
                 </div>
               </div>
 
+              {/* Card Central: Logo Tienda Sol */}
+              <div className="f-card f-card--logo">
+                <img src="/tiendaSolLogo.png" alt="Tienda Sol Logo" className="f-card__logo-img" />
+              </div>
+
               {/* Card 2: Producto Destacado */}
               <div className="f-card f-card--producto">
                 <span className="f-card__badge">NUEVO</span>
@@ -243,7 +248,7 @@ const Home = () => {
         <section className="home-features">
           <div className="home-features__header">
             <span className="home-section-label">Garantía Tienda Sol</span>
-            <h2 className="home-section-title">Comercio seguro y transparente</h2>
+            <h2 className="home-section-title">Comercio <span>Seguro</span> y <span>Transparente</span></h2>
           </div>
           
           <div className="home-features__grid">
